@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Lead, SearchResponse, EnrichResponse } from "@/lib/types";
+import type { LeadStatus, SavedLead } from "@/lib/store";
 import { leadsToCsv } from "@/lib/csv";
 import LeadCard from "@/components/LeadCard";
 
-type Tab = "osm" | "register" | "impressum";
+type Tab = "osm" | "register" | "impressum" | "crm";
+type Provider = "osm" | "google";
 
 const CATEGORIES: { key: string; label: string }[] = [
   { key: "autohaus", label: "Autohaus / Händler" },
@@ -17,28 +19,55 @@ const CATEGORIES: { key: string; label: string }[] = [
 ];
 
 const REGION_PRESETS = ["Berlin", "München", "Hamburg", "Köln", "Bayern", "Nordrhein-Westfalen"];
+const STATUS_FILTERS: { value: "" | LeadStatus; label: string }[] = [
+  { value: "", label: "Alle" },
+  { value: "neu", label: "Neu" },
+  { value: "kontaktiert", label: "Kontaktiert" },
+  { value: "termin", label: "Termin" },
+  { value: "gewonnen", label: "Gewonnen" },
+  { value: "verloren", label: "Verloren" },
+];
 
 export default function Home() {
   const [tab, setTab] = useState<Tab>("osm");
+  const [config, setConfig] = useState({ googlePlaces: false, openCorporates: false });
 
-  // OSM-Suche (echte Firmen)
+  // Firmen-Suche
+  const [provider, setProvider] = useState<Provider>("osm");
   const [location, setLocation] = useState("Berlin");
   const [cats, setCats] = useState<string[]>(["autohaus", "werkstatt"]);
   const [osmLimit, setOsmLimit] = useState(60);
 
-  // Registersuche (OpenCorporates)
+  // Registersuche
   const [regQuery, setRegQuery] = useState("Automobile");
   const [regCountry, setRegCountry] = useState("de");
 
-  // Impressum-Suche
+  // Impressum
   const [urls, setUrls] = useState("");
 
   // Ergebnisse / Status
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | undefined>();
   const [busyId, setBusyId] = useState<string | null>(null);
-  const [busyAction, setBusyAction] = useState<"enrich" | "register" | null>(null);
+  const [busyAction, setBusyAction] = useState<"enrich" | "register" | "save" | null>(null);
+
+  // CRM
+  const [saved, setSaved] = useState<SavedLead[]>([]);
+  const [statusFilter, setStatusFilter] = useState<"" | LeadStatus>("");
+
+  useEffect(() => {
+    fetch("/api/config")
+      .then((r) => r.json())
+      .then(setConfig)
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (tab === "crm") loadSaved();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab, statusFilter]);
 
   function toggleCat(key: string) {
     setCats((prev) => (prev.includes(key) ? prev.filter((c) => c !== key) : [...prev, key]));
@@ -56,6 +85,7 @@ export default function Home() {
         location: location.trim(),
         categories: cats.join(","),
         limit: String(osmLimit),
+        source: provider,
       });
       const res = await fetch(`/api/leads?${params.toString()}`);
       const data = (await res.json()) as SearchResponse;
@@ -180,6 +210,22 @@ export default function Home() {
     }
   }
 
+  async function saveLead(lead: Lead) {
+    setBusyId(lead.id);
+    setBusyAction("save");
+    try {
+      const res = await fetch("/api/saved", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(lead),
+      });
+      if (res.ok) setSavedIds((prev) => new Set(prev).add(lead.id));
+    } finally {
+      setBusyId(null);
+      setBusyAction(null);
+    }
+  }
+
   function patchLead(
     id: string,
     patch: Partial<Lead> & { source?: Lead["sources"][number] }
@@ -189,7 +235,6 @@ export default function Home() {
         if (l.id !== id) return l;
         const { source, ...fields } = patch;
         const merged = { ...l } as unknown as Record<string, unknown>;
-        // Nur leere Felder befüllen (vorhandene echte Daten nicht überschreiben).
         for (const [k, v] of Object.entries(fields)) {
           if (v && !merged[k]) merged[k] = v;
         }
@@ -203,13 +248,46 @@ export default function Home() {
     setLeads((prev) => prev.map((l) => (l.id === id ? { ...l, notes: note } : l)));
   }
 
-  function exportCsv() {
-    const csv = leadsToCsv(leads);
+  // ---- CRM ----
+  async function loadSaved() {
+    const params = new URLSearchParams();
+    if (statusFilter) params.set("status", statusFilter);
+    const res = await fetch(`/api/saved?${params.toString()}`);
+    const data = await res.json();
+    setSaved(data.leads || []);
+  }
+
+  async function changeStatus(id: string, status: LeadStatus) {
+    setSaved((prev) => prev.map((l) => (l.id === id ? { ...l, status } : l)));
+    await fetch(`/api/saved/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status }),
+    });
+    if (statusFilter) loadSaved();
+  }
+
+  async function deleteSaved(id: string) {
+    setSaved((prev) => prev.filter((l) => l.id !== id));
+    await fetch(`/api/saved/${encodeURIComponent(id)}`, { method: "DELETE" });
+  }
+
+  async function crmNote(id: string, note: string) {
+    setSaved((prev) => prev.map((l) => (l.id === id ? { ...l, notes: note } : l)));
+    await fetch(`/api/saved/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ notes: note }),
+    });
+  }
+
+  function exportCsv(list: Lead[], prefix: string) {
+    const csv = leadsToCsv(list);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `leads-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `${prefix}-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -222,38 +300,68 @@ export default function Home() {
         </h1>
         <p>
           Lead-Recherche aus <strong>echten, öffentlichen Quellen</strong>: reale Firmen aus
-          OpenStreetMap (Website, Telefon, E-Mail), Geschäftsführer aus Impressum (§ 5 DDG) &
-          Handelsregister (OpenCorporates) – mit Direkt-Buttons und CSV-Export.
+          OpenStreetMap & Google Places (Website, Telefon, E-Mail), Geschäftsführer aus Impressum
+          (§ 5 DDG) & Handelsregister – mit Direkt-Buttons, Mini-CRM und CSV-Export.
         </p>
       </header>
 
       <div className="panel">
         <div className="tabs">
-          <button
-            className={`tab ${tab === "osm" ? "active" : ""}`}
-            onClick={() => setTab("osm")}
-          >
+          <button className={`tab ${tab === "osm" ? "active" : ""}`} onClick={() => setTab("osm")}>
             <strong>1 · Firmen finden</strong>
-            <span>Echte Betriebe per Ort + Branche (OpenStreetMap)</span>
+            <span>Echte Betriebe per Ort + Branche</span>
           </button>
           <button
             className={`tab ${tab === "register" ? "active" : ""}`}
             onClick={() => setTab("register")}
           >
             <strong>2 · Register-Suche</strong>
-            <span>Firmen + Geschäftsführer (Handelsregister)</span>
+            <span>Firmen + Geschäftsführer</span>
           </button>
           <button
             className={`tab ${tab === "impressum" ? "active" : ""}`}
             onClick={() => setTab("impressum")}
           >
             <strong>3 · Impressum</strong>
-            <span>Daten aus Firmen-Websites lesen</span>
+            <span>Daten aus Websites lesen</span>
+          </button>
+          <button className={`tab ${tab === "crm" ? "active" : ""}`} onClick={() => setTab("crm")}>
+            <strong>4 · CRM</strong>
+            <span>Gespeicherte Leads & Status</span>
           </button>
         </div>
 
         {tab === "osm" && (
           <>
+            <div className="presets" style={{ marginBottom: 16 }}>
+              <span style={{ fontSize: 13, color: "var(--text-soft)", alignSelf: "center" }}>
+                Datenquelle:
+              </span>
+              <button
+                className="chip"
+                style={
+                  provider === "osm"
+                    ? { background: "var(--primary-soft)", color: "var(--primary-dark)", borderColor: "var(--primary)" }
+                    : undefined
+                }
+                onClick={() => setProvider("osm")}
+              >
+                {provider === "osm" ? "✓ " : ""}OpenStreetMap (kostenlos)
+              </button>
+              <button
+                className="chip"
+                style={
+                  provider === "google"
+                    ? { background: "var(--primary-soft)", color: "var(--primary-dark)", borderColor: "var(--primary)" }
+                    : undefined
+                }
+                onClick={() => setProvider("google")}
+              >
+                {provider === "google" ? "✓ " : ""}Google Places
+                {!config.googlePlaces ? " (API-Key nötig)" : ""}
+              </button>
+            </div>
+
             <div className="form-row">
               <div className="field grow">
                 <label htmlFor="loc">Ort / Region</label>
@@ -309,7 +417,7 @@ export default function Home() {
 
             <div className="presets" style={{ marginTop: 14 }}>
               <span style={{ fontSize: 13, color: "var(--text-soft)", alignSelf: "center" }}>
-                Schnellauswahl Region:
+                Region:
               </span>
               {REGION_PRESETS.map((r) => (
                 <button key={r} className="chip" onClick={() => setLocation(r)}>
@@ -346,8 +454,10 @@ export default function Home() {
               </button>
             </div>
             <p style={{ fontSize: 13, color: "var(--text-soft)", marginTop: 10 }}>
-              Liefert Geschäftsführer + Registerprofil. Für höhere Rate-Limits einen
-              <code> OPENCORPORATES_API_TOKEN</code> in <code>.env.local</code> hinterlegen.
+              Liefert Geschäftsführer + Registerprofil.
+              {config.openCorporates
+                ? " (API-Token aktiv)"
+                : " Für höhere Rate-Limits OPENCORPORATES_API_TOKEN in .env.local hinterlegen."}
             </p>
           </>
         )}
@@ -370,32 +480,63 @@ export default function Home() {
             </div>
           </>
         )}
+
+        {tab === "crm" && (
+          <div className="form-row">
+            <div className="field">
+              <label htmlFor="sf">Status-Filter</label>
+              <select
+                id="sf"
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value as "" | LeadStatus)}
+              >
+                {STATUS_FILTERS.map((s) => (
+                  <option key={s.value} value={s.value}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button className="btn btn-ghost" onClick={loadSaved}>
+              🔄 Aktualisieren
+            </button>
+            {saved.length > 0 && (
+              <button className="btn btn-ghost" onClick={() => exportCsv(saved, "crm-leads")}>
+                ⬇️ CSV exportieren
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
-      <div className="notice notice-legal">
-        ⚖️{" "}
-        <span>
-          <strong>Rechtlicher Hinweis:</strong> Es werden ausschließlich öffentlich zugängliche
-          Daten verarbeitet (OpenStreetMap/ODbL – „© OpenStreetMap-Mitwirkende"; Impressum-
-          Pflichtangaben nach § 5 DDG; öffentliche Registerdaten). Personenbezogene Daten
-          unterliegen der DSGVO – nutze sie nur für legitime B2B-Zwecke (berechtigtes Interesse,
-          Art. 6 Abs. 1 lit. f), beachte § 7 UWG bei Erstkontakt und respektiere Widersprüche.
-        </span>
-      </div>
+      {tab !== "crm" && (
+        <div className="notice notice-legal">
+          ⚖️{" "}
+          <span>
+            <strong>Rechtlicher Hinweis:</strong> Es werden ausschließlich öffentlich zugängliche
+            Daten verarbeitet (OpenStreetMap/ODbL – „© OpenStreetMap-Mitwirkende"; Google Places
+            gemäß deren Nutzungsbedingungen; Impressum-Pflichtangaben § 5 DDG; öffentliche
+            Registerdaten). Personenbezogene Daten unterliegen der DSGVO – nutze sie nur für
+            legitime B2B-Zwecke (Art. 6 Abs. 1 lit. f), beachte § 7 UWG bei Erstkontakt und
+            respektiere Widersprüche.
+          </span>
+        </div>
+      )}
 
-      {message && (
+      {message && tab !== "crm" && (
         <div className="notice notice-info">
           ℹ️ <span>{message}</span>
         </div>
       )}
 
-      {leads.length > 0 && (
+      {/* Suchergebnisse */}
+      {tab !== "crm" && leads.length > 0 && (
         <div className="panel">
           <div className="results-head">
             <h2>
               Ergebnisse <span className="count">({leads.length})</span>
             </h2>
-            <button className="btn btn-ghost btn-sm" onClick={exportCsv}>
+            <button className="btn btn-ghost btn-sm" onClick={() => exportCsv(leads, "leads")}>
               ⬇️ CSV / Excel exportieren
             </button>
           </div>
@@ -406,8 +547,11 @@ export default function Home() {
                 lead={lead}
                 enriching={busyId === lead.id && busyAction === "enrich"}
                 registerLoading={busyId === lead.id && busyAction === "register"}
+                saving={busyId === lead.id && busyAction === "save"}
+                saved={savedIds.has(lead.id)}
                 onEnrich={enrichLead}
                 onRegister={registerLookup}
+                onSave={saveLead}
                 onNote={setNote}
               />
             ))}
@@ -415,22 +559,60 @@ export default function Home() {
         </div>
       )}
 
-      {!loading && leads.length === 0 && (
+      {/* CRM-Ansicht */}
+      {tab === "crm" && (
+        <div className="panel">
+          <div className="results-head">
+            <h2>
+              Gespeicherte Leads <span className="count">({saved.length})</span>
+            </h2>
+          </div>
+          {saved.length === 0 ? (
+            <div className="empty-state">
+              <div className="big">💾</div>
+              <p>
+                Noch keine gespeicherten Leads. Suche Firmen und klicke bei einem Treffer auf
+                <strong> „Speichern"</strong>.
+              </p>
+            </div>
+          ) : (
+            <div className="lead-grid">
+              {saved.map((lead) => (
+                <LeadCard
+                  key={lead.id}
+                  lead={lead}
+                  crm
+                  status={lead.status}
+                  enriching={busyId === lead.id && busyAction === "enrich"}
+                  registerLoading={busyId === lead.id && busyAction === "register"}
+                  onEnrich={enrichLead}
+                  onRegister={registerLookup}
+                  onStatusChange={changeStatus}
+                  onDelete={deleteSaved}
+                  onNote={crmNote}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {tab !== "crm" && !loading && leads.length === 0 && (
         <div className="panel">
           <div className="empty-state">
             <div className="big">🔍</div>
             <p>
               Starte eine Suche, um <strong>echte Leads</strong> zu finden. Beispiel: Ort
-              „Berlin", Branchen „Autohaus" + „Kfz-Werkstatt" → dann pro Treffer „Impressum
-              anreichern" für Geschäftsführer & E-Mail.
+              „Berlin", Branchen „Autohaus" + „Kfz-Werkstatt" → dann pro Treffer „Impressum"
+              für Geschäftsführer & E-Mail, anschließend „Speichern".
             </p>
           </div>
         </div>
       )}
 
       <p className="footer">
-        Leadfinder · Daten: © OpenStreetMap-Mitwirkende (ODbL) · Impressum (§ 5 DDG) ·
-        OpenCorporates
+        Leadfinder · Daten: © OpenStreetMap-Mitwirkende (ODbL) · Google Places · Impressum
+        (§ 5 DDG) · OpenCorporates
       </p>
     </div>
   );

@@ -15,14 +15,20 @@ Ergebnisse stammen aus realen, öffentlichen Quellen.
 | Quelle | Liefert | Lizenz / Rechtsgrundlage |
 | --- | --- | --- |
 | **OpenStreetMap** (Overpass-API) | Reale Betriebe: Name, Website, Telefon, E-Mail, Adresse | ODbL – Namensnennung „© OpenStreetMap-Mitwirkende" |
+| **Google Places API (New)** | Reale Betriebe mit hoher Abdeckung: Name, Website, Telefon, Adresse | Google-Nutzungsbedingungen (API-Key, kostenpflichtig nach Freikontingent) |
 | **Impressum** der Firmen-Website | Geschäftsführer, Telefon, E-Mail | § 5 DDG (Pflichtangabe, öffentlich) |
 | **OpenCorporates** (Handelsregister) | Geschäftsführer, Registernummer, Registerprofil | Öffentliche Registerdaten (API-Token empfohlen) |
 
 ## Funktionen
 
-- **Firmen finden (OpenStreetMap):** echte Betriebe nach **Ort/Region** + **Branche**
-  (Autohaus, Kfz-Werkstatt, Autoteile, Reifen, Autovermietung, Motorrad). Ergebnisse werden
-  nach Lead-Qualität sortiert (Website/Telefon zuerst) und dedupliziert.
+- **Firmen finden:** echte Betriebe nach **Ort/Region** + **Branche** (Autohaus,
+  Kfz-Werkstatt, Autoteile, Reifen, Autovermietung, Motorrad). Wahlweise Datenquelle
+  **OpenStreetMap** (kostenlos) oder **Google Places** (höhere Abdeckung, API-Key).
+  Ergebnisse werden nach Lead-Qualität sortiert (Website/Telefon zuerst) und dedupliziert.
+- **Mini-CRM:** Leads per Klick **speichern** (mit Dubletten-Erkennung über Suchläufe
+  hinweg), **Status** pflegen (neu → kontaktiert → termin → gewonnen/verloren), Notizen
+  erfassen, nach Status filtern und als CSV exportieren. Persistiert lokal in
+  `.data/leads.json`.
 - **Register-Suche (OpenCorporates):** Firmen + Geschäftsführer nach Name/Stichwort.
 - **Impressum-Anreicherung:** liest § 5 DDG-Pflichtangaben einer Website → Geschäftsführer,
   Telefon, E-Mail. Pro Treffer als Button **„Impressum anreichern"** verfügbar.
@@ -60,6 +66,7 @@ npm start
 | Variable | Beschreibung |
 | --- | --- |
 | `OPENCORPORATES_API_TOKEN` | Optional. Ohne Token läuft die Registersuche im anonymen Modus mit strengen Rate-Limits. Token: <https://opencorporates.com/api_accounts/new> |
+| `GOOGLE_PLACES_API_KEY` | Optional. Aktiviert die Datenquelle „Google Places". Key: Google-Cloud-Console → Places API (New) aktivieren. |
 | `DEFAULT_COUNTRY_CODE` | Standard-Land der Registersuche (Default `de`). |
 | `OVERPASS_URL` | Optional. Alternativer Overpass-Endpunkt bei Rate-Limits. |
 
@@ -67,20 +74,25 @@ npm start
 
 ```
 app/
-  page.tsx               UI (3 Tabs: Firmen-Suche, Register-Suche, Impressum)
-  layout.tsx             HTML-Grundgerüst
-  globals.css            Styling
-  api/leads/route.ts     GET  – Firmen-Suche (OpenStreetMap/Overpass)
-  api/register/route.ts  GET  – Registersuche + Einzel-Lookup (OpenCorporates)
-  api/enrich/route.ts    POST – Impressum-Scraping einer Website
+  page.tsx                UI (4 Tabs: Firmen-Suche, Register-Suche, Impressum, CRM)
+  layout.tsx              HTML-Grundgerüst
+  globals.css             Styling
+  api/leads/route.ts      GET  – Firmen-Suche (OpenStreetMap oder Google Places)
+  api/register/route.ts   GET  – Registersuche + Einzel-Lookup (OpenCorporates)
+  api/enrich/route.ts     POST – Impressum-Scraping einer Website
+  api/saved/route.ts      GET/POST   – CRM: Leads listen / speichern
+  api/saved/[id]/route.ts PATCH/DELETE – CRM: Status/Notiz / löschen
+  api/config/route.ts     GET  – meldet konfigurierte Provider an die UI
 lib/
-  overpass.ts            OpenStreetMap-Suche (Nominatim-Geocoding + Overpass)
-  opencorporates.ts      OpenCorporates-Client (Firmen + Officers/Geschäftsführer)
-  impressum.ts           Impressum-Scraper (Geschäftsführer, Telefon, E-Mail)
-  csv.ts                 CSV-Export (Excel-DE)
-  types.ts               Datentypen
+  overpass.ts             OpenStreetMap-Suche (Nominatim-Geocoding + Overpass)
+  googlePlaces.ts         Google Places API (New) – Text Search
+  opencorporates.ts       OpenCorporates-Client (Firmen + Officers/Geschäftsführer)
+  impressum.ts            Impressum-Scraper (Geschäftsführer, Telefon, E-Mail)
+  store.ts                Lokaler CRM-Store (JSON, atomare Writes)
+  csv.ts                  CSV-Export (Excel-DE)
+  types.ts                Datentypen
 components/
-  LeadCard.tsx           Darstellung eines Leads inkl. Buttons
+  LeadCard.tsx            Darstellung eines Leads inkl. Buttons & CRM-Steuerung
 ```
 
 ### Typischer Workflow

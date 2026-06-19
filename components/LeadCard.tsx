@@ -1,6 +1,7 @@
 "use client";
 
 import type { Lead } from "@/lib/types";
+import type { LeadStatus } from "@/lib/store";
 
 interface Props {
   lead: Lead;
@@ -9,6 +10,34 @@ interface Props {
   onEnrich: (lead: Lead) => void;
   onRegister: (lead: Lead) => void;
   onNote: (id: string, note: string) => void;
+  /** Suchergebnis: in CRM speichern. */
+  onSave?: (lead: Lead) => void;
+  saved?: boolean;
+  saving?: boolean;
+  /** CRM-Modus: Status + Löschen. */
+  crm?: boolean;
+  status?: LeadStatus;
+  onStatusChange?: (id: string, status: LeadStatus) => void;
+  onDelete?: (id: string) => void;
+}
+
+const SOURCE_LABEL: Record<string, string> = {
+  OpenStreetMap: "OSM",
+  "Google Places": "Google",
+  OpenCorporates: "Register",
+  Impressum: "Impressum",
+};
+
+const STATUS_OPTIONS: { value: LeadStatus; label: string }[] = [
+  { value: "neu", label: "Neu" },
+  { value: "kontaktiert", label: "Kontaktiert" },
+  { value: "termin", label: "Termin" },
+  { value: "gewonnen", label: "Gewonnen" },
+  { value: "verloren", label: "Verloren" },
+];
+
+function tagClass(source: string): string {
+  return `tag tag-${source.replace(/\s+/g, "")}`;
 }
 
 function Field({ label, value, empty }: { label: string; value?: string; empty: string }) {
@@ -20,12 +49,6 @@ function Field({ label, value, empty }: { label: string; value?: string; empty: 
   );
 }
 
-const SOURCE_LABEL: Record<string, string> = {
-  OpenStreetMap: "OSM",
-  OpenCorporates: "Register",
-  Impressum: "Impressum",
-};
-
 export default function LeadCard({
   lead,
   enriching,
@@ -33,6 +56,13 @@ export default function LeadCard({
   onEnrich,
   onRegister,
   onNote,
+  onSave,
+  saved,
+  saving,
+  crm,
+  status,
+  onStatusChange,
+  onDelete,
 }: Props) {
   const telHref = lead.phone ? `tel:${lead.phone.replace(/[^\d+]/g, "")}` : undefined;
   const mailHref = lead.email ? `mailto:${lead.email}` : undefined;
@@ -52,7 +82,7 @@ export default function LeadCard({
         </div>
         <div className="source-tags">
           {lead.sources.map((s) => (
-            <span key={s} className={`tag tag-${s}`}>
+            <span key={s} className={tagClass(s)}>
               {SOURCE_LABEL[s] || s}
             </span>
           ))}
@@ -104,7 +134,7 @@ export default function LeadCard({
             target="_blank"
             rel="noopener noreferrer"
           >
-            🏛️ Registerprofil
+            🏛️ Profil
           </a>
         )}
 
@@ -115,7 +145,7 @@ export default function LeadCard({
             disabled={enriching}
           >
             {enriching ? <span className="spinner dark" /> : "🔍"}
-            {enriching ? "Lese Impressum…" : "Impressum anreichern"}
+            {enriching ? "Lese Impressum…" : "Impressum"}
           </button>
         )}
 
@@ -126,13 +156,48 @@ export default function LeadCard({
           title="Geschäftsführer aus dem Handelsregister (OpenCorporates) ermitteln"
         >
           {registerLoading ? <span className="spinner dark" /> : "🏛️"}
-          {registerLoading ? "Suche Register…" : "Geschäftsführer (Register)"}
+          {registerLoading ? "Suche…" : "Geschäftsführer"}
         </button>
+
+        <span className="spacer" />
+
+        {/* Suchergebnis-Modus: Speichern */}
+        {!crm && onSave && (
+          <button
+            className="btn btn-ghost btn-sm"
+            onClick={() => onSave(lead)}
+            disabled={saving || saved}
+            title="Lead ins CRM speichern"
+          >
+            {saving ? <span className="spinner dark" /> : saved ? "✓" : "💾"}
+            {saved ? "Gespeichert" : "Speichern"}
+          </button>
+        )}
+
+        {/* CRM-Modus: Status + Löschen */}
+        {crm && (
+          <>
+            <select
+              className={`status-select status-${status || "neu"}`}
+              value={status || "neu"}
+              onChange={(e) => onStatusChange?.(lead.id, e.target.value as LeadStatus)}
+            >
+              {STATUS_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
+            <button className="btn btn-danger btn-sm" onClick={() => onDelete?.(lead.id)}>
+              🗑️ Löschen
+            </button>
+          </>
+        )}
       </div>
 
       <input
         style={{ marginTop: 12, width: "100%" }}
-        placeholder="Notiz (nur lokal, wird mit exportiert)…"
+        placeholder="Notiz (wird gespeichert & exportiert)…"
         defaultValue={lead.notes}
         onBlur={(e) => onNote(lead.id, e.target.value)}
       />

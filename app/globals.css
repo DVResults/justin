@@ -304,6 +304,10 @@ select:focus {
   background: #ecfeff;
   color: #0e7490;
 }
+.tag-GooglePlaces {
+  background: #fef9c3;
+  color: #a16207;
+}
 .tag-OpenCorporates {
   background: var(--primary-soft);
   color: var(--primary-dark);
@@ -343,6 +347,46 @@ select:focus {
   flex-wrap: wrap;
   border-top: 1px solid var(--border);
   padding-top: 12px;
+  align-items: center;
+}
+
+.status-select {
+  padding: 7px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.status-neu {
+  background: #f1f5f9;
+  color: #475569;
+}
+.status-kontaktiert {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+.status-termin {
+  background: #fef9c3;
+  color: #a16207;
+}
+.status-gewonnen {
+  background: var(--green-soft);
+  color: var(--green);
+}
+.status-verloren {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+.spacer {
+  flex: 1;
+}
+.btn-danger {
+  background: #fff;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+.btn-danger:hover:not(:disabled) {
+  background: #fef2f2;
 }
 
 /* Spinner */
