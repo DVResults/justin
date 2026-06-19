@@ -142,3 +142,45 @@ export async function searchCompanies(query: string, opts: SearchOptions = {}): 
 
   return leads;
 }
+
+export interface RegisterMatch {
+  managingDirector?: string;
+  registerNumber?: string;
+  jurisdiction?: string;
+  profileUrl?: string;
+  address?: string;
+  matchedName: string;
+}
+
+/**
+ * Sucht im Register den besten Treffer zu einem Firmennamen und liefert
+ * Geschäftsführer + Registerprofil. Für die Anreicherung einzelner Leads
+ * (z. B. eines OSM-Treffers) gedacht.
+ */
+export async function lookupRegister(
+  name: string,
+  opts: { country?: string; token?: string } = {}
+): Promise<RegisterMatch | null> {
+  const { country = "de", token } = opts;
+  const url = buildUrl("/companies/search", {
+    q: name,
+    country_code: country,
+    per_page: "1",
+    order: "score",
+    api_token: token,
+  });
+  const data = await ocFetch<{ results?: { companies?: { company: OCCompany }[] } }>(url);
+  const company = data.results?.companies?.[0]?.company;
+  if (!company) return null;
+
+  const lead = mapCompany(company);
+  await fetchOfficers(lead, token);
+  return {
+    managingDirector: lead.managingDirector,
+    registerNumber: lead.registerNumber,
+    jurisdiction: lead.jurisdiction,
+    profileUrl: lead.profileUrl,
+    address: lead.address,
+    matchedName: company.name,
+  };
+}

@@ -300,6 +300,10 @@ select:focus {
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
+.tag-OpenStreetMap {
+  background: #ecfeff;
+  color: #0e7490;
+}
 .tag-OpenCorporates {
   background: var(--primary-soft);
   color: var(--primary-dark);
@@ -307,10 +311,6 @@ select:focus {
 .tag-Impressum {
   background: var(--green-soft);
   color: var(--green);
-}
-.tag-Demo {
-  background: #fef2f2;
-  color: #b91c1c;
 }
 
 .lead-fields {

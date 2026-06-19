@@ -1,55 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
-import { searchCompanies } from "@/lib/opencorporates";
-import { filterDemoLeads } from "@/lib/mockData";
+import { searchOsm } from "@/lib/overpass";
 import type { SearchResponse } from "@/lib/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * GET /api/leads?q=Automotive&country=de&limit=20
- * Sucht Firmen im Handelsregister (OpenCorporates). Fällt bei Fehlern bzw.
- * fehlendem Netzwerk auf Demo-Daten zurück, damit die UI immer funktioniert.
+ * GET /api/leads?location=Berlin&categories=autohaus,werkstatt&limit=60
+ * Sucht REALE Firmen in OpenStreetMap (Overpass) inkl. Website/Telefon/E-Mail.
  */
 export async function GET(req: NextRequest): Promise<NextResponse<SearchResponse>> {
   const { searchParams } = new URL(req.url);
-  const query = (searchParams.get("q") || "Automotive").trim();
-  const country = (searchParams.get("country") || process.env.DEFAULT_COUNTRY_CODE || "de").trim();
-  const limit = Math.min(Number(searchParams.get("limit") || 20) || 20, 100);
-  const token = process.env.OPENCORPORATES_API_TOKEN || undefined;
-  const demoParam = searchParams.get("demo") === "1";
+  const location = (searchParams.get("location") || "").trim();
+  const categories = (searchParams.get("categories") || "")
+    .split(",")
+    .map((c) => c.trim())
+    .filter(Boolean);
+  const limit = Math.min(Number(searchParams.get("limit") || 60) || 60, 200);
 
-  if (demoParam) {
-    return NextResponse.json({
-      leads: filterDemoLeads(query),
-      demo: true,
-      message: "Demo-Modus: fiktive Beispieldaten.",
-    });
+  if (!location) {
+    return NextResponse.json(
+      { leads: [], demo: false, message: "Bitte einen Ort/eine Region angeben." },
+      { status: 400 }
+    );
   }
 
   try {
-    const leads = await searchCompanies(query, { country, perPage: limit, token });
-    if (!leads.length) {
-      return NextResponse.json({
-        leads: filterDemoLeads(query),
-        demo: true,
-        message: "Keine Registertreffer – es werden Demo-Daten angezeigt.",
-      });
-    }
+    const leads = await searchOsm({ location, categories, limit });
     return NextResponse.json({
       leads,
       demo: false,
-      message: token
-        ? undefined
-        : "Kein API-Token gesetzt – Suche läuft im anonymen Modus mit Rate-Limits.",
+      message: leads.length
+        ? `${leads.length} reale Firma(en) gefunden · Datenquelle: © OpenStreetMap-Mitwirkende (ODbL).`
+        : "Keine Treffer. Tipp: anderen Ort/Region oder weitere Kategorien wählen.",
     });
   } catch (err) {
     const message =
-      err instanceof Error ? err.message : "Unbekannter Fehler bei der Registersuche.";
-    return NextResponse.json({
-      leads: filterDemoLeads(query),
-      demo: true,
-      message: `Registersuche nicht verfügbar (${message}). Es werden Demo-Daten angezeigt.`,
-    });
+      err instanceof Error ? err.message : "Unbekannter Fehler bei der Firmen-Suche.";
+    return NextResponse.json({ leads: [], demo: false, message }, { status: 502 });
   }
 }

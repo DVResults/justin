@@ -5,7 +5,9 @@ import type { Lead } from "@/lib/types";
 interface Props {
   lead: Lead;
   enriching: boolean;
+  registerLoading: boolean;
   onEnrich: (lead: Lead) => void;
+  onRegister: (lead: Lead) => void;
   onNote: (id: string, note: string) => void;
 }
 
@@ -18,7 +20,20 @@ function Field({ label, value, empty }: { label: string; value?: string; empty: 
   );
 }
 
-export default function LeadCard({ lead, enriching, onEnrich, onNote }: Props) {
+const SOURCE_LABEL: Record<string, string> = {
+  OpenStreetMap: "OSM",
+  OpenCorporates: "Register",
+  Impressum: "Impressum",
+};
+
+export default function LeadCard({
+  lead,
+  enriching,
+  registerLoading,
+  onEnrich,
+  onRegister,
+  onNote,
+}: Props) {
   const telHref = lead.phone ? `tel:${lead.phone.replace(/[^\d+]/g, "")}` : undefined;
   const mailHref = lead.email ? `mailto:${lead.email}` : undefined;
 
@@ -38,7 +53,7 @@ export default function LeadCard({ lead, enriching, onEnrich, onNote }: Props) {
         <div className="source-tags">
           {lead.sources.map((s) => (
             <span key={s} className={`tag tag-${s}`}>
-              {s === "OpenCorporates" ? "Register" : s}
+              {SOURCE_LABEL[s] || s}
             </span>
           ))}
         </div>
@@ -103,6 +118,16 @@ export default function LeadCard({ lead, enriching, onEnrich, onNote }: Props) {
             {enriching ? "Lese Impressum…" : "Impressum anreichern"}
           </button>
         )}
+
+        <button
+          className="btn btn-ghost btn-sm"
+          onClick={() => onRegister(lead)}
+          disabled={registerLoading}
+          title="Geschäftsführer aus dem Handelsregister (OpenCorporates) ermitteln"
+        >
+          {registerLoading ? <span className="spinner dark" /> : "🏛️"}
+          {registerLoading ? "Suche Register…" : "Geschäftsführer (Register)"}
+        </button>
       </div>
 
       <input

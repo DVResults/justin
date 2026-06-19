@@ -2,7 +2,7 @@
  * Zentrale Datentypen des Leadfinders.
  */
 
-export type LeadSource = "OpenCorporates" | "Impressum" | "Demo";
+export type LeadSource = "OpenStreetMap" | "OpenCorporates" | "Impressum";
 
 export interface Lead {
   /** Stabile ID (clientseitig generiert oder aus Registernummer abgeleitet). */
