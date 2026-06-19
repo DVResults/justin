@@ -340,6 +340,22 @@ select:focus {
   font-weight: 400;
   font-style: italic;
 }
+.mx-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 999px;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+.mx-ok {
+  background: var(--green-soft);
+  color: var(--green);
+}
+.mx-bad {
+  background: #fffbeb;
+  color: var(--amber);
+}
 
 .lead-actions {
   display: flex;

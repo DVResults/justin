@@ -13,6 +13,7 @@
 
 import * as cheerio from "cheerio";
 import type { Lead } from "./types";
+import { isAllowed, ROBOTS_AGENT } from "./robots";
 
 const USER_AGENT =
   "Leadfinder/1.0 (+legaler Impressum-Research; respektiert robots.txt)";
@@ -175,15 +176,21 @@ export async function scrapeImpressum(rawUrl: string): Promise<ImpressumResult> 
   const homepage = normalizeUrl(rawUrl);
   const origin = new URL(homepage).origin;
 
+  // robots.txt respektieren, bevor wir die Startseite abrufen.
+  if (!(await isAllowed(homepage, ROBOTS_AGENT))) {
+    throw new Error("Abruf durch robots.txt untersagt.");
+  }
+
   // Startseite laden und Impressum-Link finden.
   const homeHtml = await fetchHtml(homepage);
   const $home = cheerio.load(homeHtml);
   const impressumUrl = findImpressumUrl($home, homepage) || `${origin}/impressum`;
 
-  // Impressum-Seite laden (Fallback: Startseite, falls Impressum nicht erreichbar).
+  // Impressum-Seite laden (Fallback: Startseite). robots.txt erneut prüfen.
   let $: cheerio.CheerioAPI;
   let usedUrl = impressumUrl;
   try {
+    if (!(await isAllowed(impressumUrl, ROBOTS_AGENT))) throw new Error("robots-disallow");
     $ = cheerio.load(await fetchHtml(impressumUrl));
   } catch {
     $ = $home;

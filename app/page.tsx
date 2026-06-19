@@ -52,6 +52,7 @@ export default function Home() {
   const [message, setMessage] = useState<string | undefined>();
   const [busyId, setBusyId] = useState<string | null>(null);
   const [busyAction, setBusyAction] = useState<"enrich" | "register" | "save" | null>(null);
+  const [bulk, setBulk] = useState({ running: false, done: 0, total: 0 });
 
   // CRM
   const [saved, setSaved] = useState<SavedLead[]>([]);
@@ -176,6 +177,7 @@ export default function Home() {
         managingDirector: data.lead.managingDirector,
         phone: data.lead.phone,
         email: data.lead.email,
+        emailVerified: data.lead.emailVerified,
         website: data.lead.website,
         source: "Impressum",
       });
@@ -183,6 +185,56 @@ export default function Home() {
       setBusyId(null);
       setBusyAction(null);
     }
+  }
+
+  // Reichert einen einzelnen Lead an (ohne Einzel-Spinner – für Bulk-Lauf).
+  async function enrichSilently(lead: Lead) {
+    if (!lead.website) return;
+    try {
+      const res = await fetch("/api/enrich", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: lead.website }),
+      });
+      const data = (await res.json()) as EnrichResponse;
+      patchLead(lead.id, {
+        managingDirector: data.lead.managingDirector,
+        phone: data.lead.phone,
+        email: data.lead.email,
+        emailVerified: data.lead.emailVerified,
+        website: data.lead.website,
+        source: "Impressum",
+      });
+    } catch {
+      /* einzelne Fehler im Bulk-Lauf ignorieren */
+    }
+  }
+
+  // Bulk-Anreicherung: höfliche Queue mit begrenzter Parallelität (3 gleichzeitig).
+  async function bulkEnrich() {
+    const targets = leads.filter((l) => l.website && !l.managingDirector);
+    if (!targets.length) {
+      setMessage("Keine anreicherbaren Leads (alle bereits angereichert oder ohne Website).");
+      return;
+    }
+    setBulk({ running: true, done: 0, total: targets.length });
+    let i = 0;
+    let done = 0;
+    const CONCURRENCY = 3;
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+    const worker = async () => {
+      while (i < targets.length) {
+        const lead = targets[i++];
+        await enrichSilently(lead);
+        done++;
+        setBulk({ running: true, done, total: targets.length });
+        await sleep(300); // höfliche Drosselung pro Worker
+      }
+    };
+    await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+    setBulk({ running: false, done, total: targets.length });
+    setMessage(`Bulk-Anreicherung abgeschlossen: ${done} Lead(s) verarbeitet.`);
   }
 
   async function registerLookup(lead: Lead) {
@@ -238,6 +290,8 @@ export default function Home() {
         for (const [k, v] of Object.entries(fields)) {
           if (v && !merged[k]) merged[k] = v;
         }
+        // emailVerified ist ein boolescher Status und wird immer übernommen.
+        if (patch.emailVerified !== undefined) merged.emailVerified = patch.emailVerified;
         if (source) merged.sources = Array.from(new Set([...l.sources, source]));
         return merged as unknown as Lead;
       })
@@ -536,9 +590,19 @@ export default function Home() {
             <h2>
               Ergebnisse <span className="count">({leads.length})</span>
             </h2>
-            <button className="btn btn-ghost btn-sm" onClick={() => exportCsv(leads, "leads")}>
-              ⬇️ CSV / Excel exportieren
-            </button>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+              {bulk.running && (
+                <span style={{ fontSize: 13, color: "var(--text-soft)" }}>
+                  Anreicherung… {bulk.done}/{bulk.total}
+                </span>
+              )}
+              <button className="btn btn-ghost btn-sm" onClick={bulkEnrich} disabled={bulk.running}>
+                {bulk.running ? <span className="spinner dark" /> : "⚡"} Alle anreichern
+              </button>
+              <button className="btn btn-ghost btn-sm" onClick={() => exportCsv(leads, "leads")}>
+                ⬇️ CSV / Excel exportieren
+              </button>
+            </div>
           </div>
           <div className="lead-grid">
             {leads.map((lead) => (

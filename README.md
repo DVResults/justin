@@ -31,7 +31,12 @@ Ergebnisse stammen aus realen, öffentlichen Quellen.
   `.data/leads.json`.
 - **Register-Suche (OpenCorporates):** Firmen + Geschäftsführer nach Name/Stichwort.
 - **Impressum-Anreicherung:** liest § 5 DDG-Pflichtangaben einer Website → Geschäftsführer,
-  Telefon, E-Mail. Pro Treffer als Button **„Impressum anreichern"** verfügbar.
+  Telefon, E-Mail. Pro Treffer als Button **„Impressum"** verfügbar. Respektiert vor jedem
+  Abruf die **robots.txt** der Zielseite (höflich, gecacht).
+- **Bulk-Anreicherung:** Button **„Alle anreichern"** verarbeitet alle Treffer mit Website
+  über eine höfliche Queue (begrenzte Parallelität + Drosselung) mit Fortschrittsanzeige.
+- **E-Mail-Validierung (MX-Check):** gefundene E-Mails werden per DNS (MX/A) geprüft und in
+  UI (Badge „✓ geprüft" / „⚠ ungeprüft") und CSV-Export ausgewiesen.
 - **Register-Anreicherung pro Lead:** Button **„Geschäftsführer (Register)"** ermittelt den
   Geschäftsführer aus dem Handelsregister.
 - **Direkt-Buttons** pro Lead: 🌐 Website · 📞 Anrufen (`tel:`) · ✉️ E-Mail (`mailto:`) ·
@@ -88,6 +93,8 @@ lib/
   googlePlaces.ts         Google Places API (New) – Text Search
   opencorporates.ts       OpenCorporates-Client (Firmen + Officers/Geschäftsführer)
   impressum.ts            Impressum-Scraper (Geschäftsführer, Telefon, E-Mail)
+  robots.ts               robots.txt-Prüfer (Gruppen, Allow/Disallow, Cache)
+  email.ts                E-Mail-Validierung per DNS (MX/A)
   store.ts                Lokaler CRM-Store (JSON, atomare Writes)
   csv.ts                  CSV-Export (Excel-DE)
   types.ts                Datentypen

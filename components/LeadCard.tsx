@@ -92,7 +92,22 @@ export default function LeadCard({
       <div className="lead-fields">
         <Field label="Geschäftsführer" value={lead.managingDirector} empty="nicht ermittelt" />
         <Field label="Telefon" value={lead.phone} empty="—" />
-        <Field label="E-Mail" value={lead.email} empty="—" />
+        <div className="lead-field">
+          <span className="k">E-Mail</span>
+          <span className={`v${lead.email ? "" : " empty"}`}>
+            {lead.email || "—"}
+            {lead.email && lead.emailVerified === true && (
+              <span className="mx-badge mx-ok" title="Domain kann E-Mails empfangen (MX/A geprüft)">
+                ✓ geprüft
+              </span>
+            )}
+            {lead.email && lead.emailVerified === false && (
+              <span className="mx-badge mx-bad" title="Keine empfangsfähige Domain gefunden">
+                ⚠ ungeprüft
+              </span>
+            )}
+          </span>
+        </div>
         <Field label="Adresse" value={lead.address} empty="—" />
       </div>
 

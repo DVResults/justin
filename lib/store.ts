@@ -92,6 +92,7 @@ export function saveLead(lead: Lead): SavedLead {
       "managingDirector",
       "phone",
       "email",
+      "emailVerified",
       "website",
       "address",
       "industry",

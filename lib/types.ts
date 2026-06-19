@@ -15,6 +15,8 @@ export interface Lead {
   phone?: string;
   /** Kontakt-E-Mail. */
   email?: string;
+  /** E-Mail-Domain per DNS (MX/A) verifiziert? */
+  emailVerified?: boolean;
   /** Website (vollständige URL, https). */
   website?: string;
   /** Geschäftsadresse. */

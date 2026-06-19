@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { scrapeImpressum, normalizeUrl } from "@/lib/impressum";
+import { verifyEmail } from "@/lib/email";
 import type { EnrichResponse } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -24,6 +25,10 @@ export async function POST(req: NextRequest): Promise<NextResponse<EnrichRespons
 
   try {
     const { data, impressumUrl } = await scrapeImpressum(url);
+    // Gefundene E-Mail per DNS (MX/A) verifizieren.
+    if (data.email) {
+      data.emailVerified = await verifyEmail(data.email);
+    }
     const hasData = data.managingDirector || data.email || data.phone;
     return NextResponse.json({
       lead: data,
