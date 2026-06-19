@@ -10,6 +10,26 @@ Ergebnisse stammen aus realen, öffentlichen Quellen.
 
 ---
 
+## 🚀 Sofort online nutzen (ohne Installation)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/DVResults/justin&project-name=leadfinder&repository-name=leadfinder)
+
+1. Auf den Button **„Deploy"** klicken.
+2. Einmal mit **GitHub anmelden** (kostenlos).
+3. **„Deploy"** bestätigen – nach ~1–2 Minuten erhältst du eine feste URL
+   (z. B. `https://leadfinder-xyz.vercel.app`), die du danach jederzeit direkt im
+   Browser aufrufen kannst. Nichts zu installieren, nichts herunterzuladen.
+
+Die **OpenStreetMap-Suche** und das **Impressum-Auslesen** funktionieren sofort ohne
+weitere Konfiguration. Für **Google Places** und höhere **OpenCorporates**-Limits später
+optional die API-Keys in den Vercel-Projekt-Einstellungen unter *Settings → Environment
+Variables* eintragen (`GOOGLE_PLACES_API_KEY`, `OPENCORPORATES_API_TOKEN`).
+
+> Alternativ: bestehendes Repo importieren über <https://vercel.com/new> → Repository
+> `DVResults/justin` auswählen → **Deploy**.
+
+---
+
 ## Datenquellen (alle real & legal)
 
 | Quelle | Liefert | Lizenz / Rechtsgrundlage |
