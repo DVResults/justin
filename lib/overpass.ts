@@ -36,7 +36,7 @@ interface NominatimResult {
   display_name: string;
 }
 
-interface OverpassElement {
+export interface OverpassElement {
   type: "node" | "way" | "relation";
   id: number;
   lat?: number;
@@ -163,6 +163,23 @@ function mapElement(el: OverpassElement): Lead | null {
   };
 }
 
+/**
+ * Reine Abbildung von Overpass-Elementen auf Leads: mappt, dedupliziert
+ * (gleiche Firma) und sortiert nach Lead-Qualität. Ohne Netzwerk – testbar.
+ */
+export function mapAndRankOsm(elements: OverpassElement[]): Lead[] {
+  const leads = elements.map(mapElement).filter((l): l is Lead => l !== null);
+  const seen = new Set<string>();
+  const unique = leads.filter((l) => {
+    const key = l.company.toLowerCase().trim();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  unique.sort((a, b) => score(b) - score(a));
+  return unique;
+}
+
 /** Sucht reale Firmen in OpenStreetMap. */
 export async function searchOsm(opts: OverpassSearchOptions): Promise<Lead[]> {
   const { location, categories, limit = 60 } = opts;
@@ -182,21 +199,7 @@ export async function searchOsm(opts: OverpassSearchOptions): Promise<Lead[]> {
   if (!res.ok) throw new Error(`Overpass-Abfrage fehlgeschlagen (HTTP ${res.status}).`);
 
   const data = (await res.json()) as { elements?: OverpassElement[] };
-  const leads = (data.elements ?? [])
-    .map(mapElement)
-    .filter((l): l is Lead => l !== null);
-
-  // Deduplizieren (gleiche Firma an mehreren OSM-Objekten) und sortieren:
-  // Leads mit Website/Telefon nach oben (höhere Lead-Qualität).
-  const seen = new Set<string>();
-  const unique = leads.filter((l) => {
-    const key = l.company.toLowerCase().trim();
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-  unique.sort((a, b) => score(b) - score(a));
-  return unique;
+  return mapAndRankOsm(data.elements ?? []);
 }
 
 function score(l: Lead): number {

@@ -28,7 +28,7 @@ interface CacheEntry {
 const cache = new Map<string, CacheEntry>();
 
 /** Wählt die passende User-agent-Gruppe (spezifisch vor `*`) und gibt deren Regeln. */
-function parseRobots(txt: string, agent: string): Rule[] {
+export function parseRobots(txt: string, agent: string): Rule[] {
   const lines = txt.split(/\r?\n/);
   const groups: { agents: string[]; rules: Rule[] }[] = [];
   let current: { agents: string[]; rules: Rule[] } | null = null;
@@ -76,6 +76,21 @@ function matches(pattern: string, path: string): boolean {
   }
 }
 
+/** Wertet Regeln gegen einen Pfad aus (längstes Muster gewinnt, Gleichstand → Allow). */
+export function isPathAllowed(rules: Rule[], path: string): boolean {
+  if (!rules.length) return true;
+  let best: { len: number; allow: boolean } | null = null;
+  for (const r of rules) {
+    if (matches(r.pattern, path)) {
+      const len = r.pattern.length;
+      if (!best || len > best.len || (len === best.len && r.allow)) {
+        best = { len, allow: r.allow };
+      }
+    }
+  }
+  return best ? best.allow : true;
+}
+
 async function getRules(origin: string, agent: string): Promise<Rule[]> {
   const cached = cache.get(origin);
   if (cached && Date.now() - cached.fetchedAt < TTL_MS) return cached.rules;
@@ -111,17 +126,5 @@ export async function isAllowed(url: string, agent: string = ROBOTS_AGENT): Prom
   }
 
   const rules = await getRules(origin, agent.toLowerCase());
-  if (!rules.length) return true;
-
-  // Längstes passendes Muster gewinnt; bei Gleichstand erlaubt Allow.
-  let best: { len: number; allow: boolean } | null = null;
-  for (const r of rules) {
-    if (matches(r.pattern, path)) {
-      const len = r.pattern.length;
-      if (!best || len > best.len || (len === best.len && r.allow)) {
-        best = { len, allow: r.allow };
-      }
-    }
-  }
-  return best ? best.allow : true;
+  return isPathAllowed(rules, path);
 }

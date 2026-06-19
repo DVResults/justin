@@ -66,6 +66,19 @@ npm run build
 npm start
 ```
 
+### Tests & Qualität
+
+```bash
+npm test        # Unit-Tests (Vitest)
+npm run lint    # ESLint (next/core-web-vitals)
+```
+
+Die Tests decken die fehleranfälligen, reinen Funktionen ab: Impressum-Extraktoren
+(Geschäftsführer/Telefon/E-Mail inkl. Obfuskierung), robots.txt-Auswertung,
+E-Mail-Syntax, OSM-Mapping/Dedup/Sortierung, CSV-Escaping und den CRM-Store.
+Bei jedem Push/PR laufen Lint, Tests und Build automatisch via **GitHub Actions**
+(`.github/workflows/ci.yml`).
+
 ## Konfiguration (`.env.local`)
 
 | Variable | Beschreibung |
@@ -100,6 +113,8 @@ lib/
   types.ts                Datentypen
 components/
   LeadCard.tsx            Darstellung eines Leads inkl. Buttons & CRM-Steuerung
+tests/                    Unit-Tests (Vitest): impressum, robots, email, overpass, csv, store
+.github/workflows/ci.yml  CI: Lint + Tests + Build bei jedem Push/PR
 ```
 
 ### Typischer Workflow

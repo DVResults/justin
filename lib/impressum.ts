@@ -169,6 +169,24 @@ export interface ImpressumResult {
 }
 
 /**
+ * Reine Extraktion aus HTML (ohne Netzwerk) – Kern der Impressum-Auswertung.
+ * Separat exportiert, damit die Heuristik unit-getestet werden kann.
+ */
+export function parseImpressumHtml(html: string): {
+  managingDirector?: string;
+  email?: string;
+  phone?: string;
+} {
+  const $ = cheerio.load(html);
+  const text = visibleText($);
+  return {
+    managingDirector: extractManagingDirector(text),
+    email: extractEmail($, text),
+    phone: extractPhone($, text),
+  };
+}
+
+/**
  * Lädt eine Website, findet das Impressum und extrahiert die Pflichtangaben.
  * @param rawUrl Domain oder URL der Firma (z. B. "musterauto.de").
  */
@@ -187,23 +205,19 @@ export async function scrapeImpressum(rawUrl: string): Promise<ImpressumResult> 
   const impressumUrl = findImpressumUrl($home, homepage) || `${origin}/impressum`;
 
   // Impressum-Seite laden (Fallback: Startseite). robots.txt erneut prüfen.
-  let $: cheerio.CheerioAPI;
+  let html: string;
   let usedUrl = impressumUrl;
   try {
     if (!(await isAllowed(impressumUrl, ROBOTS_AGENT))) throw new Error("robots-disallow");
-    $ = cheerio.load(await fetchHtml(impressumUrl));
+    html = await fetchHtml(impressumUrl);
   } catch {
-    $ = $home;
+    html = homeHtml;
     usedUrl = homepage;
   }
 
-  const text = visibleText($);
-
   const data: Partial<Lead> = {
     website: origin,
-    managingDirector: extractManagingDirector(text),
-    email: extractEmail($, text),
-    phone: extractPhone($, text),
+    ...parseImpressumHtml(html),
     sources: ["Impressum"],
   };
 

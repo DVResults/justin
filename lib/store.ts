@@ -29,7 +29,8 @@ export interface SavedLead extends Lead {
   dedupKey: string;
 }
 
-const DATA_DIR = path.join(process.cwd(), ".data");
+// Speicherort überschreibbar (z. B. für isolierte Tests) via LEADFINDER_DATA_DIR.
+const DATA_DIR = process.env.LEADFINDER_DATA_DIR || path.join(process.cwd(), ".data");
 const FILE = path.join(DATA_DIR, "leads.json");
 
 function ensure(): void {

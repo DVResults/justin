@@ -12,9 +12,14 @@ const cache = new Map<string, boolean>();
 
 const SYNTAX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+/** Reine Syntaxprüfung einer E-Mail-Adresse (ohne DNS). */
+export function isValidEmailSyntax(email: string): boolean {
+  return Boolean(email) && SYNTAX.test(email);
+}
+
 /** Liefert true, wenn die E-Mail syntaktisch gültig ist und die Domain Mail annehmen kann. */
 export async function verifyEmail(email: string): Promise<boolean> {
-  if (!email || !SYNTAX.test(email)) return false;
+  if (!isValidEmailSyntax(email)) return false;
   const domain = email.split("@")[1]?.toLowerCase();
   if (!domain) return false;
 
