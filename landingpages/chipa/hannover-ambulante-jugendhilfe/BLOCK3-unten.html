@@ -39,36 +39,41 @@
 })();
 </script>
 
-<!-- Zahlen beim Zaehlen nicht springen lassen (gehoert zum Count-up, damit
-     Block 1 nicht angefasst werden muss) -->
+<!-- Zahlen beim Zaehlen nicht springen lassen -->
 <style>#lp-top .stats .n{font-variant-numeric:tabular-nums}</style>
 
 <!-- ===== ZAHLEN HOCHZAEHLEN (Count-up) =====
-  WICHTIG: In diesem Skript stehen bewusst KEINE Backslashes (kein d, kein s).
-  WordPress / der Editor hatte die Backslashes aus der alten Version entfernt,
-  dadurch wurde aus "d+" ein "d+" (= Buchstabe d) und die Zahlen blieben auf 0.
-  Deshalb hier ueberall [0-9] statt d. Bitte so lassen.
+  Zwei Dinge, die vorher schiefgingen:
+  1) Die Backslashes in den Regexen waren verlorengegangen: aus dem Ziffern-Kuerzel wurde
+     /(d+)/ und suchte den BUCHSTABEN d. Deshalb hier ueberall [0-9] --
+     dieses Skript enthaelt bewusst KEINEN einzigen Backslash.
+  2) Der IntersectionObserver hat auf dieser Seite nicht ausgeloest. Getriggert
+     wird jetzt ueber getBoundingClientRect() am scroll-Event -- das laeuft in
+     jedem Browser und ueberlebt auch Caching- und Optimierungs-Plugins.
+  Ausserdem werden die Zahlen erst in dem Moment auf 0 gesetzt, in dem die
+  Animation wirklich startet. Faellt das Skript aus, stehen einfach die
+  richtigen Zahlen da -- nie wieder drei Nullen.
 =========================================================================== -->
 <script>
 (function(){
-  var nums=document.querySelectorAll('#lp-top .stats .n');
-  if(!nums.length)return;
-  var list=Array.prototype.slice.call(nums);
+  var list=Array.prototype.slice.call(document.querySelectorAll('#lp-top .stats .n'));
+  if(!list.length)return;
+  var started=false;
 
-  function show(el){ el.textContent=el.getAttribute('data-n')||el.textContent; }
+  /* Zielwerte sichern, Anzeige aber NICHT anfassen. */
+  list.forEach(function(el){ el.setAttribute('data-n',el.textContent.trim()); });
 
-  function run(el){
-    if(el.getAttribute('data-done'))return;
-    el.setAttribute('data-done','1');
-    var raw=(el.getAttribute('data-n')||'').trim();
+  function animate(el){
+    var raw=el.getAttribute('data-n')||'';
     var m=raw.match(/[0-9]+/);
     if(!m){ el.textContent=raw; return; }
     var digits=m[0];
     var at=raw.indexOf(digits);
-    var prefix=raw.slice(0,at);
-    var suffix=raw.slice(at+digits.length);
+    var prefix=raw.slice(0,at);          /* z.B. "" */
+    var suffix=raw.slice(at+digits.length); /* z.B. "+" bei "85+" */
     var target=parseInt(digits,10);
-    var dur=1100,t0=null;
+    var dur=1400,t0=null;
+    el.textContent=prefix+'0'+suffix;
     function tick(ts){
       if(t0===null)t0=ts;
       var p=Math.min((ts-t0)/dur,1), eased=1-Math.pow(1-p,3);
@@ -78,22 +83,31 @@
     requestAnimationFrame(tick);
   }
 
-  list.forEach(function(el){
-    el.setAttribute('data-n',el.textContent.trim());
-    el.textContent='0';
-  });
-
-  if('IntersectionObserver' in window && 'requestAnimationFrame' in window){
-    var io=new IntersectionObserver(function(es){
-      es.forEach(function(e){ if(e.isIntersecting){ run(e.target); io.unobserve(e.target); } });
-    },{threshold:0.35});
-    list.forEach(function(el){ io.observe(el); });
-    /* Sicherheitsnetz: falls der Observer nie ausloest (Lazy-Load, Sprung per #anker,
-       Optimierungs-Plugin), stehen die Zahlen nach 4 Sekunden trotzdem korrekt da. */
-    setTimeout(function(){ list.forEach(function(el){ if(!el.getAttribute('data-done')) show(el); }); },4000);
-  } else {
-    list.forEach(show);
+  function start(){
+    if(started)return;
+    started=true;
+    window.removeEventListener('scroll',check);
+    window.removeEventListener('resize',check);
+    list.forEach(animate);
   }
+
+  function visible(el){
+    var r=el.getBoundingClientRect();
+    var h=window.innerHeight||document.documentElement.clientHeight;
+    return r.bottom>0 && r.top<h-40;
+  }
+
+  function check(){ if(visible(list[0])) start(); }
+
+  if(!('requestAnimationFrame' in window)){ return; } /* Zahlen bleiben stehen */
+
+  window.addEventListener('scroll',check,{passive:true});
+  window.addEventListener('resize',check,{passive:true});
+  check();                       /* Abschnitt schon sichtbar? dann sofort */
+  setTimeout(check,600);         /* nach spaetem Layout/Webfont nochmal */
+
+  /* Zum Testen in der Browser-Konsole: chipaCountUp() */
+  window.chipaCountUp=function(){ started=false; start(); };
 })();
 </script>
 
