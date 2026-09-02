@@ -1,0 +1,97 @@
+<!-- =====================================================================
+  >>> BLOCK 3 von 3 <<<  In einen "Custom HTML"-Block einfuegen,
+  DIREKT NACH dem Shortcode-Block [forminator_form id="DEINE-FORM-ID"].
+  (Reihenfolge auf der Seite: BLOCK 1  ->  Forminator-Shortcode  ->  BLOCK 3)
+====================================================================== -->
+      <p class="submit-note">Wir behandeln deine Bewerbung selbstverst&#228;ndlich vertraulich.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<div class="foot">
+  <div class="wrap">
+    <div>
+      <strong>child &amp; parents gemeinn&#252;tzige GmbH</strong><br>
+      Spichernstra&#223;e 11a &#183; 30161 Hannover<br>
+      Tel. (0511) 54 54 18 15 &#183; info@chipa.de
+    </div>
+    <div>
+      <a href="https://www.chipa.de/impressum/" target="_blank" rel="noopener">Impressum</a> &#183;
+      <a href="https://www.chipa.de/datenschutz/" target="_blank" rel="noopener">Datenschutz</a><br>
+      &#169; chi.pa
+    </div>
+  </div>
+</div>
+
+<!-- ===== STICKY MOBILE CTA ===== -->
+<div class="stickybar" id="stickybar">
+  <a href="#bewerben" class="cta">Jetzt in 2 Minuten bewerben &#8594;</a>
+</div>
+<script>
+(function(){
+  var root=document.getElementById('lp-top'),bar=document.getElementById('stickybar'),form=document.getElementById('bewerben');
+  if(!root||!bar||!form)return;
+  root.classList.add('js-on');
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(e){bar.style.display=e[0].isIntersecting?'none':'';},{threshold:0}).observe(form);
+  }
+})();
+</script>
+
+<!-- ===== ZAHLEN HOCHZAEHLEN (Count-up) =====
+  WICHTIG: In diesem Skript stehen bewusst KEINE Backslashes (kein d, kein s).
+  WordPress / der Editor hatte die Backslashes aus der alten Version entfernt,
+  dadurch wurde aus "d+" ein "d+" (= Buchstabe d) und die Zahlen blieben auf 0.
+  Deshalb hier ueberall [0-9] statt d. Bitte so lassen.
+=========================================================================== -->
+<script>
+(function(){
+  var nums=document.querySelectorAll('#lp-top .stats .n');
+  if(!nums.length)return;
+  var list=Array.prototype.slice.call(nums);
+
+  function show(el){ el.textContent=el.getAttribute('data-n')||el.textContent; }
+
+  function run(el){
+    if(el.getAttribute('data-done'))return;
+    el.setAttribute('data-done','1');
+    var raw=(el.getAttribute('data-n')||'').trim();
+    var m=raw.match(/[0-9]+/);
+    if(!m){ el.textContent=raw; return; }
+    var digits=m[0];
+    var at=raw.indexOf(digits);
+    var prefix=raw.slice(0,at);
+    var suffix=raw.slice(at+digits.length);
+    var target=parseInt(digits,10);
+    var dur=1100,t0=null;
+    function tick(ts){
+      if(t0===null)t0=ts;
+      var p=Math.min((ts-t0)/dur,1), eased=1-Math.pow(1-p,3);
+      el.textContent=prefix+Math.round(eased*target)+suffix;
+      if(p<1){ requestAnimationFrame(tick); } else { el.textContent=raw; }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  list.forEach(function(el){
+    el.setAttribute('data-n',el.textContent.trim());
+    el.textContent='0';
+  });
+
+  if('IntersectionObserver' in window && 'requestAnimationFrame' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ run(e.target); io.unobserve(e.target); } });
+    },{threshold:0.35});
+    list.forEach(function(el){ io.observe(el); });
+    /* Sicherheitsnetz: falls der Observer nie ausloest (Lazy-Load, Sprung per #anker,
+       Optimierungs-Plugin), stehen die Zahlen nach 4 Sekunden trotzdem korrekt da. */
+    setTimeout(function(){ list.forEach(function(el){ if(!el.getAttribute('data-done')) show(el); }); },4000);
+  } else {
+    list.forEach(show);
+  }
+})();
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
+</div>
