@@ -11,7 +11,7 @@ html,body{margin:0;padding:0;background:#5a5a5a}
 .deco{position:absolute;inset:0}
 .logo{position:absolute;top:206px;right:64px;height:76px;width:auto;z-index:4}
 /* FOTO: freigestelltes PNG. Fehlt es, blendet es sich aus. */
-.person{position:absolute;right:-60px;bottom:0;height:674px;width:auto;z-index:2;
+.person{position:absolute;right:-20px;bottom:0;height:1242px;width:auto;z-index:2;
         filter:drop-shadow(0 12px 26px rgba(21,41,77,.20))}
 .safe{position:absolute;left:0;right:0;top:300px;bottom:340px;
       z-index:3;padding:0 64px;overflow:hidden}
@@ -34,6 +34,7 @@ li::before{content:"";position:absolute;left:calc(5px*var(--k));top:calc(9px*var
 .badge{display:inline-block;margin:0 0 0 40px;background:var(--orange);color:#1b1b1b;
        font-family:'Montserrat',system-ui,sans-serif;font-weight:800;font-size:calc(34px*var(--k));
        padding:calc(12px*var(--k)) calc(44px*var(--k));border-radius:99px}
+.cta .mail{color:var(--blue)}
 .cta{margin:calc(10px*var(--k)) 0 0;width:640px;text-align:center;
      font-family:'Montserrat',system-ui,sans-serif;font-weight:800;font-size:calc(32px*var(--k));line-height:1.26}
 /* Hilfslinien nur mit ?guides=1 */
@@ -69,14 +70,14 @@ body.textonly,body.textonly .ad{background:transparent}
         <h2>Dein Profil:</h2>
         <ul class="profil"><li>Studium Sozialp&auml;dagogik / Soziale Arbeit</li><li>gerne Erfahrung mit Kindern &amp; Jugendlichen</li><li>F&uuml;hrerschein Klasse B (zwingend)</li></ul>
       </div>
-      <div class="badge">Ab sofort oder sp&auml;ter</div>
-      <p class="cta">Sende uns deinen Lebenslauf an<br>bewerbung@chipa.de!</p>
+      <div class="badge">Ab sofort</div>
+      <p class="cta">Sende uns deinen Lebenslauf<br>an <span class="mail">bewerbung@chipa.de</span>!</p>
     </div>
   </div>
 </div>
 
 <script>
-var FALLBACK="https://d2ol7oe51mr4n9.cloudfront.net/user_3FMOEY2sW2O9UHP9weQoM4ut9qO/668c2d66-29bc-4b03-bd2d-835dc50d6ccb.png";
+var FALLBACK="https://d2ol7oe51mr4n9.cloudfront.net/user_3FMOEY2sW2O9UHP9weQoM4ut9qO/534cb777-977c-4ebb-8ee4-2857cd899380.png";
 /* Auto-Fit: skaliert den Textblock herunter, falls er nicht in die sichere
    Flaeche passt. Dadurch kann nach dem Bearbeiten nichts abgeschnitten werden. */
 (function(){

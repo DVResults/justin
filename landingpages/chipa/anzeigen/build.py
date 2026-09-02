@@ -14,7 +14,7 @@ ASSETS = os.path.join(HERE, 'assets')
 def b64(path):
     return base64.b64encode(open(path, 'rb').read()).decode()
 
-FALLBACK = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3FMOEY2sW2O9UHP9weQoM4ut9qO/668c2d66-29bc-4b03-bd2d-835dc50d6ccb.png'  # freigestelltes Portrait, falls person.png fehlt
+FALLBACK = 'https://d2ol7oe51mr4n9.cloudfront.net/user_3FMOEY2sW2O9UHP9weQoM4ut9qO/534cb777-977c-4ebb-8ee4-2857cd899380.png'  # freigestelltes Portrait, falls person.png fehlt
 PERSON = sys.argv[1] if len(sys.argv) > 1 else 'person.png'
 
 # ---------------------------------------------------------------- Inhalte ----
@@ -23,8 +23,8 @@ ROLE_A    = 'Sozialarbeiter*in'
 ROLE_B    = 'Sozialp&auml;dagog*in'
 ROLE_SUB  = 'in HzE f&uuml;r die ambulante Jugendhilfe'
 PENSUM    = 'Vollzeit / Teilzeit &middot; 20&ndash;40 h pro Woche'
-BADGE     = 'Ab sofort oder sp&auml;ter'
-CTA       = 'Sende uns deinen Lebenslauf an<br>bewerbung@chipa.de!'
+BADGE     = 'Ab sofort'
+CTA       = 'Sende uns deinen Lebenslauf<br>an <span class="mail">bewerbung@chipa.de</span>!'
 
 PERKS = [
     '32 Urlaubstage j&auml;hrlich',
@@ -47,13 +47,13 @@ PROFIL = [
 # safe_top / safe_bottom: Bereiche, die auf dem Handy von der Plattform-UI
 # ueberdeckt werden koennen. Text und Logo bleiben ausserhalb.
 FORMATS = {
-    'feed-4x5': dict(w=1080, h=1350, k=1.12, col=566, person=864, bleed=60, logo=64,
+    'feed-4x5': dict(w=1080, h=1350, k=1.12, col=566, person=962, bleed=20, logo=64,
                      padx=54, safe_top=112, safe_bottom=54,
                      label='Meta Feed 4:5 (empfohlen)'),
-    'feed-1x1': dict(w=1080, h=1080, k=0.99, col=546, person=740, bleed=20, logo=54,
+    'feed-1x1': dict(w=1080, h=1080, k=0.99, col=546, person=788, bleed=20, logo=54,
                      padx=48, safe_top=96,  safe_bottom=44,
                      label='Meta Feed 1:1'),
-    'story-9x16': dict(w=1080, h=1920, k=1.24, col=606, person=674, bleed=60, logo=76,
+    'story-9x16': dict(w=1080, h=1920, k=1.24, col=606, person=1242, bleed=20, logo=76,
                      padx=64, safe_top=300, safe_bottom=340,
                      label='Stories / Reels 9:16'),
 }
@@ -120,6 +120,7 @@ li::before{{content:"";position:absolute;left:calc(5px*var(--k));top:calc(9px*va
 .badge{{display:inline-block;margin:0 0 0 40px;background:var(--orange);color:#1b1b1b;
        font-family:'Montserrat',system-ui,sans-serif;font-weight:800;font-size:calc(34px*var(--k));
        padding:calc(12px*var(--k)) calc(44px*var(--k));border-radius:99px}}
+.cta .mail{{color:var(--blue)}}
 .cta{{margin:calc(10px*var(--k)) 0 0;width:{f['col']+34}px;text-align:center;
      font-family:'Montserrat',system-ui,sans-serif;font-weight:800;font-size:calc(32px*var(--k));line-height:1.26}}
 /* Hilfslinien nur mit ?guides=1 */
