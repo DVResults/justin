@@ -90,3 +90,37 @@ chipa-org-Bewerbungssystem genutzt werden, in Block 1/Block 3 die drei
 `href="#bewerben"` durch den Stellen-Link ersetzen
 (`https://www.chipa-org.de/de/jobapplication?...&ck=N4VZT67ECBW43NMT5VM32MN`)
 und `target="_blank" rel="noopener"` ergaenzen.
+
+---
+
+## Neues Anzeigenbild (Hero)
+
+Generiert mit Higgsfield **Soul V2** (`text2image_soul_v2`), 2048 × 1152 px (16:9),
+Seed `726095`, Style „General", Kosten 0,12 Credits.
+
+Download:
+<https://d8j0ntlcm91z4.cloudfront.net/user_3FMOEY2sW2O9UHP9weQoM4ut9qO/hf_20260902_075159_99d59b71-49a0-47d4-8603-0c76b219cbbe.png>
+
+> Bitte zeitnah herunterladen und in die **WordPress-Mediathek** hochladen — die
+> CDN-URL ist nicht als dauerhafte Einbindung gedacht. Danach in `BLOCK1-oben.html`
+> den Platzhalter `HIER-BILD-URL-EINSETZEN.jpg` durch die Mediathek-URL ersetzen.
+
+Vor dem Upload: auf ca. 1600 px Breite verkleinern und als JPG (Qualitaet ~80)
+oder WebP speichern — das Hero-Bild wird ohnehin auf max. 380 px Hoehe beschnitten
+(`object-fit:cover; object-position:center 18%`).
+
+**Prompt (zum Nachgenerieren / fuer Varianten):**
+
+```
+Warm documentary-style photograph for a German social work job advertisement.
+A friendly female social worker in her early thirties, casual smart clothing,
+sits at a kitchen table in a modest German apartment talking with a mother and
+her teenage son. Open notebook and mugs of tea on the table, plants on the
+windowsill, everyday German home interior. Genuine relaxed expressions,
+mid-conversation, soft natural window light from the left, shallow depth of
+field, 35mm reportage look, natural skin tones, candid and respectful.
+No text, no logos, no watermarks.
+```
+
+Fuer Social-Ads (Meta/Instagram) denselben Prompt mit `aspect_ratio 4:5` bzw. `1:1`
+erneut generieren.
