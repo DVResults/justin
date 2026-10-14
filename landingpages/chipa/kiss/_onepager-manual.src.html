@@ -5,249 +5,217 @@
 <title>KISS-Manual 2. Auflage – One-Pager</title>
 <style>
 /*FONTS*/
-@font-face{font-family:'Pacifico';src:url(data:font/ttf;base64,/*PACIFICO*/) format('truetype');font-display:block}
+@font-face{font-family:'Barlow Condensed';font-weight:300;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-Light.ttf*/) format('truetype')}
+@font-face{font-family:'Barlow Condensed';font-weight:500;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-Medium.ttf*/) format('truetype')}
+@font-face{font-family:'Barlow Condensed';font-weight:700;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-Bold.ttf*/) format('truetype')}
+@font-face{font-family:'Barlow Condensed';font-weight:800;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-ExtraBold.ttf*/) format('truetype')}
+@font-face{font-family:'Caveat';font-weight:400 700;src:url(data:font/ttf;base64,/*FONT:Caveat[wght].ttf*/) format('truetype')}
 :root{
-  --bg:#8a1d27; --bg2:#a3283a;
-  --blue:#4a9ccc; --blue-d:#2f7fb3; --text:#3584b8;
-  --purple:#a57ce3; --green:#86bc25; --yellow:#e2c94a; --pink:#ff8fbf;
-  --paper:#fff;
+  --board:#2b2a2b; --ink:#2b2a2b; --muted:#5d5a63;
+  --purple:#8a3fb0; --magenta:#e2448f; --grad:linear-gradient(100deg,#8a3fb0 0%,#c33fa0 55%,#ef5a8c 100%);
+  --grid:#d3e4f2; --margin:#ec8c94;
+  --blue:#1f86c8; --green:#7cb526; --red:#e3061d; --orange:#f39200;
+  --hl:#fff27a;
 }
 @page{size:210mm 297mm;margin:0}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg)}
-body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:'Source Sans 3',sans-serif;color:var(--text)}
-.sheet{width:210mm;height:297mm;position:relative;overflow:hidden;background:var(--bg)}
-.script{font-family:'Pacifico',cursive;font-weight:400}
+html,body{background:#fff}
+body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:'Source Sans 3',sans-serif;color:var(--ink)}
+.sheet{width:210mm;height:297mm;position:relative;overflow:hidden;
+  background-color:#fff;
+  background-image:linear-gradient(var(--grid) .22mm,transparent .22mm),linear-gradient(90deg,var(--grid) .22mm,transparent .22mm);
+  background-size:5mm 5mm;background-position:0 1mm}
 
-/* background doodles */
-.doodles{position:absolute;inset:0;width:210mm;height:297mm;pointer-events:none}
+/* exercise-book details */
+.margin{position:absolute;top:0;bottom:0;left:16mm;width:1.4mm;border-left:.3mm solid var(--margin);border-right:.3mm solid var(--margin)}
+.hole{position:absolute;left:5mm;width:6mm;height:6mm;border-radius:50%;background:#e9e7ec;box-shadow:inset .5mm .6mm 1mm rgba(0,0,0,.35)}
 
-/* top-right tab */
-.tab{position:absolute;right:-4mm;top:-4mm;width:72mm;height:24mm;border:.8mm solid #fff;border-radius:0 0 0 9mm;border-top:none;border-right:none}
-.tab span{position:absolute;right:13mm;top:9mm;color:#fff;font-family:'Montserrat',sans-serif;font-weight:700;font-size:13pt;letter-spacing:.02em}
+/* chalkboard header */
+.board{position:absolute;left:0;right:0;top:0;height:91mm;background:var(--board);
+  background-image:radial-gradient(60mm 30mm at 30% 30%,rgba(255,255,255,.05),transparent 70%),radial-gradient(50mm 30mm at 75% 80%,rgba(255,255,255,.04),transparent 70%)}
+.tray{position:absolute;left:0;right:0;top:91mm;height:3.2mm;background:linear-gradient(#6b5545,#4a3a2f);box-shadow:0 .8mm 1.4mm rgba(0,0,0,.3)}
+.chalk{position:absolute;top:89.2mm;height:2.2mm;border-radius:1mm}
+.doodles{position:absolute;left:0;top:0;width:210mm;height:91mm}
 
-/* polaroid */
-.polaroid{position:absolute;left:15mm;top:14mm;width:56mm;background:#fff;padding:3.2mm 3.2mm 9mm;transform:rotate(-4.5deg);box-shadow:0 1.5mm 4mm rgba(0,0,0,.35)}
-.polaroid .img{width:100%;aspect-ratio:210/297;overflow:hidden;background:#17294d;position:relative}
-.polaroid .img img{width:100%;height:100%;object-fit:cover;display:block}
-.polaroid figcaption{position:absolute;left:0;right:0;bottom:1.6mm;text-align:center;font-family:'Pacifico',cursive;font-size:10pt;color:var(--bg)}
-.tape{position:absolute;width:23mm;height:7mm;background:var(--yellow);opacity:.92;box-shadow:0 .4mm 1mm rgba(0,0,0,.15)}
-.tape.t1{left:-9mm;top:4mm;transform:rotate(-38deg)}
-.tape.t2{right:-10mm;bottom:9mm;transform:rotate(-40deg)}
+.logo{position:absolute;left:15mm;top:11mm;background:#fff;border-radius:10mm;padding:1.4mm 4.5mm}
+.logo img{height:6mm;display:block}
+.kicker{position:absolute;left:15mm;top:26mm;background:var(--grad);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11pt;letter-spacing:.14em;padding:.9mm 3.2mm .7mm;border-radius:1mm}
+h1{position:absolute;left:15mm;top:33mm;width:112mm;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:31pt;line-height:1;color:#fff;letter-spacing:.005em}
+h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{position:absolute;left:15mm;top:57.5mm;width:108mm;color:#e9e6ee;font-size:10.3pt;line-height:1.36}
+.sub b{color:#fff}
+.ps{position:absolute;left:15mm;top:77.5mm;color:#fff;font-family:'Caveat',cursive;font-weight:600;font-size:16.5pt;opacity:.92;transform:rotate(-1.5deg)}
 
-/* cover mock (until real cover image is inserted) */
-.mock{position:absolute;inset:0;color:#fff;padding:6mm 4mm 4.5mm 6mm;display:flex;flex-direction:column}
-.mock:before{content:"";position:absolute;left:0;top:0;bottom:0;width:2.6mm;background:#0e1c38}
-.mock .stripes{display:flex;gap:1.6mm;margin-bottom:6mm}
-.mock .stripes i{height:1.4mm;width:11mm;border-radius:1mm}
-.mock h3{font-family:'Montserrat',sans-serif;font-weight:900;font-size:13pt;line-height:1.02;letter-spacing:.01em}
-.mock p{font-size:8pt;margin-top:3mm;opacity:.9;line-height:1.25}
-.mock .ed{margin-top:auto;font-family:'Montserrat',sans-serif;font-weight:800;font-size:7.5pt;letter-spacing:.06em}
-.mock .ed small{display:block;font-weight:500;font-size:6.5pt;letter-spacing:.03em;opacity:.85;margin-top:.6mm}
+/* cover */
+.cover{position:absolute;left:131mm;top:10mm;width:64mm;transform:rotate(3.5deg);box-shadow:0 2mm 5mm rgba(0,0,0,.55)}
+.cover img{width:100%;display:block}
+.tape{position:absolute;width:22mm;height:7mm;background:rgba(255,242,122,.85);box-shadow:0 .3mm .8mm rgba(0,0,0,.15)}
+.sticker{position:absolute;left:99mm;top:5mm;width:25mm;height:25mm;border-radius:50%;background:var(--grad);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-12deg);box-shadow:0 1mm 2.5mm rgba(0,0,0,.35);border:.7mm solid #fff}
+.sticker b{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:11pt;letter-spacing:.06em;line-height:1}
+.sticker span{font-family:'Caveat',cursive;font-weight:700;font-size:14pt;line-height:.95;margin-top:.6mm}
 
-/* starburst */
-.burst{position:absolute;left:60mm;top:9mm;width:33mm;height:33mm;transform:rotate(8deg)}
-.burst svg{width:100%;height:100%;display:block}
+/* pencil */
+.pencil{position:absolute;left:20mm;top:97.5mm;width:78mm;height:6mm;transform:rotate(-2deg);filter:drop-shadow(0 .6mm .6mm rgba(0,0,0,.25))}
 
-/* wavy banner */
-.banner{position:absolute;left:84mm;top:36mm;width:130mm;height:43mm}
-.banner svg.wave{position:absolute;inset:0;width:100%;height:100%}
-.banner .txt{position:absolute;left:10mm;right:12mm;top:8.5mm;color:#fff;text-align:center}
-.banner .l1{font-family:'Pacifico',cursive;font-size:17pt;line-height:1.15;display:block}
-.banner .l2{font-family:'Pacifico',cursive;font-size:24pt;line-height:1.2;display:block}
-.subline{position:absolute;left:86mm;right:10mm;top:81mm;color:#fff;font-size:10.2pt;line-height:1.35;text-align:center}
-.subline b{font-weight:700}
+/* sticky notes */
+.notes{position:absolute;left:24mm;right:13mm;top:108mm;display:grid;grid-template-columns:repeat(4,1fr);gap:6mm}
+.note{height:25mm;padding:3mm 3mm 2.5mm;box-shadow:0 1mm 2mm rgba(0,0,0,.18);display:flex;flex-direction:column;justify-content:center;text-align:center;position:relative}
+.note .n{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:27pt;line-height:1}
+.note .l{font-family:'Caveat',cursive;font-weight:600;font-size:14.5pt;line-height:1;margin-top:1mm;color:var(--ink)}
+.note:after{content:"";position:absolute;left:50%;top:-2mm;width:4mm;height:4mm;margin-left:-2mm;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff8,transparent 45%),var(--pin);box-shadow:0 .5mm .8mm rgba(0,0,0,.35)}
 
-/* sticky note */
-.sticky{position:absolute;left:80mm;top:96.5mm;width:55mm;background:#fff4a8;color:#5b4a00;padding:3.5mm 4mm 3mm;transform:rotate(2.5deg);box-shadow:0 1.2mm 3mm rgba(0,0,0,.3);font-size:9.5pt;line-height:1.3}
-.sticky b{display:block;font-family:'Pacifico',cursive;font-weight:400;font-size:12pt;color:var(--bg);margin-bottom:1mm}
-.sticky:before{content:"";position:absolute;left:18mm;top:-3.5mm;width:20mm;height:6.5mm;background:rgba(165,124,227,.85);transform:rotate(-4deg)}
+/* section titles */
+.st{font-family:'Caveat',cursive;font-weight:700;font-size:23pt;line-height:1;color:var(--ink);display:inline-block;position:relative;margin-bottom:3.5mm}
+.st svg{position:absolute;left:-1mm;bottom:-2.2mm;width:calc(100% + 2mm);height:3mm}
 
-/* trainer badge */
-.badge{position:absolute;right:11mm;top:99mm;width:55mm;color:#fff;font-size:9pt;line-height:1.3;text-align:left;transform:rotate(-2deg)}
-.badge .k{display:inline-block;background:var(--green);color:#fff;font-family:'Montserrat',sans-serif;font-weight:800;font-size:7.5pt;letter-spacing:.08em;padding:1.1mm 2.4mm;border-radius:1mm;margin-bottom:1.6mm}
+/* checklist */
+.new{position:absolute;left:24mm;top:139mm;width:89mm}
+.new ul{list-style:none}
+.new li{display:grid;grid-template-columns:7mm 1fr;gap:1.5mm;font-size:10.2pt;line-height:1.3;margin-bottom:2.6mm;color:var(--muted)}
+.new li b{color:var(--ink);font-weight:700}
+.new li svg{width:6mm;height:6mm;margin-top:-.4mm}
+.hl{background:linear-gradient(transparent 52%,var(--hl) 52%,var(--hl) 92%,transparent 92%);padding:0 .4mm}
 
-/* torn cards */
-.cards{position:absolute;left:12mm;right:12mm;top:125mm;display:grid;grid-template-columns:1fr 1fr;gap:4.5mm 6mm}
-.wrap{filter:drop-shadow(0 .8mm 1.2mm rgba(0,0,0,.25))}
-.wrap.wide{grid-column:1/-1}
-.torn{background:var(--paper);padding:4mm 8mm 4.5mm;text-align:center;height:100%}
-.torn h2{font-family:'Pacifico',cursive;font-weight:400;color:var(--purple);font-size:14pt;line-height:1.3;margin-bottom:1.8mm}
-.icons{display:flex;justify-content:space-around;align-items:flex-start}
-.icons>div{width:50%;display:flex;flex-direction:column;align-items:center}
-.icons svg{width:12mm;height:12mm;margin-bottom:1.5mm}
-.icons span{font-size:9.8pt;line-height:1.2;color:var(--text)}
-.icons span b{display:block;font-family:'Montserrat',sans-serif;font-weight:800;font-size:11.2pt;color:var(--blue-d)}
-.torn p{font-size:10.4pt;line-height:1.36}
-.torn p b{color:var(--blue-d)}
-.mods{list-style:none;font-size:10.4pt;line-height:1.4}
-.order .price{font-family:'Montserrat',sans-serif;font-weight:900;font-size:23pt;color:var(--bg);line-height:1}
-.order .old{font-size:9.5pt;color:#7d8aa0;margin:1mm 0 2.5mm}
-.order .old s{color:#7d8aa0}
-.order .row{display:flex;align-items:center;gap:4mm;text-align:left}
-.order .qr{flex:0 0 22mm;height:22mm;border:.5mm dashed var(--pink);border-radius:2mm;display:flex;align-items:center;justify-content:center;text-align:center;font-size:7.5pt;font-weight:700;color:#d63384;line-height:1.15}
-.order .how{font-size:9.6pt;line-height:1.35}
-.order .how b{color:var(--blue-d)}
-.order .how b.ph{color:#d63384}
+/* timetable */
+.plan{position:absolute;left:120mm;top:139mm;width:77mm}
+.tt{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:.35mm solid var(--ink);border-radius:2mm;overflow:hidden;font-size:9pt}
+.tt th{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:9pt;letter-spacing:.1em;text-transform:uppercase;text-align:left;background:var(--board);color:#fff;padding:1.2mm 2mm}
+.tt td{padding:.85mm 2mm;border-top:.25mm solid #ddd;vertical-align:middle;line-height:1.15}
+.tt td.p{width:7mm;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:12pt;color:#fff}
+.tt td.m{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11.5pt;color:var(--ink);white-space:nowrap}
+.tt td.t{color:var(--muted);font-size:8.6pt}
+
+/* trainer line */
+.trainer{position:absolute;left:24mm;right:13mm;top:214.5mm;display:flex;align-items:center;gap:3.5mm}
+.trainer .star{flex:0 0 13mm;height:13mm}
+.trainer p{font-size:10.2pt;line-height:1.32;color:var(--muted)}
+.trainer p b{color:var(--ink)}
+.badge{display:inline-block;background:var(--green);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:9.5pt;letter-spacing:.1em;padding:.4mm 2mm;border-radius:.8mm;margin-right:1.2mm}
+
+/* coupon */
+.coupon{position:absolute;left:24mm;right:13mm;top:233mm;height:45mm;background:#fff;border:.5mm dashed var(--ink);border-radius:2.5mm;padding:4.5mm 5mm;display:grid;grid-template-columns:52mm 1fr 27mm;gap:5mm;align-items:start}
+.scissors{position:absolute;left:5mm;top:-3.6mm;width:7mm;height:7mm;background:#fff;padding:.6mm}
+.coupon .lbl{position:absolute;right:6mm;top:-2.4mm;background:#fff;padding:0 2mm;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:8.5pt;letter-spacing:.12em;color:var(--muted)}
+.cta{font-family:'Caveat',cursive;font-weight:700;font-size:21pt;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.price{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:36pt;line-height:1;margin-top:1mm}
+.old{font-size:9pt;color:var(--muted);margin-top:.6mm}
+.ship{font-size:9.2pt;line-height:1.3;margin-top:2mm;color:var(--ink)}
+.how{font-size:9.2pt;line-height:1.35;color:var(--muted)}
+.how b{color:var(--ink)}
+.how b.ph{color:var(--magenta)}
+.field{display:flex;align-items:flex-end;gap:2mm;margin-top:2.6mm;font-size:8.6pt;color:var(--muted)}
+.field i{flex:1;border-bottom:.3mm solid #9a98a0;height:4mm}
+.qr{width:27mm;height:27mm;border:.5mm dashed var(--magenta);border-radius:2mm;display:flex;align-items:center;justify-content:center;text-align:center;font-size:7.5pt;font-weight:700;color:var(--magenta);line-height:1.15;background:#fff}
+.qrc{font-family:'Caveat',cursive;font-weight:700;font-size:13pt;text-align:center;margin-top:1mm;line-height:1}
 
 /* footer */
-.foot{position:absolute;left:0;right:0;bottom:6mm;display:flex;flex-direction:column;align-items:center;gap:2mm;color:#fff}
-.foot .logo{background:#fff;border-radius:20mm;padding:1.8mm 6mm;display:flex;align-items:center}
-.foot .logo img{height:6.5mm;display:block}
-.foot .addr{font-size:8.6pt;opacity:.92;text-align:center;line-height:1.35}
+.foot{position:absolute;left:24mm;right:13mm;bottom:5mm;display:flex;align-items:center;justify-content:space-between;gap:5mm;font-size:7.8pt;color:var(--muted);line-height:1.35;background:#fff;padding:1mm 0}
+.foot img{height:6.5mm;display:block}
+.foot div{text-align:right}
 </style>
 </head>
 <body>
 <div class="sheet">
+  <div class="margin"></div>
+  <div class="hole" style="top:150mm"></div>
+  <div class="hole" style="top:230mm"></div>
 
-  <!-- background doodles -->
-  <svg class="doodles" viewBox="0 0 210 297" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M18 -2 C 40 8, 46 14, 62 10" stroke="#b07be6" stroke-width=".6"/>
-    <path d="M-3 98 C 10 106, 14 112, 12 124" stroke="#b07be6" stroke-width=".6"/>
-    <path d="M-3 186 C 12 194, 18 210, 14 230" stroke="#5aa6d6" stroke-width=".55"/>
-    <path d="M213 106 C 200 112, 196 122, 199 131" stroke="#b07be6" stroke-width=".6"/>
-    <path d="M213 200 C 202 206, 198 216, 200 224" stroke="#b07be6" stroke-width=".55"/>
-    <path d="M6 297 C 10 288, 16 282, 24 279" stroke="#5aa6d6" stroke-width=".55"/>
-    <path d="M206 270 C 198 276, 194 286, 196 297" stroke="#b07be6" stroke-width=".55"/>
-    <!-- diamonds -->
-    <path d="M118 18 l3.2 4.8 -3.2 4.8 -3.2 -4.8z" stroke="#5aa6d6" stroke-width=".5"/>
-    <path d="M128 31 l2.2 3.2 -2.2 3.2 -2.2 -3.2z" fill="#5aa6d6" stroke="none"/>
-    <!-- flower -->
-    <g transform="translate(170 32)" stroke="#d07be6" stroke-width=".5">
-      <circle r="1.6"/>
-      <g id="pet"><ellipse cx="0" cy="-3.6" rx="1.5" ry="2.2"/></g>
-      <use href="#pet" transform="rotate(60)"/><use href="#pet" transform="rotate(120)"/><use href="#pet" transform="rotate(180)"/><use href="#pet" transform="rotate(240)"/><use href="#pet" transform="rotate(300)"/>
+  <!-- chalkboard -->
+  <div class="board"></div>
+  <svg class="doodles" viewBox="0 0 210 91" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" opacity=".5">
+    <g transform="translate(70 9) rotate(-8)" stroke-width=".55">
+      <path d="M0 6 L16 0 L11 13 L7.5 8.5 Z"/><path d="M16 0 L7.5 8.5"/><path d="M7.5 8.5 L7 12.5 L9.5 10.6"/>
     </g>
-    <!-- zigzag -->
-    <path d="M70 100 l3 2.6 -3 2.6 3 2.6 -3 2.6 3 2.6" stroke="var(--yellow)" stroke-width=".6"/>
-    <!-- small stars / dots -->
-    <path d="M58 124 l1 2.4 2.4 1 -2.4 1 -1 2.4 -1 -2.4 -2.4 -1 2.4 -1z" fill="var(--yellow)" stroke="none"/>
-    <circle cx="190" cy="94" r="1.3" fill="var(--green)"/>
-    <circle cx="8" cy="142" r="1.1" fill="var(--yellow)"/>
-    <path d="M30 282 l2.6 0 M31.3 280.7 l0 2.6" stroke="#fff" stroke-width=".5"/>
+    <path d="M58 21 c4 3 6 -1 9 1.5 c2.5 2 4 -1 7 0" stroke-width=".45" stroke-dasharray="1.2 1.6"/>
+    <path d="M200 4 c-4 2 -2 6 -6 7" stroke-width=".4"/>
+    <text x="86" y="26" font-family="Caveat" font-size="7" fill="#fff" stroke="none">ABC</text>
+    <text x="112" y="90" font-family="Caveat" font-size="5" fill="#fff" stroke="none">1 + 1 = 2</text>
+  </svg>
+  <div class="tray"></div>
+  <i class="chalk" style="left:30mm;width:11mm;background:#f4f2ee"></i>
+  <i class="chalk" style="left:44mm;width:8mm;background:#f7a8c8"></i>
+
+  <div class="logo"><img alt="chi.pa" src="data:image/png;base64,/*LOGO*/"></div>
+  <div class="kicker">NEU · 2. AUFLAGE</div>
+  <h1>Sozialkompetenz stärken.<br><span>Übung für Übung.</span></h1>
+  <p class="sub">Das <b>KISS-Schultraining</b> erscheint in Kürze in der 2. Auflage: überarbeitet, erweitert und gebündelt aus der Erfahrung zahlreicher Schultrainings an ganz unterschiedlichen Schulformen.</p>
+  <div class="ps">PS: Ihr Ansichtsexemplar liegt bei – zum Behalten!</div>
+
+  <div class="cover">
+    <img alt="KISS-Schultraining, 2. Auflage – Cover" src="/*COVER*/">
+    <i class="tape" style="left:-7mm;top:3mm;transform:rotate(-40deg)"></i>
+    <i class="tape" style="right:-7mm;top:3mm;transform:rotate(40deg)"></i>
+  </div>
+  <div class="sticker"><b>ERSCHEINT</b><span>in Kürze!</span></div>
+
+  <svg class="pencil" viewBox="0 0 78 6" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 3 L7 .4 L7 5.6 Z" fill="#f1d3a8"/><path d="M0 3 L2.4 2.1 L2.4 3.9 Z" fill="#2b2a2b"/>
+    <rect x="7" y=".4" width="58" height="5.2" fill="#f6c431"/><rect x="7" y=".4" width="58" height="1.7" fill="#ffd95a"/><rect x="7" y="3.9" width="58" height="1.7" fill="#e0a91c"/>
+    <rect x="65" y=".2" width="5" height="5.6" fill="#b9b9c0"/><path d="M66.3 .2v5.6M68.7 .2v5.6" stroke="#8d8d96" stroke-width=".35"/>
+    <rect x="70" y=".2" width="7.2" height="5.6" rx="1.4" fill="#ef7a9a"/>
   </svg>
 
-  <div class="tab"><span>Neu · 2. Auflage</span></div>
-
-  <!-- polaroid with the book cover -->
-  <figure class="polaroid">
-    <div class="img">
-      <!--COVER-->
-    </div>
-    <figcaption>erscheint in Kürze!</figcaption>
-    <i class="tape t1"></i><i class="tape t2"></i>
-  </figure>
-
-  <!-- starburst -->
-  <div class="burst">
-    <svg viewBox="-50 -50 100 100" xmlns="http://www.w3.org/2000/svg">
-      <polygon fill="#a57ce3" points="/*BURST*/"/>
-      <g transform="translate(-17 -17) scale(1.42)" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/>
-      </g>
-    </svg>
+  <div class="notes">
+    <div class="note" style="background:#fff27a;--pin:#e2448f;transform:rotate(-2.5deg)"><div class="n">1–10</div><div class="l">Klassenstufen,<br>alle Schulformen</div></div>
+    <div class="note" style="background:#ffc9df;--pin:#1f86c8;transform:rotate(1.8deg)"><div class="n">6</div><div class="l">Module von Einstieg<br>bis Abschluss</div></div>
+    <div class="note" style="background:#c5e6ff;--pin:#7cb526;transform:rotate(-1.2deg)"><div class="n">50+</div><div class="l">erprobte Übungen<br>für jede Altersstufe</div></div>
+    <div class="note" style="background:#d9f2ad;--pin:#8a3fb0;transform:rotate(2.6deg)"><div class="n">inkl.</div><div class="l">Kopiervorlagen<br>für den Unterricht</div></div>
   </div>
 
-  <!-- wavy banner -->
-  <div class="banner">
-    <svg class="wave" viewBox="0 0 126 46" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill="#4a9ccc" d="/*WAVE*/"/>
-    </svg>
-    <div class="txt">
-      <span class="l1">Hallo, ich bin das neue</span>
-      <span class="l2">KISS-Manual!</span>
-    </div>
-  </div>
-  <p class="subline"><b>KISS-Schultraining</b> – Förderung der Sozialkompetenz in Gruppen.<br>Überarbeitet, erweitert und voller Praxis.</p>
-
-  <div class="sticky">
-    <b>Für Sie zum Behalten</b>
-    Ihr kostenloses Ansichtsexemplar der bisherigen Auflage liegt diesem Schreiben bei.
+  <div class="new">
+    <div class="st">Neu in der 2. Auflage<svg viewBox="0 0 100 3" preserveAspectRatio="none"><path d="M1 2 C 30 .4, 60 .6, 99 1.6" stroke="#e2448f" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg></div>
+    <ul>
+      <li>/*CHECK*/<span><b>Neues Kapitel <span class="hl">„Schule 4.0“</span></b> – Beziehung, Haltung und Neue Autorität im Schulalltag.</span></li>
+      <li>/*CHECK*/<span><b><span class="hl">Altersempfehlung</span> bei jeder Übung</b> – auf einen Blick passend für Klasse 1/2 bis 9/10.</span></li>
+      <li>/*CHECK*/<span><b>Praxis <span class="hl">Schritt für Schritt</span></b> – von der Auftragsklärung über die Ablaufplanung bis zum Umgang mit Störungen.</span></li>
+      <li>/*CHECK*/<span><b>Fundiert und erprobt</b> – Grundlagen aus fünf Perspektiven und eigene <span class="hl">Hinweise für Grundschulen</span>.</span></li>
+    </ul>
   </div>
 
-  <div class="badge">
-    <span class="k">AB SOMMER 2027</span><br>
-    Zertifizierte Ausbildung zur KISS-Trainerin bzw. zum KISS-Trainer – mehr im beiliegenden Infoblatt.
+  <div class="plan">
+    <div class="st">Der KISS-Stundenplan<svg viewBox="0 0 100 3" preserveAspectRatio="none"><path d="M1 1.6 C 35 .4, 70 2.4, 99 1" stroke="#1f86c8" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg></div>
+    <table class="tt">
+      <tr><th style="width:7mm">Std.</th><th>Modul</th><th>Themen</th></tr>
+      <tr><td class="p" style="background:#1f86c8">1</td><td class="m">Einstieg</td><td class="t">Kennenlernen</td></tr>
+      <tr><td class="p" style="background:#e2448f">2</td><td class="m">Persönlichkeit</td><td class="t">Gefühle, Bedürfnisse, Empathie, Selbstwert</td></tr>
+      <tr><td class="p" style="background:#7cb526">3</td><td class="m">Teambuilding</td><td class="t">Vertrauen, Kooperation, Kommunikation</td></tr>
+      <tr><td class="p" style="background:#f39200">4</td><td class="m">Konfliktlösung</td><td class="t">Gewaltprävention, Respekt, Wertschätzung</td></tr>
+      <tr><td class="p" style="background:#8a3fb0">5</td><td class="m">Entspannung</td><td class="t">Selbstwahrnehmung, Selbstregulation</td></tr>
+      <tr><td class="p" style="background:#e3061d">6</td><td class="m">Abschluss</td><td class="t">Konstruktives Feedback geben</td></tr>
+    </table>
   </div>
 
-  <!-- torn paper cards -->
-  <div class="cards">
-    <div class="wrap"><div class="torn">
-      <h2>Für wen ich bin</h2>
-      <div class="icons">
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="#3584b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z" fill="#3584b8"/><path d="M6 12.2v4.8c3 2.8 9 2.8 12 0v-4.8"/><path d="M22 10v5"/></svg>
-          <span><b>Klasse 1–10</b>alle Schulformen</span>
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="#3584b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4" fill="#3584b8"/><path d="M2.5 21v-2a4.5 4.5 0 0 1 4.5-4.5h4A4.5 4.5 0 0 1 15.5 19v2" fill="#3584b8"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21.5 21v-2a4 4 0 0 0-3-3.85"/></svg>
-          <span><b>Lehrkräfte</b>&amp; Schulsozialarbeit</span>
-        </div>
-      </div>
-    </div></div>
+  <div class="trainer">
+    <svg class="star" viewBox="-12 -12 24 24"><path d="M0 -11 L3.2 -3.6 L11 -3.4 L4.9 1.6 L7 9.4 L0 5 L-7 9.4 L-4.9 1.6 L-11 -3.4 L-3.2 -3.6 Z" fill="#ffd23f" stroke="#e0a91c" stroke-width=".8" stroke-linejoin="round"/><circle cx="-2.2" cy="-.6" r=".8" fill="#2b2a2b"/><circle cx="2.2" cy="-.6" r=".8" fill="#2b2a2b"/><path d="M-2 2 q2 1.8 4 0" stroke="#2b2a2b" stroke-width=".7" fill="none" stroke-linecap="round"/></svg>
+    <p><span class="badge">AB SOMMER 2027</span><b>Zertifizierte Ausbildung zur KISS-Trainerin bzw. zum KISS-Trainer</b> für Lehrkräfte, Schulsozialarbeit und Schulassistenz. Mehr dazu im beiliegenden Infoblatt.</p>
+  </div>
 
-    <div class="wrap"><div class="torn">
-      <h2>Was in mir steckt</h2>
-      <div class="icons">
-        <div>
-          <svg viewBox="0 0 24 24" fill="#3584b8"><path d="M19.44 7.85c-.05.32.06.65.29.88l1.57 1.57c.47.47.7 1.09.7 1.7s-.23 1.24-.7 1.71l-1.61 1.61a.98.98 0 0 1-.84.28c-.47-.07-.8-.48-.97-.93a2.5 2.5 0 1 0-3.21 3.21c.44.17.85.5.92.97a.98.98 0 0 1-.27.84l-1.61 1.61c-.47.47-1.09.7-1.71.7s-1.23-.23-1.7-.7l-1.57-1.57a1.03 1.03 0 0 0-.88-.29c-.49.07-.84.5-1.02.97a2.5 2.5 0 1 1-3.24-3.24c.47-.18.9-.53.97-1.02a1.03 1.03 0 0 0-.29-.88l-1.57-1.57A2.4 2.4 0 0 1 2 12c0-.62.24-1.23.7-1.7l1.53-1.53c.24-.24.58-.35.92-.3.51.08.88.53 1.07 1.01a2.5 2.5 0 1 0 3.26-3.26c-.48-.2-.93-.56-1.01-1.07-.05-.34.06-.68.3-.92L10.3 2.7c.47-.46 1.08-.7 1.7-.7s1.23.24 1.7.7l1.57 1.57c.23.23.56.34.88.29.49-.07.84-.5 1.02-.97a2.5 2.5 0 1 1 3.24 3.24c-.47.18-.9.53-.97 1.02z"/></svg>
-          <span><b>50+ Übungen</b>in 6 Modulen</span>
-        </div>
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="#3584b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="14" height="14" rx="2" fill="#3584b8"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/><path d="M12 13h6M12 17h4" stroke="#fff"/></svg>
-          <span><b>Kopiervorlagen</b>direkt einsetzbar</span>
-        </div>
-      </div>
-    </div></div>
-
-    <div class="wrap wide"><div class="torn">
-      <h2>Was neu an mir ist</h2>
-      <p>In mir stecken die Erfahrungen aus zahlreichen Schultrainings: ein <b>neues Kapitel „Schule 4.0“</b> zu Beziehung, Haltung und Neuer Autorität, eine <b>Altersempfehlung bei jeder Übung</b> von Klasse 1/2 bis 9/10, <b>Praxis Schritt für Schritt</b> von der Auftragsklärung bis zum Umgang mit Störungen – und eigene Hinweise für Trainings an Grundschulen.</p>
-    </div></div>
-
-    <div class="wrap"><div class="torn">
-      <h2>Meine 6 Module</h2>
-      <ul class="mods">
-        <li>Einstieg</li>
-        <li>Persönlichkeitsentwicklung</li>
-        <li>Teambuilding</li>
-        <li>Konfliktlösung</li>
-        <li>Entspannung</li>
-        <li>Abschluss</li>
-      </ul>
-    </div></div>
-
-    <div class="wrap"><div class="torn order">
-      <h2>Jetzt vorbestellen</h2>
+  <div class="coupon">
+    <svg class="scissors" viewBox="0 0 24 24" fill="none" stroke="#2b2a2b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg>
+    <div class="lbl">VORBESTELL-ABSCHNITT</div>
+    <div>
+      <div class="cta">Jetzt vorbestellen!</div>
       <div class="price">34,99 €</div>
       <div class="old">Vorzugspreis · regulär <s>48,00 €</s></div>
-      <div class="row">
-        <div class="qr">QR-Code<br>Vorbestellung</div>
-        <div class="how">Druckfrisch an Ihre Schule, direkt nach Erscheinen.<br><b class="ph">[Vorbestell-Link]</b></div>
-      </div>
-    </div></div>
+      <div class="ship">Druckfrisch an Ihre Schule – direkt nach Erscheinen.</div>
+    </div>
+    <div class="how">
+      Online unter <b class="ph">[Vorbestell-Link]</b><br>
+      oder ausfüllen und an <b>info@chipa.de</b> senden:
+      <div class="field">Schule <i></i></div>
+      <div class="field">Ansprechperson <i></i></div>
+      <div class="field">Anzahl Exemplare <i style="flex:0 0 14mm"></i>&nbsp; Tel. <b>0511 – 54 54 18 15</b></div>
+    </div>
+    <div>
+      <div class="qr">QR-Code<br>Vorbestellung</div>
+      <div class="qrc">scannen &amp; bestellen</div>
+    </div>
   </div>
 
   <div class="foot">
-    <div class="logo"><img alt="chi.pa" src="data:image/png;base64,/*LOGO*/"></div>
-    <div class="addr">Hrsg. Carsten Thiele · mit Julia Feesche und Sarah Scheit<br>chi.pa · child &amp; parents gGmbH · Spichernstraße 11a · 30161 Hannover · info@chipa.de · 0511 – 54 54 18 15</div>
+    <img alt="chi.pa" src="data:image/png;base64,/*LOGO*/">
+    <div>Hrsg. Carsten Thiele · mit Julia Feesche und Sarah Scheit · Entwickelt von der child &amp; parents Pädagogik gGmbH<br>chi.pa · child &amp; parents gGmbH · Spichernstraße 11a · 30161 Hannover · www.chipa.de</div>
   </div>
 </div>
-
-<script>
-// torn-paper edges: jagged left/right sides, deterministic
-(function(){
-  let seed=7; const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
-  document.querySelectorAll('.torn').forEach(el=>{
-    const w=el.offsetWidth,h=el.offsetHeight,amp=9,step=14,pts=[];
-    pts.push([rnd()*amp,0],[w-rnd()*amp,0]);
-    for(let y=step;y<h;y+=step*(.7+rnd()*.6)) pts.push([w-amp*(.15+rnd()*.85),y]);
-    pts.push([w-rnd()*amp,h],[rnd()*amp,h]);
-    const left=[];for(let y=step;y<h;y+=step*(.7+rnd()*.6)) left.push([amp*(.15+rnd()*.85),y]);
-    pts.push(...left.reverse());
-    el.style.clipPath='polygon('+pts.map(p=>p[0].toFixed(1)+'px '+p[1].toFixed(1)+'px').join(',')+')';
-  });
-})();
-</script>
 </body>
 </html>
