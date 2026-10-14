@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>KISS-Manual 2. Auflage – One-Pager A (Schule)</title>
+<style>
+/*FONTS*/
+@font-face{font-family:'Barlow Condensed';font-weight:700;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-Bold.ttf*/) format('truetype')}
+@font-face{font-family:'Barlow Condensed';font-weight:800;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-ExtraBold.ttf*/) format('truetype')}
+@font-face{font-family:'Caveat';font-weight:400 700;src:url(data:font/ttf;base64,/*FONT:Caveat[wght].ttf*/) format('truetype')}
+:root{--board:#2b2a2b;--ink:#2b2a2b;--muted:#55525b;--pink:#e2448f;--paper:#fffdf7}
+@page{size:210mm 297mm;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff}
+body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:'Source Sans 3',sans-serif;color:var(--ink)}
+.sheet{width:210mm;height:297mm;position:relative;overflow:hidden;background:var(--paper)}
+.a{position:absolute}
+
+/* chalkboard */
+.board{left:0;right:0;top:0;height:140mm;background:var(--board)}
+.tray{left:0;right:0;top:140mm;height:4mm;background:#6b5545}
+.chalk{top:137.6mm;height:2.6mm;border-radius:1.3mm}
+.logo{left:15mm;top:13mm;background:#fff;border-radius:10mm;padding:1.6mm 5mm}
+.logo img{height:7mm;display:block}
+.kicker{left:15mm;top:31mm;background:var(--pink);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14pt;letter-spacing:.14em;padding:1mm 3.5mm .8mm;border-radius:1mm}
+h1{left:15mm;top:41mm;width:106mm;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:41pt;line-height:1;color:#fff}
+h1 em{font-style:normal;color:#ff7fb2}
+.sub{left:15mm;top:93mm;width:104mm;color:#fff;font-size:14pt;line-height:1.3}
+.ps{left:15mm;top:111mm;width:100mm;color:#fff;font-family:'Caveat',cursive;font-weight:700;font-size:21pt;line-height:1.05;transform:rotate(-1.5deg)}
+
+.cover{left:124mm;top:16mm;width:72mm;transform:rotate(3deg);outline:.6mm solid #fff}
+.cover img{width:100%;display:block}
+.tape{position:absolute;width:24mm;height:8mm;background:#f3d34a}
+.sticker{left:108mm;top:108mm;width:30mm;height:30mm;border-radius:50%;background:var(--pink);border:1mm solid #fff;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-12deg)}
+.sticker b{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:13pt;letter-spacing:.06em;line-height:1}
+.sticker span{font-family:'Caveat',cursive;font-weight:700;font-size:18pt;line-height:.95}
+
+/* sticky notes */
+.notes{left:15mm;right:15mm;top:156mm;display:grid;grid-template-columns:repeat(4,1fr);gap:7mm}
+.note{height:38mm;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+.note .n{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:38pt;line-height:1}
+.note .l{font-family:'Caveat',cursive;font-weight:700;font-size:20pt;line-height:1;margin-top:1mm}
+.note:before{content:"";position:absolute;top:-3mm;left:50%;width:16mm;height:6mm;margin-left:-8mm;background:#e6dfcf;transform:rotate(-3deg)}
+
+/* coupon */
+.coupon{left:15mm;right:15mm;top:207mm;height:56mm;border:.8mm dashed var(--ink);border-radius:3mm;background:#fff;display:grid;grid-template-columns:62mm 1fr 36mm;gap:6mm;align-items:center;padding:0 6mm}
+.scissors{position:absolute;left:6mm;top:-4.5mm;width:9mm;height:9mm;background:var(--paper);padding:.8mm}
+.cta{font-family:'Caveat',cursive;font-weight:700;font-size:25pt;line-height:1;color:var(--pink)}
+.price{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:46pt;line-height:1;margin-top:1mm}
+.old{font-size:13pt;color:var(--muted)}
+.mid{font-size:13.5pt;line-height:1.35}
+.mid b{display:block;margin-top:2.5mm;color:var(--pink)}
+.qr{width:36mm;height:36mm;border:.7mm dashed var(--pink);border-radius:2mm;display:flex;align-items:center;justify-content:center;text-align:center;font-size:10pt;font-weight:700;color:var(--pink);line-height:1.2}
+
+.foot{left:15mm;right:15mm;bottom:12mm;display:flex;align-items:center;justify-content:space-between;font-size:11pt;color:var(--muted)}
+.foot img{height:8mm;display:block}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="a board"></div>
+  <svg class="a" style="left:0;top:0;width:210mm;height:140mm" viewBox="0 0 210 140" fill="none" stroke="#fff" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round" opacity=".75">
+    <g transform="translate(70 12) rotate(-8)"><path d="M0 7 L19 0 L13 15 L9 10 Z"/><path d="M19 0 L9 10"/></g>
+    <path d="M56 22 c4 3 7 -1 11 1" stroke-dasharray="1.6 2"/>
+    <path d="M104 25 l1.9 4 4.4.6 -3.2 3.1 .8 4.4 -3.9 -2.1 -3.9 2.1 .8 -4.4 -3.2 -3.1 4.4 -.6z"/>
+    <path d="M16 87 C 45 84, 80 85, 100 88"/>
+  </svg>
+  <div class="a tray"></div>
+  <i class="a chalk" style="left:30mm;width:13mm;background:#fff"></i>
+  <i class="a chalk" style="left:47mm;width:9mm;background:#ff9ec7"></i>
+
+  <div class="a logo"><img alt="chi.pa" src="data:image/png;base64,/*LOGO*/"></div>
+  <div class="a kicker">NEU · 2. AUFLAGE</div>
+  <h1 class="a">Sozialkompetenz<br>stärken –<br><em>Übung für Übung.</em></h1>
+  <p class="a sub">Das KISS-Schultraining erscheint in Kürze in der 2.&nbsp;Auflage.</p>
+  <div class="a ps">PS: Ihr Ansichtsexemplar liegt bei – zum Behalten!</div>
+
+  <div class="a cover">
+    <img alt="KISS-Schultraining, 2. Auflage – Cover" src="/*COVER*/">
+    <i class="tape" style="left:-8mm;top:3mm;transform:rotate(-40deg)"></i>
+    <i class="tape" style="right:-8mm;top:3mm;transform:rotate(40deg)"></i>
+  </div>
+  <div class="a sticker"><b>ERSCHEINT</b><span>in Kürze!</span></div>
+
+  <div class="a notes">
+    <div class="note" style="background:#ffe45c;transform:rotate(-2deg)"><div class="n">1–10</div><div class="l">Klassenstufen</div></div>
+    <div class="note" style="background:#ffaed1;transform:rotate(1.5deg)"><div class="n">6</div><div class="l">Module</div></div>
+    <div class="note" style="background:#9fd6ff;transform:rotate(-1deg)"><div class="n">50+</div><div class="l">Übungen</div></div>
+    <div class="note" style="background:#bfe58a;transform:rotate(2deg)"><div class="n">inkl.</div><div class="l">Kopiervorlagen</div></div>
+  </div>
+
+  <div class="a coupon">
+    <svg class="scissors" viewBox="0 0 24 24" fill="none" stroke="#2b2a2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg>
+    <div>
+      <div class="cta">Jetzt vorbestellen!</div>
+      <div class="price">34,99 €</div>
+      <div class="old">statt <s>48,00 €</s></div>
+    </div>
+    <div class="mid">Druckfrisch an Ihre Schule – direkt nach Erscheinen.<b>[Vorbestell-Link]</b></div>
+    <div class="qr">QR-Code<br>Vorbestellung</div>
+  </div>
+
+  <div class="a foot">
+    <img alt="chi.pa" src="data:image/png;base64,/*LOGO*/">
+    <span>www.chipa.de · info@chipa.de · 0511 – 54 54 18 15</span>
+  </div>
+</div>
+</body>
+</html>
