@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>KISS-Manual 2. Auflage – One-Pager</title>
+<style>
+/*FONTS*/
+@page { size: 210mm 297mm; margin: 0; }
+:root{
+  --navy:#15294d; --ink:#1d2433; --muted:#5b6475; --line:#dfe3ea;
+  --green:#7ab51d; --green-soft:#eef6e2; --blue:#1581c9; --blue-soft:#e6f1fa;
+  --red:#e2001a; --paper:#ffffff; --ph:#c2185b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#8a8f99}
+body{font-family:'Source Sans 3','Segoe UI',Arial,sans-serif;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sheet{width:210mm;height:297mm;margin:0 auto;background:var(--paper);position:relative;overflow:hidden;
+  padding:13mm 14mm 0 14mm;display:flex;flex-direction:column}
+
+/* top */
+.top{display:flex;justify-content:space-between;align-items:center}
+.top img{height:9.5mm;width:auto;display:block}
+.kicker{font-family:'Montserrat',sans-serif;font-weight:700;font-size:7.6pt;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);text-align:right;line-height:1.35}
+
+.gift{margin-top:6.5mm;display:flex;align-items:center;gap:3.5mm;background:var(--green-soft);border-radius:2mm;padding:3.2mm 4.5mm}
+.gift .ic{flex:none;width:9mm;height:9mm;border-radius:50%;background:var(--green);display:grid;place-items:center}
+.gift .ic svg{width:5mm;height:5mm}
+.gift p{font-size:10.6pt;line-height:1.38;color:var(--ink)}
+.gift b{font-weight:700;color:var(--navy)}
+
+/* hero */
+.hero{margin-top:7mm;display:grid;grid-template-columns:48mm 1fr;gap:9mm;align-items:start}
+.book{position:relative;width:46mm;height:63mm;margin-top:1mm}
+.book .cover{position:absolute;inset:0;border-radius:.6mm 1.6mm 1.6mm .6mm;background:var(--navy);
+  box-shadow:3mm 3.5mm 0 -1mm rgba(21,41,77,.13), inset 2.4mm 0 0 rgba(0,0,0,.22), inset 2.9mm 0 0 rgba(255,255,255,.07);
+  padding:6mm 5mm 5mm 7mm;color:#fff;display:flex;flex-direction:column}
+.book .bar{display:flex;gap:1.1mm;margin-bottom:5mm}
+.book .bar i{height:1.3mm;flex:1;border-radius:1mm}
+.book .t1{font-family:'Montserrat',sans-serif;font-weight:900;font-size:13pt;line-height:1;letter-spacing:.01em}
+.book .t2{font-size:7.4pt;line-height:1.3;margin-top:2.6mm;color:#d6deeb}
+.book .ed{margin-top:auto;font-family:'Montserrat',sans-serif;font-weight:800;font-size:7pt;letter-spacing:.08em}
+.book .ed span{display:block;font-weight:600;font-size:6.2pt;letter-spacing:.04em;color:#b8c4d8;margin-top:.6mm;text-transform:none}
+.book .stamp{position:absolute;right:-4mm;top:-4mm;width:17mm;height:17mm;border-radius:50%;background:var(--red);color:#fff;
+  display:grid;place-items:center;text-align:center;font-family:'Montserrat',sans-serif;font-weight:800;font-size:6.6pt;line-height:1.05;transform:rotate(9deg)}
+
+h1{font-family:'Montserrat',sans-serif;font-weight:900;font-size:25pt;line-height:1.02;color:var(--navy);letter-spacing:-.01em}
+h1 em{font-style:normal;color:var(--blue)}
+.sub{margin-top:3mm;font-size:12pt;line-height:1.38;color:var(--ink);max-width:115mm}
+.sub b{color:var(--navy)}
+
+/* facts */
+.facts{margin-top:5mm;display:grid;grid-template-columns:1fr 1fr;column-gap:6mm;border-top:.35mm solid var(--navy)}
+.facts>div{display:grid;grid-template-columns:15mm 1fr;align-items:center;gap:2mm;padding:2.5mm 0;border-bottom:.25mm solid var(--line)}
+.facts .n{font-family:'Montserrat',sans-serif;font-weight:800;font-size:14.5pt;color:var(--navy);line-height:1;font-variant-numeric:tabular-nums}
+.facts .l{font-size:8.6pt;color:var(--muted);line-height:1.25}
+
+/* new */
+.new{margin-top:7mm}
+h2{font-family:'Montserrat',sans-serif;font-weight:800;font-size:12pt;color:var(--navy);margin-bottom:3mm}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:2.4mm 8mm}
+.item{display:grid;grid-template-columns:4mm 1fr;gap:2mm;font-size:9.9pt;line-height:1.36}
+.item i{width:2.6mm;height:2.6mm;border-radius:50%;margin-top:1.35mm;background:var(--green)}
+.item b{color:var(--navy);font-weight:700}
+.mods{margin-top:3.6mm;font-size:9pt;color:var(--muted);line-height:1.45}
+.mods span{display:inline-block;margin-right:1.6mm}
+.mods span::after{content:"·";margin-left:1.6mm;color:var(--line)}
+.mods span:last-child::after{content:""}
+
+/* offer */
+.offer{margin-top:6.5mm;background:var(--navy);color:#fff;border-radius:2.4mm;padding:6mm 6.5mm;display:grid;grid-template-columns:1fr 31mm;gap:6mm;align-items:center}
+.offer .eye{font-family:'Montserrat',sans-serif;font-weight:700;font-size:7.8pt;letter-spacing:.11em;text-transform:uppercase;color:#9fd14e}
+.offer .price{display:flex;align-items:baseline;gap:3.5mm;margin-top:1.6mm}
+.offer .p{font-family:'Montserrat',sans-serif;font-weight:900;font-size:30pt;line-height:1;font-variant-numeric:tabular-nums}
+.offer .was{font-size:10pt;color:#b8c4d8}
+.offer .was s{text-decoration-thickness:.3mm}
+.offer .pitch{margin-top:2.6mm;font-size:10.6pt;line-height:1.38;color:#e9eef6;max-width:112mm}
+.offer .how{margin-top:3.2mm;font-size:9.2pt;line-height:1.45;color:#cfd8e6}
+.offer .how b{color:#fff;font-weight:700}
+.offer .how b.ph{color:#ff8fbf}
+.qr{width:31mm;height:31mm;border-radius:1.5mm;background:#fff;display:grid;place-items:center;text-align:center;
+  color:var(--ph);font-family:'Montserrat',sans-serif;font-weight:700;font-size:7pt;line-height:1.25;outline:.5mm dashed var(--ph);outline-offset:-1.6mm}
+.ph{color:var(--ph);font-weight:700}
+.offer .ph{color:#ff8fbf}
+
+/* teaser */
+.teaser{margin-top:5.5mm;display:grid;grid-template-columns:auto 1fr;gap:4mm;align-items:center;border:.3mm solid var(--line);border-radius:2mm;padding:3.6mm 4.5mm}
+.teaser .tag{font-family:'Montserrat',sans-serif;font-weight:800;font-size:7.4pt;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--blue);padding:1.6mm 2.6mm;border-radius:1mm;white-space:nowrap}
+.teaser p{font-size:9.7pt;line-height:1.38}
+.teaser b{color:var(--navy)}
+
+/* footer */
+.foot{margin-top:auto;margin-left:-14mm;margin-right:-14mm;padding:4.2mm 14mm 5mm;background:#f3f5f8;border-top:.25mm solid var(--line);
+  display:flex;justify-content:space-between;gap:8mm;font-size:7.9pt;line-height:1.45;color:var(--muted)}
+.foot b{color:var(--navy);font-weight:700}
+.foot .r{text-align:right}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="top">
+    <img src="data:image/png;base64,/*LOGO*/" alt="chi.pa">
+    <div class="kicker">Für Schulleitung, Lehrkräfte<br>und Schulsozialarbeit</div>
+  </div>
+
+  <div class="gift">
+    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M12 8v13M3 12h18M12 8c-1.8-3.6-6-4-6-1.2C6 8.6 9 8 12 8zm0 0c1.8-3.6 6-4 6-1.2C18 8.6 15 8 12 8z"/></svg></div>
+    <p><b>Ihr kostenloses Ansichtsexemplar liegt bei.</b> Mit diesem Schreiben erhalten Sie die bisherige Auflage des KISS-Schultrainings – zum Kennenlernen und Behalten.</p>
+  </div>
+
+  <div class="hero">
+    <div class="book">
+      <div class="cover">
+        <div class="bar"><i style="background:var(--blue)"></i><i style="background:var(--red)"></i><i style="background:var(--green)"></i></div>
+        <div class="t1">KISS-<br>SCHUL-<br>TRAINING</div>
+        <div class="t2">Förderung der Sozialkompetenz in Gruppen</div>
+        <div class="ed">2. AUFLAGE<span>überarbeitet und erweitert</span></div>
+      </div>
+      <div class="stamp">NEU<br>2026</div>
+    </div>
+    <div>
+      <h1>Das KISS-Manual.<br><em>Neu aufgelegt.</em></h1>
+      <p class="sub">Die <b>2. Auflage</b> erscheint in Kürze – überarbeitet, erweitert und gebündelt aus der Erfahrung zahlreicher Schultrainings an ganz unterschiedlichen Schulformen.</p>
+      <div class="facts">
+        <div><span class="n">1–10</span><span class="l">Klassenstufen, in fünf Altersgruppen</span></div>
+        <div><span class="n">6</span><span class="l">Module vom Einstieg bis zum Abschluss</span></div>
+        <div><span class="n">50+</span><span class="l">erprobte Übungen</span></div>
+        <div><span class="n">inkl.</span><span class="l">Kopiervorlagen für den Unterricht</span></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="new">
+    <h2>Was Sie in der neuen Auflage erwartet</h2>
+    <div class="cols">
+      <div class="item"><i></i><div><b>Neues Kapitel „Schule 4.0“:</b> die wertebasierte Schule der Zukunft – Beziehung, Haltung und Neue Autorität im Schulalltag.</div></div>
+      <div class="item"><i style="background:var(--blue)"></i><div><b>Übungsteil mit Altersempfehlung:</b> bei jeder Übung steht, für welche Jahrgangsstufe sie passt – von 1/2 bis 9/10.</div></div>
+      <div class="item"><i style="background:var(--red)"></i><div><b>Praxis Schritt für Schritt:</b> Auftragsklärung, Ablaufplanung, Moderation und Umgang mit Störungen im Training.</div></div>
+      <div class="item"><i></i><div><b>Fundiert und erprobt:</b> wissenschaftliche Grundlagen aus fünf Perspektiven – und eigene Hinweise für Trainings an Grundschulen.</div></div>
+    </div>
+    <div class="mods"><span>Einstieg</span><span>Persönlichkeitsentwicklung</span><span>Teambuilding</span><span>Konfliktlösung</span><span>Entspannung</span><span>Abschluss</span></div>
+  </div>
+
+  <div class="offer">
+    <div>
+      <div class="eye">Jetzt vorbestellen</div>
+      <div class="price"><span class="p">34,99 €</span><span class="was">Vorzugspreis · regulär <s>48,00 €</s></span></div>
+      <p class="pitch">Sichern Sie sich schon jetzt ein <b>druckfrisches Exemplar</b> der neuen Auflage – es wird direkt nach Erscheinen an Ihre Schule versandt.</p>
+      <p class="how">Bestellen unter <b class="ph">[Vorbestell-Link]</b><br>oder per Mail an <b>info@chipa.de</b> · Tel. <b>0511 – 54 54 18 15</b></p>
+    </div>
+    <div class="qr">QR-Code<br>Vorbestellung</div>
+  </div>
+
+  <div class="teaser">
+    <span class="tag">Ab Sommer 2027</span>
+    <p><b>Zertifizierte Ausbildung zur KISS-Trainerin bzw. zum KISS-Trainer.</b> Für Lehrkräfte, Schulsozialarbeit und Schulassistenz. Mehr dazu im beiliegenden Infoblatt.</p>
+  </div>
+
+  <div class="foot">
+    <div>Hrsg. <b>Carsten Thiele</b> · mit Julia Feesche und Sarah Scheit<br>Entwickelt von der child &amp; parents Pädagogik gGmbH</div>
+    <div class="r"><b>chi.pa · child &amp; parents gGmbH</b><br>Spichernstraße 11a · 30161 Hannover</div>
+  </div>
+
+</div>
+</body>
+</html>
