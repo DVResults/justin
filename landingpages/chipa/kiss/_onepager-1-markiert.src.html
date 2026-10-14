@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>KISS-Manual 2. Auflage – One-Pager 1 (Markiert)</title>
+<style>
+/*FONTS*/
+@font-face{font-family:'Barlow Condensed';font-weight:800;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-ExtraBold.ttf*/) format('truetype')}
+@font-face{font-family:'Caveat';font-weight:400 700;src:url(data:font/ttf;base64,/*FONT:Caveat[wght].ttf*/) format('truetype')}
+@font-face{font-family:'Permanent Marker';src:url(data:font/ttf;base64,/*FONT:PermanentMarker-Regular.ttf*/) format('truetype')}
+:root{--paper:#fbf6ec;--ink:#2b2a2b;--muted:#5a5650;--pink:#e2448f;--blue:#1f86c8;--red:#e3061d;--green:#5aa31f;--purple:#8a3fb0;--sun:#ffd84d}
+@page{size:210mm 297mm;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--paper)}
+body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:'Source Sans 3',sans-serif;color:var(--ink)}
+.sheet{width:210mm;height:297mm;position:relative;overflow:hidden;background:var(--paper)}
+.a{position:absolute}
+.mk{font-family:'Permanent Marker',cursive;font-weight:400}
+.hand{font-family:'Caveat',cursive;font-weight:700}
+
+.logo{left:15mm;top:14mm;height:8.5mm}
+.ed{left:149mm;width:46mm;top:13.4mm;text-align:center;font-size:15pt;color:var(--pink);transform:rotate(3deg)}
+h1{left:0;right:0;top:31mm;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:37pt;line-height:1;letter-spacing:.01em;text-transform:uppercase}
+.h2{left:0;right:0;top:45mm;text-align:center;font-size:29pt;color:var(--pink);transform:rotate(-2deg)}
+.sub{left:0;right:0;top:63mm;text-align:center;font-size:13.5pt;color:var(--muted)}
+
+.cover{left:66mm;top:83mm;width:78mm;transform:rotate(-3deg)}
+.cover img{width:100%;display:block;outline:.7mm solid #fff}
+
+.call{width:46mm;text-align:center}
+.call .n{font-size:33pt;line-height:1}
+.call .l{font-size:21pt;line-height:1;margin-top:.5mm}
+
+.ps{left:0;right:0;top:203mm;text-align:center;font-size:21pt}
+
+.cta{left:15mm;top:222mm;width:112mm;text-align:center}
+.cta .t{font-size:21pt}
+.cta .price{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:56pt;line-height:1;margin-top:2mm;display:inline-block;position:relative;padding:0 6mm}
+.cta .price svg{position:absolute;left:-4mm;top:-4mm;width:calc(100% + 8mm);height:calc(100% + 8mm);overflow:visible}
+.cta .old{font-size:13pt;color:var(--muted);margin-top:2.5mm}
+.cta .old s{text-decoration-color:var(--pink);text-decoration-thickness:.5mm}
+.cta .link{font-size:13pt;font-weight:700;color:var(--pink);margin-top:1.2mm}
+.qr{left:150mm;top:226mm;width:38mm;height:38mm;background:#fff;border:.7mm dashed var(--pink);display:flex;align-items:center;justify-content:center;text-align:center;font-size:10pt;font-weight:700;color:var(--pink);line-height:1.2;transform:rotate(2deg)}
+.qrt{left:140mm;top:266mm;width:58mm;text-align:center;font-size:18pt}
+
+.foot{left:15mm;right:15mm;bottom:9mm;text-align:center;font-size:10.5pt;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <svg class="a" style="left:0;top:0;width:210mm;height:297mm" viewBox="0 0 210 297" xmlns="http://www.w3.org/2000/svg" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- sun circle behind the book -->
+    <circle cx="105" cy="138" r="57" fill="#ffd84d"/>
+    <!-- marker ellipse around "2. Auflage" -->
+    <path d="M148 16 C 150 8, 192 7, 195 17 C 197 26, 152 28, 147 20 C 145 15, 158 10, 170 10" stroke="#e2448f" stroke-width="1"/>
+    <!-- underline under the marker line -->
+    <path d="M62 61 C 90 58.5, 125 58.5, 150 60.5" stroke="#2b2a2b" stroke-width=".8"/>
+    <!-- arrows to the book -->
+    <g stroke="#2b2a2b" stroke-width=".9">
+      <path d="M44 117 C 52 118, 58 112, 66 106"/><path d="M61.5 105.6 L66.4 105.8 L64.8 110.3"/>
+      <path d="M44 178 C 52 180, 59 176, 65 168"/><path d="M60.7 168.9 L65.3 167.6 L65.4 172.4"/>
+      <path d="M166 117 C 158 118, 152 112, 146 104"/><path d="M150.7 104.1 L145.9 103.6 L146.9 108.3"/>
+      <path d="M166 178 C 158 181, 150 177, 145 170"/><path d="M149.6 171.4 L144.9 169.6 L144.6 174.4"/>
+    </g>
+    <!-- arrow from price to QR -->
+    <path d="M118 262 C 128 270, 138 268, 146 258" stroke="#2b2a2b" stroke-width=".8"/><path d="M141.6 258.7 L146.3 257.6 L146.3 262.4" stroke="#2b2a2b" stroke-width=".8"/>
+    <!-- small doodles -->
+    <path d="M30 70 l1.4 3 3.2.4 -2.4 2.2 .6 3.2 -2.8 -1.6 -2.8 1.6 .6 -3.2 -2.4 -2.2 3.2 -.4z" stroke="#e2448f" stroke-width=".7"/>
+    <path d="M186 76 l1 2.2 2.4.3 -1.8 1.6 .5 2.4 -2.1 -1.2 -2.1 1.2 .5 -2.4 -1.8 -1.6 2.4 -.3z" fill="#ffd84d" stroke="#2b2a2b" stroke-width=".5"/>
+    <path d="M179 207.5 c-1.4 -2.4 -4.6 -1 -3.2 1.6 l3.2 3.3 3.2 -3.3 c1.4 -2.6 -1.8 -4 -3.2 -1.6z" fill="#e2448f"/>
+  </svg>
+
+  <img class="a logo" alt="chi.pa" src="data:image/png;base64,/*LOGO*/">
+  <div class="a ed mk">2. Auflage</div>
+
+  <h1 class="a">Sozialkompetenz stärken</h1>
+  <div class="a h2 mk">Übung für Übung!</div>
+  <p class="a sub">Das KISS-Schultraining erscheint in Kürze – überarbeitet und erweitert.</p>
+
+  <div class="a cover"><img alt="KISS-Schultraining, 2. Auflage – Cover" src="/*COVER*/"></div>
+
+  <div class="a call" style="left:4mm;top:90mm"><div class="n mk" style="color:var(--blue)">1–10</div><div class="l hand">Klassenstufen</div></div>
+  <div class="a call" style="left:4mm;top:151mm"><div class="n mk" style="color:var(--red)">6</div><div class="l hand">Module</div></div>
+  <div class="a call" style="right:4mm;top:90mm"><div class="n mk" style="color:var(--green)">50+</div><div class="l hand">Übungen</div></div>
+  <div class="a call" style="right:4mm;top:151mm"><div class="n mk" style="color:var(--purple)">inkl.</div><div class="l hand">Kopiervorlagen</div></div>
+
+  <div class="a ps hand">PS: Ihr Ansichtsexemplar liegt bei – zum Behalten!</div>
+
+  <div class="a cta">
+    <div class="t mk">Jetzt vorbestellen</div>
+    <div class="price">34,99 €<svg viewBox="0 0 100 40" preserveAspectRatio="none"><path d="M8 8 C 30 -2, 80 -1, 94 10 C 104 20, 90 37, 50 38 C 14 39, -2 28, 4 16 C 8 9, 20 5, 34 4" fill="none" stroke="#e2448f" stroke-width="1.6" stroke-linecap="round" vector-effect="non-scaling-stroke" style="stroke-width:.9mm"/></svg></div>
+    <div class="old">statt <s>48,00 €</s> · Versand direkt nach Erscheinen</div>
+    <div class="link">[Vorbestell-Link]</div>
+  </div>
+  <div class="a qr">QR-Code<br>Vorbestellung</div>
+  <div class="a qrt hand">scannen &amp; bestellen</div>
+
+  <div class="a foot">chi.pa · child &amp; parents gGmbH · www.chipa.de · info@chipa.de · 0511 – 54 54 18 15</div>
+</div>
+</body>
+</html>
