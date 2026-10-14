@@ -19,7 +19,7 @@ h1 .c1{color:var(--blue)} h1 .c2{color:var(--red)} h1 .c3{color:var(--green)}
 .sub{left:0;right:0;top:92mm;text-align:center;font-size:13.5pt;color:var(--muted)}
 
 .cover{left:72mm;top:107mm;width:66mm}
-.cover img{width:100%;display:block;border-radius:.8mm}
+.cover img{width:100%;display:block;outline:.5mm solid #2b2a2b}
 .burst{left:127mm;top:98mm;width:26mm;height:26mm}
 
 .bubble{left:8mm;top:132mm;width:56mm;background:#fff;border:.8mm solid var(--ink);border-radius:6mm;padding:3.2mm 4mm;font-family:'Fredoka',sans-serif;font-weight:500;font-size:12.5pt;line-height:1.2;text-align:center}
@@ -27,16 +27,19 @@ h1 .c1{color:var(--blue)} h1 .c2{color:var(--red)} h1 .c3{color:var(--green)}
 .bubble:before{bottom:-6.4mm;border-width:6.4mm 4mm 0 0;border-color:var(--ink) transparent transparent transparent}
 .bubble:after{bottom:-4.6mm;left:18.8mm;border-width:4.6mm 2.9mm 0 0;border-color:#fff transparent transparent transparent}
 
-.order{left:15mm;right:15mm;top:249mm;display:grid;grid-template-columns:1fr 32mm;gap:8mm;align-items:center;color:#fff}
-.order .k{font-family:'Fredoka',sans-serif;font-weight:600;font-size:17pt;line-height:1}
-.order .p{font-family:'Fredoka',sans-serif;font-weight:600;font-size:38pt;line-height:1;margin-top:1mm}
-.order .p small{font-weight:500;font-size:14pt;margin-left:2.5mm}
-.order .t{font-size:11.5pt;margin-top:1.4mm}
-.order .t b{background:#fff;color:var(--greend);padding:0 1.4mm;border-radius:.8mm}
-.qr{width:32mm;height:32mm;background:#fff;border-radius:3mm;display:flex;align-items:center;justify-content:center;text-align:center;font-size:9pt;font-weight:700;color:var(--greend);line-height:1.2}
-.foot{left:15mm;right:15mm;bottom:6mm;display:flex;align-items:center;justify-content:space-between;color:#fff;font-size:9.5pt}
-.foot .logo{background:#fff;border-radius:6mm;padding:1mm 3.2mm}
-.foot .logo img{height:5.5mm;display:block}
+.ticket{left:15mm;top:245mm;width:180mm;height:35mm;background:#fff;border-radius:5mm;display:grid;grid-template-columns:50mm 1fr 29mm;column-gap:11mm;align-items:center;padding:0 6mm 0 7mm}
+.notch{position:absolute;width:6mm;height:6mm;border-radius:50%;background:var(--green)}
+.sep{position:absolute;top:5mm;bottom:5mm;border-left:.5mm dashed #b9c7a6}
+.ticket .tag{display:inline-block;background:var(--red);color:#fff;font-family:'Fredoka',sans-serif;font-weight:600;font-size:9.5pt;letter-spacing:.04em;padding:.5mm 2.4mm;border-radius:3mm}
+.ticket .p{font-family:'Fredoka',sans-serif;font-weight:600;font-size:33pt;line-height:1;color:var(--ink);margin-top:1.2mm}
+.ticket .old{font-size:11pt;color:var(--muted);margin-top:.6mm}
+.ticket .old s{text-decoration-color:var(--red);text-decoration-thickness:.4mm}
+.ticket .k{font-family:'Fredoka',sans-serif;font-weight:600;font-size:18pt;line-height:1.05;color:var(--greend)}
+.ticket .t{font-size:11.5pt;line-height:1.3;color:var(--muted);margin-top:1.2mm}
+.ticket .btn{display:inline-flex;align-items:center;gap:1.5mm;margin-top:2.2mm;background:var(--green);color:#fff;font-family:'Fredoka',sans-serif;font-weight:600;font-size:11pt;padding:1mm 3.5mm;border-radius:4mm}
+.qr{width:29mm;height:29mm;border:.6mm dashed var(--greend);border-radius:2.5mm;display:flex;align-items:center;justify-content:center;text-align:center;font-size:8.5pt;font-weight:700;color:var(--greend);line-height:1.2}
+.foot{left:0;right:0;bottom:0;height:12mm;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 15mm;font-size:10pt;color:var(--muted)}
+.foot img{height:7mm;display:block}
 </style>
 </head>
 <body>
@@ -66,15 +69,22 @@ h1 .c1{color:var(--blue)} h1 .c2{color:var(--red)} h1 .c3{color:var(--green)}
 
   <div class="a bubble">Ihr Ansichtsexemplar liegt bei – zum Behalten!</div>
 
-  <div class="a order">
+  <div class="a ticket">
+    <i class="notch" style="left:60mm;top:-3mm"></i><i class="notch" style="left:60mm;bottom:-3mm"></i><i class="sep" style="left:63mm"></i>
+    <i class="notch" style="left:137mm;top:-3mm"></i><i class="notch" style="left:137mm;bottom:-3mm"></i><i class="sep" style="left:140mm"></i>
+    <div>
+      <span class="tag">VORZUGSPREIS</span>
+      <div class="p">34,99 €</div>
+      <div class="old">statt <s>48,00 €</s></div>
+    </div>
     <div>
       <div class="k">Jetzt vorbestellen!</div>
-      <div class="p">34,99 €<small>statt <s>48,00 €</s></small></div>
-      <div class="t">Versand direkt nach Erscheinen · <b>[Vorbestell-Link]</b></div>
+      <div class="t">Druckfrisch an Ihre Schule – direkt nach Erscheinen.</div>
+      <span class="btn">[Vorbestell-Link] <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </div>
     <div class="qr">QR-Code<br>Vorbestellung</div>
   </div>
-  <div class="a foot"><span class="logo"><img alt="chi.pa" src="data:image/png;base64,/*LOGO*/"></span><span>www.chipa.de · info@chipa.de · 0511 – 54 54 18 15</span></div>
+  <div class="a foot"><img alt="chi.pa" src="data:image/png;base64,/*LOGO*/"><span>www.chipa.de · info@chipa.de · 0511 – 54 54 18 15</span></div>
 </div>
 </body>
 </html>

@@ -20,7 +20,7 @@ h1 .c1{color:var(--blue)} h1 .c2{color:var(--red)} h1 .c3{color:var(--green)}
 .sub{left:0;right:0;top:92mm;text-align:center;font-size:13.5pt;color:var(--muted)}
 
 .cover{left:72mm;top:107mm;width:66mm}
-.cover img{width:100%;display:block;border-radius:.8mm}
+.cover img{width:100%;display:block;outline:.5mm solid #2b2a2b}
 .burst{left:127mm;top:98mm;width:26mm;height:26mm}
 
 .bubble{left:8mm;top:132mm;width:56mm;background:#fff;border:.8mm solid var(--ink);border-radius:6mm;padding:3.2mm 4mm;font-family:'Fredoka',sans-serif;font-weight:500;font-size:12.5pt;line-height:1.2;text-align:center}
@@ -28,16 +28,19 @@ h1 .c1{color:var(--blue)} h1 .c2{color:var(--red)} h1 .c3{color:var(--green)}
 .bubble:before{bottom:-6.4mm;border-width:6.4mm 4mm 0 0;border-color:var(--ink) transparent transparent transparent}
 .bubble:after{bottom:-4.6mm;left:18.8mm;border-width:4.6mm 2.9mm 0 0;border-color:#fff transparent transparent transparent}
 
-.order{left:15mm;right:15mm;top:249mm;display:grid;grid-template-columns:1fr 32mm;gap:8mm;align-items:center;color:#fff}
-.order .k{font-family:'Fredoka',sans-serif;font-weight:600;font-size:17pt;line-height:1}
-.order .p{font-family:'Fredoka',sans-serif;font-weight:600;font-size:38pt;line-height:1;margin-top:1mm}
-.order .p small{font-weight:500;font-size:14pt;margin-left:2.5mm}
-.order .t{font-size:11.5pt;margin-top:1.4mm}
-.order .t b{background:#fff;color:var(--greend);padding:0 1.4mm;border-radius:.8mm}
-.qr{width:32mm;height:32mm;background:#fff;border-radius:3mm;display:flex;align-items:center;justify-content:center;text-align:center;font-size:9pt;font-weight:700;color:var(--greend);line-height:1.2}
-.foot{left:15mm;right:15mm;bottom:6mm;display:flex;align-items:center;justify-content:space-between;color:#fff;font-size:9.5pt}
-.foot .logo{background:#fff;border-radius:6mm;padding:1mm 3.2mm}
-.foot .logo img{height:5.5mm;display:block}
+.ticket{left:15mm;top:245mm;width:180mm;height:35mm;background:#fff;border-radius:5mm;display:grid;grid-template-columns:50mm 1fr 29mm;column-gap:11mm;align-items:center;padding:0 6mm 0 7mm}
+.notch{position:absolute;width:6mm;height:6mm;border-radius:50%;background:var(--green)}
+.sep{position:absolute;top:5mm;bottom:5mm;border-left:.5mm dashed #b9c7a6}
+.ticket .tag{display:inline-block;background:var(--red);color:#fff;font-family:'Fredoka',sans-serif;font-weight:600;font-size:9.5pt;letter-spacing:.04em;padding:.5mm 2.4mm;border-radius:3mm}
+.ticket .p{font-family:'Fredoka',sans-serif;font-weight:600;font-size:33pt;line-height:1;color:var(--ink);margin-top:1.2mm}
+.ticket .old{font-size:11pt;color:var(--muted);margin-top:.6mm}
+.ticket .old s{text-decoration-color:var(--red);text-decoration-thickness:.4mm}
+.ticket .k{font-family:'Fredoka',sans-serif;font-weight:600;font-size:18pt;line-height:1.05;color:var(--greend)}
+.ticket .t{font-size:11.5pt;line-height:1.3;color:var(--muted);margin-top:1.2mm}
+.ticket .btn{display:inline-flex;align-items:center;gap:1.5mm;margin-top:2.2mm;background:var(--green);color:#fff;font-family:'Fredoka',sans-serif;font-weight:600;font-size:11pt;padding:1mm 3.5mm;border-radius:4mm}
+.qr{width:29mm;height:29mm;border:.6mm dashed var(--greend);border-radius:2.5mm;display:flex;align-items:center;justify-content:center;text-align:center;font-size:8.5pt;font-weight:700;color:var(--greend);line-height:1.2}
+.foot{left:0;right:0;bottom:0;height:12mm;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 15mm;font-size:10pt;color:var(--muted)}
+.foot img{height:7mm;display:block}
 </style>
 </head>
 <body>
@@ -67,15 +70,22 @@ h1 .c1{color:var(--blue)} h1 .c2{color:var(--red)} h1 .c3{color:var(--green)}
 
   <div class="a bubble">Ihr Ansichtsexemplar liegt bei – zum Behalten!</div>
 
-  <div class="a order">
+  <div class="a ticket">
+    <i class="notch" style="left:60mm;top:-3mm"></i><i class="notch" style="left:60mm;bottom:-3mm"></i><i class="sep" style="left:63mm"></i>
+    <i class="notch" style="left:137mm;top:-3mm"></i><i class="notch" style="left:137mm;bottom:-3mm"></i><i class="sep" style="left:140mm"></i>
+    <div>
+      <span class="tag">VORZUGSPREIS</span>
+      <div class="p">34,99 €</div>
+      <div class="old">statt <s>48,00 €</s></div>
+    </div>
     <div>
       <div class="k">Jetzt vorbestellen!</div>
-      <div class="p">34,99 €<small>statt <s>48,00 €</s></small></div>
-      <div class="t">Versand direkt nach Erscheinen · <b>[Vorbestell-Link]</b></div>
+      <div class="t">Druckfrisch an Ihre Schule – direkt nach Erscheinen.</div>
+      <span class="btn">[Vorbestell-Link] <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </div>
     <div class="qr">QR-Code<br>Vorbestellung</div>
   </div>
-  <div class="a foot"><span class="logo"><img alt="chi.pa" src="data:image/png;base64,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"></span><span>www.chipa.de · info@chipa.de · 0511 – 54 54 18 15</span></div>
+  <div class="a foot"><img alt="chi.pa" src="data:image/png;base64,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"><span>www.chipa.de · info@chipa.de · 0511 – 54 54 18 15</span></div>
 </div>
 </body>
 </html>
