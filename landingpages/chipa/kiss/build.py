@@ -82,10 +82,11 @@ def price_piece():
 
 
 def loose_piece():
-    big = piece(0, 0, 26, 26, top=+1, right=+1, bottom=-1, left=-1, lref=17)
+    """Purple 'enclosed piece' carrying the gift line + a small lilac piece."""
+    big = piece(0, 0, 88, 27, top=-1, right=0, bottom=+1, left=+1, lref=21, pos=(.66, .5, .3, .5))
     small = piece(0, 0, 15, 15, top=0, right=+1, bottom=+1, left=-1, lref=10)
-    return (f'<g transform="translate(152 44) rotate(14 13 13)"><path d="{big}" fill="#8a3fb0"/></g>'
-            f'<g transform="translate(182 54) rotate(-22 7.5 7.5)"><path d="{small}" fill="#efe3f7"/></g>')
+    return (f'<g transform="translate(106 49) rotate(-3)"><path d="{big}" fill="#8a3fb0"/></g>'
+            f'<g transform="translate(150 24) rotate(-18 7.5 7.5)"><path d="{small}" fill="#efe3f7"/></g>')
 
 
 # ---------------------------------------------------------------- kids
