@@ -167,7 +167,7 @@ def _mix(c1, c2, t):
 
 
 def puzzle_page(W=210, H=297, rows=6, cols=4, lref=16, special=None, missing=(4, 3),
-                float_dx=-9, float_dy=-17, float_rot=-9, labels=('IHR EXEMPLAR', 'bald erhältlich')):
+                float_dx=-9, float_dy=-17, float_rot=-9, labels=('IHR EXEMPLAR', 'bald erhältlich'), merged=None):
     """Full-bleed jigsaw: every piece the same size, all edges interlock. Gradient fills
     violet -> magenta, `special` {(r, c): fill} overrides, `missing` is a hole with a floating piece."""
     special = special or {}
@@ -176,8 +176,22 @@ def puzzle_page(W=210, H=297, rows=6, cols=4, lref=16, special=None, missing=(4,
     vcut = [[(-1 if (r + c) % 2 == 0 else +1) for c in range(cols - 1)] for r in range(rows)]
     stops = ['#3b1c7a', '#6a2fa6', '#a63fa8', '#d93d8c']
     out, hole = [], None
+    merged = merged or {}          # {(row, c0, c1): fill} -> one wide piece spanning columns c0..c1
+    covered = {(r, c) for (r, c0, c1) in merged for c in range(c0, c1 + 1)}
+    for (r, c0, c1), fill in merged.items():
+        y0, y1 = r * h, (r + 1) * h
+        d = f'M{pt(c0 * w, y0)} '
+        for c in range(c0, c1 + 1):
+            d += edge((c * w, y0), ((c + 1) * w, y0), -hcut[r - 1][c] if r > 0 else 0, lref) + ' '
+        d += edge(((c1 + 1) * w, y0), ((c1 + 1) * w, y1), vcut[r][c1] if c1 < cols - 1 else 0, lref) + ' '
+        for c in range(c1, c0 - 1, -1):
+            d += edge(((c + 1) * w, y1), (c * w, y1), hcut[r][c] if r < rows - 1 else 0, lref) + ' '
+        d += edge((c0 * w, y1), (c0 * w, y0), -vcut[r][c0 - 1] if c0 > 0 else 0, lref) + ' Z'
+        out.append(f'<path d="{d}" fill="{fill}" stroke="#ffffff" stroke-opacity=".28" stroke-width=".5" stroke-linejoin="round"/>')
     for r in range(rows):
         for c in range(cols):
+            if (r, c) in covered:
+                continue
             x0, y0 = c * w, r * h
             d = piece(x0, y0, x0 + w, y0 + h,
                       -hcut[r - 1][c] if r > 0 else 0, vcut[r][c] if c < cols - 1 else 0,
@@ -398,7 +412,8 @@ def main():
             '<text y="5.8" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="3" letter-spacing=".35" fill="#fff">2. AUFLAGE</text>')),
         '/*DECO_G*/': (f'<g transform="translate(150 84) rotate(-16 8 8)"><path d="{piece(0, 0, 16, 16, top=+1, right=-1, bottom=+1, left=0, lref=11)}" fill="#8a3fb0"/></g>'
                        f'<g transform="translate(136 66) rotate(22 5 5)"><path d="{piece(0, 0, 10, 10, top=0, right=+1, bottom=-1, left=+1, lref=7)}" fill="#efe3f7" fill-opacity=".9"/></g>'),
-        '/*PUZZLE_FULL*/': puzzle_page(special={(2, 0): '#ffffff', (2, 1): '#f1e4fa', (3, 0): '#f1e4fa', (3, 1): '#ffffff'}),
+        '/*PUZZLE_FULL*/': puzzle_page(special={(2, 0): '#ffffff', (2, 1): '#f1e4fa', (3, 0): '#f1e4fa', (3, 1): '#ffffff', (5, 3): '#f1e4fa'},
+                                       merged={(4, 0, 2): '#2a1046', (5, 0, 2): '#ffffff'}),
         '/*TAPES_E*/': (tape_words(152, 10, 17, 'url(#tapegrad)', 'VORBESTELLEN •', '• CHIPA.DE/KISS', size=7.6, gap=2.5, cover=(60, 150)) +
                         tape_words(152, -12, 17, '#232223', 'BALD DA •', '• 2. AUFLAGE', size=7.6, gap=2.5, cover=(60, 152))),
     }
