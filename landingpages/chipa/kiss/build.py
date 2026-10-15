@@ -22,6 +22,7 @@ VARIANTS = {
     '_onepager-C-editorial.src.html': 'KISS_OnePager_C_Editorial.html',
     '_onepager-D-launch.src.html': 'KISS_OnePager_D_Launch.html',
     '_onepager-E-tape.src.html': 'KISS_OnePager_E_Tape.html',
+    '_onepager-F-bento.src.html': 'KISS_OnePager_F_Bento.html',
 }
 
 f2 = lambda v: f'{v:.2f}'.rstrip('0').rstrip('.')
@@ -78,6 +79,30 @@ def puzzle_grid(X=92, Y=103, W=103, H=93, lref=30, stroke=1.4,
             d = piece(x0, y0, x0 + w, y0 + h, top, right, bottom, left, lref=lref)
             out.append(f'<path d="{d}" fill="{fills[r * 2 + c]}" stroke="#fff" stroke-width="{stroke}" stroke-linejoin="round"/>')
     return ''.join(out)
+
+
+def puzzle_rc(X, Y, W, H, rows, cols, fills, missing=None, lref=24, stroke=1.6,
+              hcut=None, vcut=None, missing_stroke='#d93d8c'):
+    """rows x cols jigsaw; fills[r][c]; `missing` (r, c) is drawn as a dashed outline only."""
+    w, h = W / cols, H / rows
+    # knob directions: +1 = down / right
+    hcut = hcut or [[(+1 if (r + c) % 2 == 0 else -1) for c in range(cols)] for r in range(rows - 1)]
+    vcut = vcut or [[(-1 if (r + c) % 2 == 0 else +1) for c in range(cols - 1)] for r in range(rows)]
+    out, ghost = [], ''
+    for r in range(rows):
+        for c in range(cols):
+            x0, y0 = X + c * w, Y + r * h
+            top = -hcut[r - 1][c] if r > 0 else 0
+            bottom = hcut[r][c] if r < rows - 1 else 0
+            left = -vcut[r][c - 1] if c > 0 else 0
+            right = vcut[r][c] if c < cols - 1 else 0
+            d = piece(x0, y0, x0 + w, y0 + h, top, right, bottom, left, lref=lref)
+            if missing == (r, c):
+                ghost = (f'<path d="{d}" fill="#fff" stroke="{missing_stroke}" stroke-width="0.7" '
+                         f'stroke-dasharray="2.4 1.6" stroke-linejoin="round"/>')
+            else:
+                out.append(f'<path d="{d}" fill="{fills[r][c]}" stroke="#fff" stroke-width="{stroke}" stroke-linejoin="round"/>')
+    return ''.join(out) + ghost
 
 
 def price_piece(x0=15, y0=218, x1=195, y1=268, knob_x=143.5, fill='#2b2a2b'):
@@ -242,10 +267,13 @@ def main():
         '/*KIDS3*/': kids_scene(),
         '/*BUNTING*/': bunting(),
         '/*QRCODE*/': open(p('qr', 'qr_inline.svg')).read(),
-        '/*PUZZLE_A*/': puzzle_grid(X=90, Y=134, W=105, H=92, lref=30, stroke=1.6),
-        '/*PRICE_A*/': price_piece(15, 238, 195, 282, knob_x=142.5),
+        '/*PUZZLE_A*/': puzzle_rc(90, 130, 105, 100, 3, 2,
+                                  [['#8a3fb0', '#d93d8c'], ['#efe3f7', '#232223'], ['#a63fa8', None]],
+                                  missing=(2, 1), lref=22, stroke=1.6,
+                                  hcut=[[+1, -1], [-1, -1]], vcut=[[-1], [+1], [-1]]),
+        '/*PRICE_A*/': price_piece(15, 238, 195, 282, knob_x=168.75),
         '/*GIFT_A*/': gift_piece(109, 104, w=88),
-        '/*BADGE_A*/': badge(17, 'BALD ERHÄLTLICH • BALD ERHÄLTLICH • ', 'a', size=3.3, center=(
+        '/*BADGE_A*/': badge(15, 'BALD ERHÄLTLICH • BALD ERHÄLTLICH • ', 'a', size=3.3, center=(
             '<text y="1.2" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="7.2" fill="#fff">NEU</text>'
             '<text y="5.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="2.9" letter-spacing=".35" fill="#fff">2. AUFLAGE</text>')),
         '/*BADGE_D*/': badge(21, 'JETZT VORBESTELLEN • JETZT VORBESTELLEN • ', 'd', size=3.7, center=(
@@ -254,6 +282,11 @@ def main():
         '/*BADGE_E*/': badge(17, 'JETZT VORBESTELLEN • JETZT VORBESTELLEN • ', 'e', size=3.2, fill='#232223', center=(
             '<text y="1.3" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="7" fill="#fff">34,99 €</text>'
             '<text y="5.3" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="2.3" letter-spacing=".3" fill="#ff86bd">SUBSKRIPTION</text>')),
+        '/*BADGE_F*/': badge(14, 'BALD ERHÄLTLICH • BALD ERHÄLTLICH • ', 'f', size=2.7, fill='#232223', center=(
+            '<text y="1" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="6" fill="#fff">NEU</text>'
+            '<text y="4.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="2.2" letter-spacing=".3" fill="#ff86bd">2. AUFLAGE</text>')),
+        '/*CHECK*/': ('<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d93d8c"/>'
+                      '<path d="M6.5 12.5l3.6 3.6 7.4-8" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'),
         '/*TAPES_E*/': (tape_words(152, 10, 17, 'url(#tapegrad)', 'VORBESTELLEN •', '• CHIPA.DE/KISS', size=7.6, gap=2.5, cover=(60, 150)) +
                         tape_words(152, -12, 17, '#232223', 'BALD DA •', '• 2. AUFLAGE', size=7.6, gap=2.5, cover=(60, 152))),
     }
