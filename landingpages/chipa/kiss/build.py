@@ -23,6 +23,7 @@ VARIANTS = {
     '_onepager-D-launch.src.html': 'KISS_OnePager_D_Launch.html',
     '_onepager-E-tape.src.html': 'KISS_OnePager_E_Tape.html',
     '_onepager-F-bento.src.html': 'KISS_OnePager_F_Bento.html',
+    '_onepager-G-puzzle3.src.html': 'KISS_OnePager_G_Puzzle.html',
 }
 
 f2 = lambda v: f'{v:.2f}'.rstrip('0').rstrip('.')
@@ -103,6 +104,44 @@ def puzzle_rc(X, Y, W, H, rows, cols, fills, missing=None, lref=24, stroke=1.6,
             else:
                 out.append(f'<path d="{d}" fill="{fills[r][c]}" stroke="#fff" stroke-width="{stroke}" stroke-linejoin="round"/>')
     return ''.join(out) + ghost
+
+
+def band_path(h=110, cuts=(210, 165, 120, 75, 30, 0), signs=(+1, -1, +1, -1, 0), lref=20, fill='#232223'):
+    """Dark top band whose bottom edge is a jigsaw cut (knobs into / out of the white area)."""
+    d = f'M0 0 H210 V{h} '
+    for (a, b_), s in zip(zip(cuts, cuts[1:]), signs):
+        d += edge((a, h), (b_, h), s, lref) + ' '
+    return f'<path d="{d}L0 0 Z" fill="{fill}"/>'
+
+
+def puzzle_float(X=15, Y=196, W=180, H=86, rows=2, cols=4, fills=None, hole=(0, 3), lref=20,
+                 dx=-3, dy=-14, rot=7, labels=('IHR EXEMPLAR', 'bald erhältlich')):
+    """Even jigsaw with one hole; the missing piece (exact same shape) hovers above the hole."""
+    w, h = W / cols, H / rows
+    hcut = [[(+1 if (r + c) % 2 == 0 else -1) for c in range(cols)] for r in range(rows - 1)]
+    vcut = [[(-1 if (r + c) % 2 == 0 else +1) for c in range(cols - 1)] for r in range(rows)]
+    out, hole_d = [], None
+    for r in range(rows):
+        for c in range(cols):
+            x0, y0 = X + c * w, Y + r * h
+            d = piece(x0, y0, x0 + w, y0 + h,
+                      -hcut[r - 1][c] if r > 0 else 0, vcut[r][c] if c < cols - 1 else 0,
+                      hcut[r][c] if r < rows - 1 else 0, -vcut[r][c - 1] if c > 0 else 0, lref=lref)
+            if (r, c) == hole:
+                hole_d = d
+            else:
+                out.append(f'<path d="{d}" fill="{fills[r][c]}" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/>')
+    cx, cy = X + (hole[1] + .5) * w, Y + (hole[0] + .5) * h
+    out.append(f'<path d="{hole_d}" fill="#fff" stroke="#d93d8c" stroke-width=".7" stroke-dasharray="2.4 1.6" stroke-linejoin="round"/>')
+    out.append(
+        '<defs><linearGradient id="floatgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a3fb0"/>'
+        '<stop offset="1" stop-color="#ef5a8c"/></linearGradient>'
+        '<filter id="floatsh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2.2" stdDeviation="1.6" flood-color="#1a0a20" flood-opacity=".42"/></filter></defs>'
+        f'<g transform="translate({dx} {dy}) rotate({rot} {cx} {cy})" filter="url(#floatsh)">'
+        f'<path d="{hole_d}" fill="url(#floatgrad)" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>'
+        f'<text x="{cx}" y="{cy - 1}" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="6.6" fill="#fff">{labels[0]}</text>'
+        f'<text x="{cx}" y="{cy + 5}" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="4.6" fill="#ffe0ef">{labels[1]}</text></g>')
+    return ''.join(out)
 
 
 def price_piece(x0=15, y0=218, x1=195, y1=268, knob_x=143.5, fill='#2b2a2b'):
@@ -287,6 +326,14 @@ def main():
             '<text y="4.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="2.2" letter-spacing=".3" fill="#ff86bd">2. AUFLAGE</text>')),
         '/*CHECK*/': ('<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#d93d8c"/>'
                       '<path d="M6.5 12.5l3.6 3.6 7.4-8" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'),
+        '/*BAND_G*/': band_path(),
+        '/*GRID_G*/': puzzle_float(fills=[['#8a3fb0', '#efe3f7', '#232223', None],
+                                          ['#d93d8c', '#232223', '#8a3fb0', '#efe3f7']]),
+        '/*BADGE_G*/': badge(18, 'BALD ERHÄLTLICH • BALD ERHÄLTLICH • ', 'g', size=3.4, center=(
+            '<text y="1.2" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="7.6" fill="#fff">NEU</text>'
+            '<text y="5.8" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="3" letter-spacing=".35" fill="#fff">2. AUFLAGE</text>')),
+        '/*DECO_G*/': (f'<g transform="translate(150 84) rotate(-16 8 8)"><path d="{piece(0, 0, 16, 16, top=+1, right=-1, bottom=+1, left=0, lref=11)}" fill="#8a3fb0"/></g>'
+                       f'<g transform="translate(136 66) rotate(22 5 5)"><path d="{piece(0, 0, 10, 10, top=0, right=+1, bottom=-1, left=+1, lref=7)}" fill="#efe3f7" fill-opacity=".9"/></g>'),
         '/*TAPES_E*/': (tape_words(152, 10, 17, 'url(#tapegrad)', 'VORBESTELLEN •', '• CHIPA.DE/KISS', size=7.6, gap=2.5, cover=(60, 150)) +
                         tape_words(152, -12, 17, '#232223', 'BALD DA •', '• 2. AUFLAGE', size=7.6, gap=2.5, cover=(60, 152))),
     }
