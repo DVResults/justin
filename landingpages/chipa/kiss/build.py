@@ -190,6 +190,7 @@ def main():
         '/*LOOSEPIECE*/': loose_piece(),
         '/*KIDS3*/': kids_scene(),
         '/*BUNTING*/': bunting(),
+        '/*QRCODE*/': open(p('qr', 'qr_inline.svg')).read(),
     }
     for src, out in VARIANTS.items():
         s = open(p(src)).read()
