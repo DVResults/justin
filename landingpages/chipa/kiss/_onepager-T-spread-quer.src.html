@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>KISS-Manual 2. Auflage – One-Pager T (Spread, A4 quer)</title>
+<style>
+/*FONTS*/
+@font-face{font-family:'Barlow Condensed';font-weight:700;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-Bold.ttf*/) format('truetype')}
+@font-face{font-family:'Barlow Condensed';font-weight:800;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-ExtraBold.ttf*/) format('truetype')}
+:root{--ink:#1d1b20;--muted:#5d5a63;--m:#e0408c;--v:#6b35b0;--lil:#f3eaf9}
+@page{size:297mm 210mm;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff}
+body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:'Source Sans 3',sans-serif;color:var(--ink)}
+.sheet{width:297mm;height:210mm;position:relative;overflow:hidden;background:#fff}
+.a{position:absolute}
+
+.left{left:0;top:0;width:140mm;height:210mm;
+  background:radial-gradient(90mm 80mm at 20% 15%,#9a45c8 0%,rgba(154,69,200,0) 70%),radial-gradient(100mm 90mm at 85% 85%,#ef5a8c 0%,rgba(239,90,140,0) 70%),linear-gradient(160deg,#5a2aa0 0%,#a63fa8 55%,#e2448f 100%)}
+.ltxt{left:12mm;top:12mm;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11pt;letter-spacing:.22em}
+.lbig{left:-4mm;bottom:-14mm;color:rgba(255,255,255,.12);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:260pt;line-height:.8;letter-spacing:-.02em}
+
+.floor{left:24mm;top:136mm;width:100mm;height:13mm;border-radius:50%;background:radial-gradient(closest-side,rgba(20,0,30,.5),rgba(20,0,30,0));filter:blur(2mm)}
+.scene{left:33mm;top:26mm;width:78mm;height:110.2mm;perspective:800mm;perspective-origin:50% 40%}
+.book{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateY(22deg) rotateX(-2deg)}
+.front{position:absolute;inset:0;transform:translateZ(3mm);background:#232223 url(/*COVER_HI*/) center/100% 100% no-repeat;box-shadow:inset 0 0 0 .35mm #232223}
+.front:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.35) 0,rgba(255,255,255,.18) 1.4%,rgba(255,255,255,0) 3.2%,rgba(0,0,0,.1) 3.6%,rgba(0,0,0,0) 6%)}
+.spine{position:absolute;left:0;top:0;width:6mm;height:100%;transform-origin:left center;transform:translateZ(3mm) rotateY(90deg);background:linear-gradient(90deg,#3a383c,#1c1b1d)}
+.top{position:absolute;left:0;top:0;width:100%;height:6mm;transform-origin:center top;transform:translateZ(3mm) rotateX(-90deg);background:repeating-linear-gradient(0deg,#f6f4f0 0 .25mm,#e4e0da .25mm .35mm)}
+
+/* text side */
+.logo{left:152mm;top:13mm;height:8mm}
+.kick{left:152mm;top:30mm;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11pt;letter-spacing:.24em;color:var(--m)}
+h1{left:151mm;top:36mm;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:50pt;line-height:.92;text-transform:uppercase}
+h1 span{color:var(--m)}
+.sub{left:152mm;top:92mm;width:92mm;font-size:11pt;line-height:1.45;color:var(--muted)}
+.sub b{color:var(--ink)}
+.list{left:152mm;top:112mm;width:92mm;list-style:none;counter-reset:n}
+.list li{display:grid;grid-template-columns:10mm 1fr auto;align-items:baseline;border-top:.3mm solid #e2dbe8;padding:1.6mm 0;font-size:10.5pt}
+.list li:last-child{border-bottom:.3mm solid #e2dbe8}
+.list li:before{counter-increment:n;content:"0" counter(n);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:9pt;color:var(--m);letter-spacing:.06em}
+.list li b{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15pt;line-height:1}
+.gift{left:152mm;top:168mm;width:92mm;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14.5pt;line-height:1.12}
+.gift i{font-style:normal;color:var(--m)}
+.eds{left:152mm;top:190mm;width:92mm;font-size:8pt;line-height:1.4;color:var(--muted)}
+
+/* tear-off strip */
+.strip{left:254mm;top:0;width:43mm;height:210mm;background:var(--lil);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.2mm;text-align:center;padding:0 4mm}
+.cut{left:254mm;top:0;height:210mm;border-left:.6mm dashed #b9a6c9}
+.sc{left:251mm;top:16mm;width:6mm;height:6mm;background:#fff}
+.strip .k{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:12pt;letter-spacing:.14em;color:var(--v);line-height:1.1}
+.strip .p{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:30pt;line-height:1}
+.strip .s{font-size:7.6pt;line-height:1.35;color:var(--muted)}
+.strip .qr{width:31mm;height:31mm;background:#fff;padding:2mm}
+.strip .qr svg{width:100%;height:100%;display:block}
+.strip .u{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:13pt;color:var(--m)}
+.strip .f{font-size:6.6pt;line-height:1.4;color:var(--muted);margin-top:4mm}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="a left"></div>
+  <div class="a lbig">KISS</div>
+  <div class="a ltxt">NEU · 2. AUFLAGE</div>
+  <div class="a floor"></div>
+  <div class="a scene"><div class="book"><div class="top"></div><div class="spine"></div><div class="front"></div></div></div>
+
+  <img class="a logo" alt="chi.pa" src="data:image/png;base64,/*LOGO*/">
+  <div class="a kick">BALD ERHÄLTLICH</div>
+  <h1 class="a">Mehr KISS<br>für Ihre<br><span>Schule.</span></h1>
+  <p class="a sub">Das <b>KISS-Schultraining</b> in der 2. Auflage: überarbeitet, erweitert und gebündelt aus der Erfahrung zahlreicher Schultrainings.</p>
+  <ul class="a list">
+    <li><span>Klassenstufen</span><b>1–10</b></li>
+    <li><span>Module</span><b>6</b></li>
+    <li><span>Übungen</span><b>50+</b></li>
+    <li><span>Neues Kapitel</span><b>Schule 4.0</b></li>
+    <li><span>Kopiervorlagen</span><b>inkl.</b></li>
+  </ul>
+  <p class="a gift">Ihr Ansichtsexemplar liegt bei.<br><i>Sie dürfen es behalten!</i></p>
+  <p class="a eds">Hrsg. Carsten Thiele · Julia Feesche · Sarah Scheit<br>chi.pa · child &amp; parents gGmbH · Spichernstraße 11a · 30161 Hannover</p>
+
+  <div class="a strip">
+    <div class="k">JETZT<br>VORBESTELLEN</div>
+    <div class="p">34,99 €</div>
+    <div class="s">Subskriptionspreis<br>nach Erscheinen 48,00 €</div>
+    <div class="qr">/*QRCODE*/</div>
+    <div class="u">chipa.de/kiss</div>
+    <div class="s">Wir liefern direkt<br>nach Erscheinen.</div>
+    <div class="f">info@chipa.de<br>0511 – 54 54 18 15</div>
+  </div>
+  <div class="a cut"></div>
+  <svg class="a sc" viewBox="0 0 24 24" fill="none" stroke="#6b35b0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(90deg)"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg>
+</div>
+</body>
+</html>

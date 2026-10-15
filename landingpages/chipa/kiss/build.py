@@ -34,6 +34,11 @@ VARIANTS = {
     '_onepager-O-riso.src.html': 'KISS_OnePager_O_Riso.html',
     '_onepager-P-wall.src.html': 'KISS_OnePager_P_Wall.html',
     '_onepager-Q-diagonal.src.html': 'KISS_OnePager_Q_Diagonal.html',
+    '_onepager-R-riso2.src.html': 'KISS_OnePager_R_Riso2.html',
+    '_onepager-S-wall2.src.html': 'KISS_OnePager_S_Wall2.html',
+    '_onepager-T-spread-quer.src.html': 'KISS_OnePager_T_Spread_quer.html',
+    '_onepager-U-riso-quer.src.html': 'KISS_OnePager_U_Riso_quer.html',
+    '_onepager-V-zahlen.src.html': 'KISS_OnePager_V_Zahlen.html',
 }
 
 f2 = lambda v: f'{v:.2f}'.rstrip('0').rstrip('.')
