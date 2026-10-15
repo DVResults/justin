@@ -180,20 +180,25 @@ def bunting():
 
 
 # ---------------------------------------------------------------- build
-common = {
-    '/*FONTS*/': open(p('..', 'anzeigen', 'assets', 'fonts.css')).read(),
-    '/*LOGO*/': b64(p('..', 'anzeigen', 'assets', 'chipa-logo.png')),
-    '/*COVER*/': 'data:image/png;base64,' + b64(p('assets', 'cover.png')),
-    '/*PUZZLE2x2*/': puzzle_grid(),
-    '/*PRICEPIECE*/': price_piece(),
-    '/*LOOSEPIECE*/': loose_piece(),
-    '/*KIDS3*/': kids_scene(),
-    '/*BUNTING*/': bunting(),
-}
-for src, out in VARIANTS.items():
-    s = open(p(src)).read()
-    s = re.sub(r'/\*FONT:([^*]+)\*/', lambda m: b64(p('assets', m.group(1))), s)
-    for k, v in common.items():
-        s = s.replace(k, v)
-    open(p(out), 'w').write(s)
-    print('built', out)
+def main():
+    common = {
+        '/*FONTS*/': open(p('..', 'anzeigen', 'assets', 'fonts.css')).read(),
+        '/*LOGO*/': b64(p('..', 'anzeigen', 'assets', 'chipa-logo.png')),
+        '/*COVER*/': 'data:image/png;base64,' + b64(p('assets', 'cover.png')),
+        '/*PUZZLE2x2*/': puzzle_grid(),
+        '/*PRICEPIECE*/': price_piece(),
+        '/*LOOSEPIECE*/': loose_piece(),
+        '/*KIDS3*/': kids_scene(),
+        '/*BUNTING*/': bunting(),
+    }
+    for src, out in VARIANTS.items():
+        s = open(p(src)).read()
+        s = re.sub(r'/\*FONT:([^*]+)\*/', lambda m: b64(p('assets', m.group(1))), s)
+        for k, v in common.items():
+            s = s.replace(k, v)
+        open(p(out), 'w').write(s)
+        print('built', out)
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><title>KISS 2. Auflage – Produktfoto</title>
+<style>
+/*FONTS*/
+@font-face{font-family:'Barlow Condensed';font-weight:700;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-Bold.ttf*/) format('truetype')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1500px;height:2000px;overflow:hidden;background:#fff}
+.c{width:1500px;height:2000px;position:relative;overflow:hidden;
+  background:radial-gradient(1100px 900px at 50% 42%,#ffffff 0%,#f4f2f7 55%,#e9e5ef 100%)}
+.floor{position:absolute;left:230px;top:1560px;width:1040px;height:150px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(30,20,40,.38),rgba(30,20,40,.12) 60%,transparent);filter:blur(14px)}
+.contact{position:absolute;left:380px;top:1590px;width:800px;height:40px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(20,10,30,.45),transparent);filter:blur(6px)}
+.scene{position:absolute;left:310px;top:330px;width:880px;height:1243px;perspective:3400px;perspective-origin:50% 45%}
+.book{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateY(24deg) rotateX(-2deg)}
+.front{position:absolute;inset:0;transform:translateZ(27px);background:#2b2a2b url(/*COVER*/) center/100% 100% no-repeat;border-radius:2px 6px 6px 2px;overflow:hidden}
+.front:after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(0,0,0,.35) 0,rgba(255,255,255,.18) 1.4%,rgba(255,255,255,0) 3.2%,rgba(0,0,0,.10) 3.6%,rgba(0,0,0,0) 6%),
+             linear-gradient(115deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,0) 35%,rgba(0,0,0,.08) 100%)}
+.spine{position:absolute;left:0;top:0;width:54px;height:100%;transform-origin:left center;transform:translateZ(27px) rotateY(90deg);
+  background:linear-gradient(90deg,#3a383c,#252426 60%,#1c1b1d);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.spine span{writing-mode:vertical-rl;transform:scaleX(-1) rotate(180deg);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:27px;letter-spacing:.22em;color:#fff;white-space:nowrap}
+.spine span b{color:#d36bd0;font-weight:700}
+.top{position:absolute;left:0;top:0;width:100%;height:54px;transform-origin:center top;transform:translateZ(27px) rotateX(-90deg);
+  background:repeating-linear-gradient(0deg,#f6f4f0 0 2px,#e4e0da 2px 3px);border-left:4px solid #2b2a2b;border-right:3px solid #2b2a2b}
+</style></head>
+<body><div class="c">
+  <div class="floor"></div><div class="contact"></div>
+  <div class="scene"><div class="book">
+    <div class="top"></div>
+    <div class="spine"><span>KISS <b>SCHULTRAINING</b> · 2. AUFLAGE</span></div>
+    <div class="front"></div>
+  </div></div>
+</div></body></html>
