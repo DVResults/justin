@@ -17,6 +17,9 @@ VARIANTS = {
     '_onepager-1-markiert.src.html': 'KISS_OnePager_1_Markiert.html',
     '_onepager-2-puzzle.src.html': 'KISS_OnePager_2_Puzzle.html',
     '_onepager-3-schulhof.src.html': 'KISS_OnePager_3_Schulhof.html',
+    '_onepager-A-puzzle2.src.html': 'KISS_OnePager_A_Puzzle.html',
+    '_onepager-B-poster.src.html': 'KISS_OnePager_B_Poster.html',
+    '_onepager-C-editorial.src.html': 'KISS_OnePager_C_Editorial.html',
 }
 
 f2 = lambda v: f'{v:.2f}'.rstrip('0').rstrip('.')
@@ -57,12 +60,11 @@ def piece(x0, y0, x1, y1, top=0, right=0, bottom=0, left=0, lref=34, pos=(0.5, 0
             + edge((x0, y1), (x0, y0), left, lref, pos[3]) + ' Z')
 
 
-def puzzle_grid():
-    X, Y, W, H = 92, 103, 103, 93
+def puzzle_grid(X=92, Y=103, W=103, H=93, lref=30, stroke=1.4,
+                fills=('#8a3fb0', '#d93d8c', '#efe3f7', '#2b2a2b')):
     w, h = W / 2, H / 2
     hcut = [+1, -1]      # knob direction across the horizontal cut, per column (+1 = down)
     vcut = [-1, +1]      # knob direction across the vertical cut, per row (+1 = right)
-    fills = ['#8a3fb0', '#d93d8c', '#efe3f7', '#2b2a2b']
     out = []
     for r in range(2):
         for c in range(2):
@@ -71,14 +73,19 @@ def puzzle_grid():
             bottom = hcut[c] if r == 0 else 0
             left = -vcut[r] if c == 1 else 0
             right = vcut[r] if c == 0 else 0
-            d = piece(x0, y0, x0 + w, y0 + h, top, right, bottom, left, lref=30)
-            out.append(f'<path d="{d}" fill="{fills[r * 2 + c]}" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/>')
+            d = piece(x0, y0, x0 + w, y0 + h, top, right, bottom, left, lref=lref)
+            out.append(f'<path d="{d}" fill="{fills[r * 2 + c]}" stroke="#fff" stroke-width="{stroke}" stroke-linejoin="round"/>')
     return ''.join(out)
 
 
-def price_piece():
-    d = piece(15, 218, 195, 268, top=+1, lref=30, pos=((143.5 - 15) / 180, .5, .5, .5))
-    return f'<path d="{d}" fill="#2b2a2b"/>'
+def price_piece(x0=15, y0=218, x1=195, y1=268, knob_x=143.5, fill='#2b2a2b'):
+    d = piece(x0, y0, x1, y1, top=+1, lref=30, pos=((knob_x - x0) / (x1 - x0), .5, .5, .5))
+    return f'<path d="{d}" fill="{fill}"/>'
+
+
+def gift_piece(x, y, w=80, h=26, rot=-4, fill='#8a3fb0'):
+    d = piece(0, 0, w, h, top=-1, right=0, bottom=+1, left=+1, lref=19, pos=(.7, .5, .32, .5))
+    return f'<g transform="translate({x} {y}) rotate({rot})"><path d="{d}" fill="{fill}"/></g>'
 
 
 def loose_piece():
@@ -191,6 +198,9 @@ def main():
         '/*KIDS3*/': kids_scene(),
         '/*BUNTING*/': bunting(),
         '/*QRCODE*/': open(p('qr', 'qr_inline.svg')).read(),
+        '/*PUZZLE_A*/': puzzle_grid(X=90, Y=134, W=105, H=92, lref=30, stroke=1.6),
+        '/*PRICE_A*/': price_piece(15, 238, 195, 282, knob_x=142.5),
+        '/*GIFT_A*/': gift_piece(109, 104, w=88),
     }
     for src, out in VARIANTS.items():
         s = open(p(src)).read()
