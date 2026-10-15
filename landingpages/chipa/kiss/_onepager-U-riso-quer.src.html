@@ -56,6 +56,8 @@ body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:'Spac
 .qrbox{left:244mm;top:152mm;width:40mm;height:40mm;background:var(--paper);padding:3mm}
 .qrbox svg{width:100%;height:100%;display:block}
 .foot{left:14mm;right:14mm;bottom:3.5mm;display:flex;justify-content:space-between;font-size:6.4pt;color:var(--paper)}
+.scan{left:241mm;top:120mm;background:var(--m);color:var(--paper);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:17pt;letter-spacing:.06em;padding:1mm 3.6mm .8mm;transform:rotate(-6deg);box-shadow:1.2mm 1.2mm 0 var(--ink)}
+.arrow{left:0;top:0;width:297mm;height:210mm;pointer-events:none}
 .grain{left:0;top:0;width:297mm;height:210mm;mix-blend-mode:multiply;opacity:.15;background:url(/*NOISE*/) 0 0/30mm 30mm}
 </style>
 </head>
@@ -94,6 +96,11 @@ body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:'Spac
     <div class="u">chipa.de/kiss</div>
   </div>
   <div class="a stamp"><div class="s">SUBSKRIPTION</div><div class="p">34,99 €</div><div class="s">VORBESTELLEN</div></div>
+  <svg class="a arrow vec" viewBox="0 0 297 210" fill="none">
+    <path d="M276 131 C 283 136, 280 144, 272 149" stroke="#ec3c8e" stroke-width=".9" stroke-dasharray="2.2 1.6" stroke-linecap="round"/>
+    <path d="M272.6 145 L271.6 149.6 L276.2 150.4" stroke="#ec3c8e" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <div class="a scan vec">SCAN MICH!</div>
   <div class="a qrbox vec">/*QRCODE*/</div>
   <p class="a foot vec"><span>Hrsg. Carsten Thiele · Julia Feesche · Sarah Scheit</span><span>chi.pa · info@chipa.de · 0511 – 54 54 18 15</span></p>
   <div class="a grain"></div>
