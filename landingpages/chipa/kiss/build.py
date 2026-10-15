@@ -20,6 +20,8 @@ VARIANTS = {
     '_onepager-A-puzzle2.src.html': 'KISS_OnePager_A_Puzzle.html',
     '_onepager-B-poster.src.html': 'KISS_OnePager_B_Poster.html',
     '_onepager-C-editorial.src.html': 'KISS_OnePager_C_Editorial.html',
+    '_onepager-D-launch.src.html': 'KISS_OnePager_D_Launch.html',
+    '_onepager-E-tape.src.html': 'KISS_OnePager_E_Tape.html',
 }
 
 f2 = lambda v: f'{v:.2f}'.rstrip('0').rstrip('.')
@@ -94,6 +96,48 @@ def loose_piece():
     small = piece(0, 0, 15, 15, top=0, right=+1, bottom=+1, left=-1, lref=10)
     return (f'<g transform="translate(106 49) rotate(-3)"><path d="{big}" fill="#8a3fb0"/></g>'
             f'<g transform="translate(150 24) rotate(-18 7.5 7.5)"><path d="{small}" fill="#efe3f7"/></g>')
+
+
+def badge(r, ring, uid, center='', size=None, fill=('#8a3fb0', '#ef5a8c'), text_fill='#fff'):
+    """Round sticker with running text around the edge (SVG, viewBox in mm around 0,0)."""
+    size = size or r * 0.2
+    rt = r * 0.71
+    circ = 2 * math.pi * rt
+    ring_path = f'M0 {-rt:.3f} a{rt:.3f} {rt:.3f} 0 1 1 0 {2 * rt:.3f} a{rt:.3f} {rt:.3f} 0 1 1 0 {-2 * rt:.3f}'
+    if isinstance(fill, tuple):
+        defs = (f'<defs><linearGradient id="bg{uid}" x1="0" y1="0" x2="1" y2="1">'
+                f'<stop offset="0" stop-color="{fill[0]}"/><stop offset="1" stop-color="{fill[1]}"/></linearGradient></defs>')
+        paint = f'url(#bg{uid})'
+    else:
+        defs, paint = '', fill
+    return (f'<svg viewBox="{-r} {-r} {2 * r} {2 * r}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;overflow:visible">{defs}'
+            f'<circle r="{r}" fill="{paint}"/>'
+            f'<circle r="{r * 0.6:.3f}" fill="none" stroke="{text_fill}" stroke-opacity=".55" stroke-width="{r * 0.015:.3f}"/>'
+            f'<path id="ring{uid}" d="{ring_path}" fill="none"/>'
+            f'<text font-family="Barlow Condensed" font-weight="800" font-size="{size:.3f}" fill="{text_fill}" letter-spacing="{size * 0.08:.3f}">'
+            f'<textPath href="#ring{uid}" textLength="{circ * 0.985:.3f}" lengthAdjust="spacing">{ring}</textPath></text>'
+            f'{center}</svg>')
+
+
+def tape(yc, angle, h, fill, text, text_fill='#fff', size=None, reps=14, shift=0):
+    """Diagonal barrier tape across the page with running text (page viewBox in mm)."""
+    size = size or h * 0.58
+    run = (text + '   ') * reps
+    return (f'<g transform="rotate({angle} 105 {yc})">'
+            f'<rect x="-120" y="{yc - h / 2}" width="450" height="{h}" fill="{fill}"/>'
+            f'<text x="{-120 + shift}" y="{yc + size * 0.36}" font-family="Barlow Condensed" font-weight="800" '
+            f'font-size="{size}" letter-spacing="{size * 0.12}" fill="{text_fill}">{run}</text></g>')
+
+
+def tape_words(yc, angle, h, fill, left, right, size=8.6, text_fill='#fff', gap=3.5, cover=(58, 150)):
+    """Tape with whole words placed left and right of the cover (left text ends at the cover edge)."""
+    ls = size * 0.1
+    t = (f'font-family="Barlow Condensed" font-weight="800" font-size="{size}" letter-spacing="{ls}" fill="{text_fill}"')
+    y = yc + size * 0.36
+    return (f'<g transform="rotate({angle} 105 {yc})">'
+            f'<rect x="-120" y="{yc - h / 2}" width="450" height="{h}" fill="{fill}"/>'
+            f'<text x="{cover[0] - gap}" y="{y}" text-anchor="end" {t}>{left}</text>'
+            f'<text x="{cover[1] + gap}" y="{y}" {t}>{right}</text></g>')
 
 
 # ---------------------------------------------------------------- kids
@@ -201,6 +245,17 @@ def main():
         '/*PUZZLE_A*/': puzzle_grid(X=90, Y=134, W=105, H=92, lref=30, stroke=1.6),
         '/*PRICE_A*/': price_piece(15, 238, 195, 282, knob_x=142.5),
         '/*GIFT_A*/': gift_piece(109, 104, w=88),
+        '/*BADGE_A*/': badge(17, 'BALD ERHÄLTLICH • BALD ERHÄLTLICH • ', 'a', size=3.3, center=(
+            '<text y="1.2" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="7.2" fill="#fff">NEU</text>'
+            '<text y="5.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="2.9" letter-spacing=".35" fill="#fff">2. AUFLAGE</text>')),
+        '/*BADGE_D*/': badge(21, 'JETZT VORBESTELLEN • JETZT VORBESTELLEN • ', 'd', size=3.7, center=(
+            '<text y="1.6" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="8.4" fill="#fff">34,99 €</text>'
+            '<text y="5.9" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="2.6" letter-spacing=".3" fill="#fff">SUBSKRIPTION</text>')),
+        '/*BADGE_E*/': badge(17, 'JETZT VORBESTELLEN • JETZT VORBESTELLEN • ', 'e', size=3.2, fill='#232223', center=(
+            '<text y="1.3" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="7" fill="#fff">34,99 €</text>'
+            '<text y="5.3" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="2.3" letter-spacing=".3" fill="#ff86bd">SUBSKRIPTION</text>')),
+        '/*TAPES_E*/': (tape_words(152, 10, 17, 'url(#tapegrad)', 'VORBESTELLEN •', '• CHIPA.DE/KISS', size=7.6, gap=2.5, cover=(60, 150)) +
+                        tape_words(152, -12, 17, '#232223', 'BALD DA •', '• 2. AUFLAGE', size=7.6, gap=2.5, cover=(60, 152))),
     }
     for src, out in VARIANTS.items():
         s = open(p(src)).read()

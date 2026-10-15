@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>KISS-Manual 2. Auflage – One-Pager E (Tape)</title>
+<style>
+/*FONTS*/
+@font-face{font-family:'Barlow Condensed';font-weight:700;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-Bold.ttf*/) format('truetype')}
+@font-face{font-family:'Barlow Condensed';font-weight:800;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-ExtraBold.ttf*/) format('truetype')}
+:root{--ink:#232223;--muted:#5d5a63;--pink:#d93d8c;--pinkl:#ff86bd;--grad:linear-gradient(100deg,#8a3fb0 0%,#c33fa0 55%,#ef5a8c 100%)}
+@page{size:210mm 297mm;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff}
+body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:'Source Sans 3',sans-serif;color:var(--ink)}
+.sheet{width:210mm;height:297mm;position:relative;overflow:hidden;background:#fff}
+.a{position:absolute}
+
+.tag{left:15mm;top:14mm;background:var(--grad);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12.5pt;letter-spacing:.16em;padding:1.1mm 3.4mm .9mm}
+.logo{right:15mm;top:12mm;height:9mm}
+h1{left:13mm;top:24mm;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:128pt;line-height:.86;text-transform:uppercase;letter-spacing:-.01em}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{left:15mm;top:66mm;width:120mm;font-size:13.5pt;line-height:1.35;color:var(--ink);border-left:1.4mm solid var(--pink);padding-left:3.5mm}
+.sub b{font-weight:700}
+
+.cover{left:60mm;top:85mm;width:88mm;transform:rotate(-3deg);box-shadow:0 5mm 12mm rgba(0,0,0,.4)}
+.cover img{width:100%;display:block;outline:.5mm solid #232223}
+.badge{left:138mm;top:74mm;width:34mm;height:34mm;transform:rotate(12deg);filter:drop-shadow(0 1.5mm 2mm rgba(0,0,0,.3))}
+
+.facts{left:15mm;right:15mm;top:220mm;display:grid;grid-template-columns:repeat(4,1fr);gap:6mm}
+.facts>div{border-top:1.2mm solid var(--ink);padding-top:2mm}
+.facts .n{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28pt;line-height:1}
+.facts .l{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10.5pt;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.8mm}
+.facts>div:nth-child(2) .n,.facts>div:nth-child(4) .n{color:var(--pink)}
+
+.card{left:15mm;top:248mm;width:180mm;height:36mm;background:var(--ink);color:#fff;display:grid;grid-template-columns:auto 1fr 28mm;gap:7mm;align-items:center;padding:0 5mm 0 8mm}
+.card .p b{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:42pt;line-height:1}
+.card .p span{display:block;font-size:9.5pt;line-height:1.3;color:#cfcbd6;margin-top:.8mm}
+.card .t{font-size:11pt;line-height:1.35;color:#e9e7ec}
+.card .t .g{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13pt;line-height:1.1;color:#fff;margin-bottom:1.6mm}
+.card .t .g i{font-style:normal;color:var(--pinkl)}
+.card .t b{color:var(--pinkl)}
+.qr{width:28mm;height:28mm;background:#fff;padding:2.4mm;border-radius:1.5mm}
+.qr svg{width:100%;height:100%;display:block}
+.foot{left:15mm;right:15mm;bottom:5mm;display:flex;justify-content:space-between;font-size:8pt;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <svg class="a" style="left:0;top:0;width:210mm;height:297mm" viewBox="0 0 210 297" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="tapegrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a3fb0"/><stop offset=".55" stop-color="#c33fa0"/><stop offset="1" stop-color="#ef5a8c"/></linearGradient></defs>
+    /*TAPES_E*/
+  </svg>
+
+  <div class="a tag">NEU · 2. AUFLAGE</div>
+  <img class="a logo" alt="chi.pa" src="data:image/png;base64,/*LOGO*/">
+  <h1 class="a">Bald <em>da.</em></h1>
+  <p class="a sub">Das <b>KISS-Schultraining</b> in der 2. Auflage.<br>Überarbeitet, erweitert und jetzt vorbestellbar.</p>
+
+  <div class="a cover"><img alt="KISS-Schultraining, 2. Auflage – Cover" src="/*COVER*/"></div>
+  <div class="a badge">/*BADGE_E*/</div>
+
+  <div class="a facts">
+    <div><div class="n">1–10</div><div class="l">Klassenstufen</div></div>
+    <div><div class="n">6</div><div class="l">Module</div></div>
+    <div><div class="n">50+</div><div class="l">Übungen</div></div>
+    <div><div class="n">inkl.</div><div class="l">Kopiervorlagen</div></div>
+  </div>
+
+  <div class="a card">
+    <div class="p"><b>34,99 €</b><span>Subskriptionspreis<br>nach Erscheinen 48,00 €</span></div>
+    <div class="t"><div class="g">Ihr Ansichtsexemplar liegt bei.<br><i>Sie dürfen es behalten!</i></div>
+      Vorbestellen unter <b>chipa.de/kiss</b>.<br>Wir liefern direkt nach Erscheinen.</div>
+    <div class="qr">/*QRCODE*/</div>
+  </div>
+
+  <div class="a foot"><span>Hrsg. Carsten Thiele · Julia Feesche · Sarah Scheit</span><span>chi.pa · child &amp; parents gGmbH · info@chipa.de · 0511 – 54 54 18 15</span></div>
+</div>
+</body>
+</html>
