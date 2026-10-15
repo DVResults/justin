@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>KISS-Manual 2. Auflage – One-Pager W (Puzzle, vollflächig)</title>
+<style>
+/*FONTS*/
+@font-face{font-family:'Barlow Condensed';font-weight:700;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-Bold.ttf*/) format('truetype')}
+@font-face{font-family:'Barlow Condensed';font-weight:800;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-ExtraBold.ttf*/) format('truetype')}
+:root{--ink:#1d1b20;--muted:#5d5a63;--pink:#ffb3d6;--m:#d93d8c;--v:#5f2fae}
+@page{size:210mm 297mm;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#3b1c7a}
+body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:'Source Sans 3',sans-serif;color:#fff}
+.sheet{width:210mm;height:297mm;position:relative;overflow:hidden;background:#3b1c7a}
+.a{position:absolute}
+.bc{font-family:'Barlow Condensed',sans-serif}
+
+.logo{left:12mm;top:11mm;background:#fff;border-radius:8mm;padding:1.3mm 4mm}
+.logo img{height:6mm;display:block}
+.tag{right:12mm;top:12mm;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12pt;letter-spacing:.22em}
+
+h1{left:11mm;top:22mm;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:90pt;line-height:.9;text-transform:uppercase;letter-spacing:-.005em;text-shadow:0 1.5mm 4mm rgba(20,5,40,.35)}
+h1 span{color:var(--pink)}
+.sub{left:12mm;top:83mm;width:96mm;font-size:11pt;line-height:1.38;color:#f3e8ff}
+.sub b{color:#fff}
+
+.cover{left:117mm;top:62mm;width:80mm;transform:rotate(5deg);box-shadow:0 8mm 18mm rgba(15,0,30,.6)}
+.cover img{width:100%;display:block;outline:.5mm solid #000}
+
+.fact{position:absolute;width:52.5mm;height:49.5mm;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--ink)}
+.fact b{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:34pt;line-height:1}
+.fact span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10.5pt;letter-spacing:.12em;text-transform:uppercase;color:var(--v);margin-top:.8mm}
+
+.gift{left:12mm;top:210mm;width:140mm;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:21pt;line-height:1.08}
+.gift i{font-style:normal;color:var(--pink)}
+.gift small{display:block;font-family:'Source Sans 3',sans-serif;font-weight:400;font-size:10.5pt;line-height:1.4;color:#f8eaff;margin-top:2mm}
+
+.price{left:12mm;top:252mm;width:140mm}
+.price .k{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11pt;letter-spacing:.22em;color:var(--pink)}
+.price .row{display:flex;align-items:baseline;gap:4mm}
+.price .p{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:46pt;line-height:1}
+.price .s{font-size:9.5pt;line-height:1.35;color:#fbeef7}
+.price .s b{color:#fff}
+.qr{left:164mm;top:253mm;width:36mm;height:36mm;background:#fff;border-radius:2.5mm;padding:2.6mm}
+.qr svg{width:100%;height:100%;display:block}
+.foot{left:12mm;right:52mm;bottom:3mm;font-size:6.8pt;color:#fbe4f1}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <svg class="a" style="left:0;top:0;width:210mm;height:297mm" viewBox="0 0 210 297" xmlns="http://www.w3.org/2000/svg">/*PUZZLE_FULL*/</svg>
+
+  <div class="a logo"><img alt="chi.pa" src="data:image/png;base64,/*LOGO*/"></div>
+  <div class="a tag">NEU · 2. AUFLAGE</div>
+  <h1 class="a">Jedes Teil<br><span>zählt.</span></h1>
+  <p class="a sub">Das <b>KISS-Schultraining</b> in der 2. Auflage.<br>Ein Teil fehlt noch: <b>Ihr Exemplar.</b></p>
+
+  <div class="a cover"><img alt="KISS-Schultraining, 2. Auflage – Cover" src="/*COVER_HI*/"></div>
+
+  <div class="fact" style="left:0;top:99mm"><b>1–10</b><span>Klassenstufen</span></div>
+  <div class="fact" style="left:52.5mm;top:99mm"><b>6</b><span>Module</span></div>
+  <div class="fact" style="left:0;top:148.5mm"><b>50+</b><span>Übungen</span></div>
+  <div class="fact" style="left:52.5mm;top:148.5mm"><b>inkl.</b><span>Kopiervorlagen</span></div>
+
+  <div class="a gift">Ihr Ansichtsexemplar liegt bei.<br><i>Sie dürfen es behalten!</i><small>Neu in der 2. Auflage: Kapitel Schule 4.0 und Altersempfehlung bei jeder Übung.</small></div>
+
+  <div class="a price">
+    <div class="k">JETZT VORBESTELLEN · chipa.de/kiss</div>
+    <div class="row"><div class="p">34,99 €</div><div class="s"><b>Subskriptionspreis</b>, nach Erscheinen 48,00 €.<br>Wir liefern direkt nach Erscheinen.</div></div>
+  </div>
+  <div class="a qr">/*QRCODE*/</div>
+  <p class="a foot">Hrsg. Carsten Thiele · Julia Feesche · Sarah Scheit · chi.pa · info@chipa.de · 0511 – 54 54 18 15</p>
+</div>
+</body>
+</html>

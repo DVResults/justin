@@ -2,107 +2,102 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<title>KISS-Manual 2. Auflage – One-Pager U (Riso, A4 quer)</title>
+<title>KISS-Manual 2. Auflage – One-Pager U (Druckfrisch, A4 quer)</title>
 <style>
+@font-face{font-family:'Barlow Condensed';font-weight:700;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-Bold.ttf*/) format('truetype')}
 @font-face{font-family:'Barlow Condensed';font-weight:800;src:url(data:font/ttf;base64,/*FONT:BarlowCondensed-ExtraBold.ttf*/) format('truetype')}
 @font-face{font-family:'Space Mono';font-weight:400;src:url(data:font/ttf;base64,/*FONT:SpaceMono-Regular.ttf*/) format('truetype')}
 @font-face{font-family:'Space Mono';font-weight:700;src:url(data:font/ttf;base64,/*FONT:SpaceMono-Bold.ttf*/) format('truetype')}
-:root{--paper:#f7f1ec;--m:#ec3c8e;--v:#5b30b6;--ink:#2a1b3d}
+:root{--bg:#22103e;--m:#ff4fa0;--v:#8d6bff;--paper:#fbf4ee}
 @page{size:297mm 210mm;margin:0}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--paper)}
-body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:'Space Mono',monospace;color:var(--ink)}
-.sheet{width:297mm;height:210mm;position:relative;overflow:hidden;background:var(--paper);isolation:isolate}
+html,body{background:var(--bg)}
+body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:'Space Mono',monospace;color:var(--paper)}
+.sheet{width:297mm;height:210mm;position:relative;overflow:hidden;background:radial-gradient(160mm 120mm at 78% 40%,#3a1766 0%,#22103e 70%)}
 .a{position:absolute}
-.mul{mix-blend-mode:multiply}
 .bc{font-family:'Barlow Condensed',sans-serif;font-weight:800}
 
-/* halftone + solid shapes */
-.ht-v{left:130mm;top:-30mm;width:190mm;height:200mm;background:radial-gradient(circle,var(--v) 40%,transparent 44%) 0 0/3.2mm 3.2mm;
-  -webkit-mask:linear-gradient(225deg,#000 0%,rgba(0,0,0,.6) 35%,transparent 72%);mask:linear-gradient(225deg,#000 0%,rgba(0,0,0,.6) 35%,transparent 72%)}
-.ht-m{left:-50mm;top:-60mm;width:170mm;height:170mm;border-radius:50%;background:radial-gradient(circle,var(--m) 42%,transparent 46%) 0 0/3mm 3mm;
-  -webkit-mask:radial-gradient(circle,#000 25%,rgba(0,0,0,.4) 55%,transparent 71%);mask:radial-gradient(circle,#000 25%,rgba(0,0,0,.4) 55%,transparent 71%)}
-.band{left:-20mm;top:160mm;width:340mm;height:80mm;background:var(--v);transform:rotate(-3deg)}
-.cblock{left:184mm;top:22mm;width:74mm;height:104.5mm;background:var(--m);transform:rotate(-5deg) translate(-5mm,5mm)}
-.circ{left:236mm;top:96mm;width:46mm;height:46mm;border-radius:50%;background:var(--v)}
+.ht-m{left:120mm;top:60mm;width:200mm;height:170mm;background:radial-gradient(circle,var(--m) 38%,transparent 42%) 0 0/3.4mm 3.4mm;
+  -webkit-mask:linear-gradient(140deg,transparent 25%,rgba(0,0,0,.35) 55%,#000 95%);mask:linear-gradient(140deg,transparent 25%,rgba(0,0,0,.35) 55%,#000 95%)}
+.ht-v{left:-30mm;top:-40mm;width:120mm;height:110mm;background:radial-gradient(circle,var(--v) 36%,transparent 40%) 0 0/2.8mm 2.8mm;
+  -webkit-mask:radial-gradient(closest-side,#000 10%,transparent 100%);mask:radial-gradient(closest-side,#000 10%,transparent 100%)}
 
-.top{left:14mm;top:10mm;font-weight:700;font-size:8.5pt;letter-spacing:.1em;color:var(--paper);background:var(--m);padding:.8mm 2.4mm}
-.top2{right:14mm;top:10mm;font-weight:700;font-size:8.5pt;letter-spacing:.1em;color:var(--paper);background:var(--v);padding:.8mm 2.4mm}
+.top{left:14mm;top:11mm;font-weight:700;font-size:8.2pt;letter-spacing:.14em;color:var(--paper)}
+.top2{right:14mm;top:11mm;font-weight:700;font-size:8.2pt;letter-spacing:.14em;color:var(--m)}
 
-.big{left:11mm;font-size:136pt;line-height:.8;letter-spacing:-.01em}
-.small{left:14mm;top:107mm;font-size:46pt;line-height:1}
-.sub{left:14mm;top:126mm;width:150mm;font-size:9.2pt;line-height:1.55}
-.sub b{color:var(--m)}
+.big{left:12mm;font-size:132pt;line-height:.8;letter-spacing:-.01em}
+.small{left:14mm;top:103mm;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:44pt;line-height:1;color:var(--m)}
+.sub{left:14mm;top:124mm;width:140mm;font-size:9pt;line-height:1.6;color:#e6dcf4}
+.sub b{color:var(--paper)}
 
-.cover{left:184mm;top:22mm;width:74mm;transform:rotate(-5deg)}
-.cover img{width:100%;display:block;outline:.5mm solid var(--ink)}
+.cblock{left:183mm;top:24mm;width:74mm;height:104.5mm;background:var(--paper);transform:rotate(6deg) translate(4mm,4mm)}
+.cover{left:183mm;top:24mm;width:74mm;transform:rotate(6deg)}
+.cover img{width:100%;display:block;outline:.5mm solid #000}
 
-.facts{left:14mm;top:142mm;width:160mm;display:grid;grid-template-columns:repeat(4,1fr);list-style:none}
-.facts li{border-left:.5mm dashed var(--v);padding-left:3mm}
-.facts li b{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:26pt;line-height:1;color:var(--m)}
-.facts li span{font-size:7.4pt;font-weight:700;color:var(--v)}
+.facts{left:14mm;top:142mm;width:150mm;display:grid;grid-template-columns:repeat(4,1fr)}
+.facts div+div{border-left:.35mm solid rgba(251,244,238,.35);padding-left:4mm}
+.facts b{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:28pt;line-height:1;color:var(--paper)}
+.facts span{font-size:7pt;font-weight:700;letter-spacing:.08em;color:var(--m)}
 
-.btxt{left:14mm;top:172mm;width:150mm;color:var(--paper)}
-.btxt .g{font-size:9.2pt;font-weight:700;line-height:1.5}
-.btxt .g i{font-style:normal;color:#ffb3d6}
-.btxt .s{font-size:8.4pt;line-height:1.55;margin-top:1.4mm}
-.btxt .s b{font-weight:700}
-.btxt .u{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:19pt;line-height:1.1;color:#ffb3d6}
+.ribbon{left:12mm;top:166mm;width:118mm;height:22mm}
+.ribbon svg{position:absolute;inset:0;width:100%;height:100%}
+.ribbon .t{position:absolute;left:9mm;top:0;height:22mm;display:flex;align-items:center;gap:4mm;color:#fff}
+.ribbon .t b{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:34pt;line-height:1}
+.ribbon .t span{font-size:7.4pt;font-weight:700;line-height:1.35}
+.after{left:14mm;top:190mm;width:150mm;font-size:7.6pt;line-height:1.5;color:#e6dcf4}
+.after b{color:var(--m)}
 
-.stamp{left:172mm;top:140mm;box-shadow:0 0 0 1.6mm var(--paper);width:48mm;height:48mm;border-radius:50%;background:var(--m);transform:rotate(-10deg);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--paper);text-align:center}
-.stamp:before{content:"";position:absolute;inset:2mm;border:.5mm dashed var(--paper);border-radius:50%}
-.stamp .s{font-size:6.6pt;font-weight:700;letter-spacing:.12em}
-.stamp .p{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:32pt;line-height:1;margin:.6mm 0}
-.qrbox{left:244mm;top:152mm;width:40mm;height:40mm;background:var(--paper);padding:3mm}
+.gift{left:150mm;top:170mm;width:66mm;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:15pt;line-height:1.1}
+.gift i{font-style:normal;color:var(--m)}
+
+.scan{left:226mm;top:140mm;color:var(--paper);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16pt;letter-spacing:.08em}
+.arrow{left:0;top:0;width:297mm;height:210mm}
+.qrbox{left:244mm;top:156mm;width:40mm;height:40mm;background:var(--paper);padding:3mm;border-radius:2mm}
 .qrbox svg{width:100%;height:100%;display:block}
-.foot{left:14mm;right:14mm;bottom:3.5mm;display:flex;justify-content:space-between;font-size:6.4pt;color:var(--paper)}
-.scan{left:241mm;top:120mm;background:var(--m);color:var(--paper);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:17pt;letter-spacing:.06em;padding:1mm 3.6mm .8mm;transform:rotate(-6deg);box-shadow:1.2mm 1.2mm 0 var(--ink)}
-.arrow{left:0;top:0;width:297mm;height:210mm;pointer-events:none}
-.grain{left:0;top:0;width:297mm;height:210mm;mix-blend-mode:multiply;opacity:.15;background:url(/*NOISE*/) 0 0/30mm 30mm}
+.foot{left:150mm;top:192mm;width:90mm;font-size:6.4pt;line-height:1.5;color:#c9bce0}
+.grain{left:0;top:0;width:297mm;height:210mm;mix-blend-mode:overlay;opacity:.22;background:url(/*NOISE*/) 0 0/30mm 30mm}
 </style>
 </head>
 <body>
 <div class="sheet">
-  <div class="a ht-m mul"></div>
-  <div class="a ht-v mul"></div>
-  <div class="a circ mul"></div>
-  <div class="a band mul"></div>
+  <div class="a ht-v"></div>
+  <div class="a ht-m"></div>
 
   <div class="a top vec">chi.pa · KISS-SCHULTRAINING</div>
   <div class="a top2 vec">NEU · 2. AUFLAGE</div>
 
-  <div class="a big bc mul" style="top:18mm;color:var(--v);transform:translate(1.8mm,1.3mm)">DRUCK-</div>
-  <div class="a big bc mul" style="top:18mm;color:var(--m)">DRUCK-</div>
-  <div class="a big bc mul" style="top:62mm;color:var(--v);transform:translate(1.8mm,1.3mm)">FRISCH</div>
-  <div class="a big bc mul" style="top:62mm;color:var(--m)">FRISCH</div>
-  <div class="a small bc mul" style="color:var(--m);transform:translate(1.2mm,.9mm)">in Kürze.</div>
-  <div class="a small bc mul" style="color:var(--v)">in Kürze.</div>
-
+  <div class="a big bc" style="top:20mm;color:var(--m);transform:translate(2mm,1.4mm)">DRUCK-</div>
+  <div class="a big bc" style="top:20mm;color:var(--paper)">DRUCK-</div>
+  <div class="a big bc" style="top:62mm;color:var(--m);transform:translate(2mm,1.4mm)">FRISCH</div>
+  <div class="a big bc" style="top:62mm;color:var(--paper)">FRISCH</div>
+  <div class="a small">in Kürze.</div>
   <p class="a sub vec">Das KISS-Schultraining in der <b>2. Auflage</b>: überarbeitet, erweitert, mit neuem Kapitel Schule 4.0 und Altersempfehlung bei jeder Übung.</p>
 
-  <div class="a cblock mul"></div>
+  <div class="a cblock"></div>
   <div class="a cover"><img alt="KISS-Schultraining, 2. Auflage – Cover" src="/*COVER_HI*/"></div>
 
-  <ul class="a facts vec">
-    <li><b>1–10</b><span>KLASSENSTUFEN</span></li>
-    <li><b>6</b><span>MODULE</span></li>
-    <li><b>50+</b><span>ÜBUNGEN</span></li>
-    <li><b>inkl.</b><span>KOPIERVORLAGEN</span></li>
-  </ul>
-
-  <div class="a btxt vec">
-    <div class="g">Ihr Ansichtsexemplar liegt bei. <i>Sie dürfen es behalten!</i></div>
-    <div class="s"><b>Jetzt vorbestellen</b> zum Subskriptionspreis, nach Erscheinen 48,00 €.<br>Wir liefern direkt nach Erscheinen.</div>
-    <div class="u">chipa.de/kiss</div>
+  <div class="a facts vec">
+    <div><b>1–10</b><span>KLASSENSTUFEN</span></div>
+    <div><b>6</b><span>MODULE</span></div>
+    <div><b>50+</b><span>ÜBUNGEN</span></div>
+    <div><b>inkl.</b><span>KOPIERVORLAGEN</span></div>
   </div>
-  <div class="a stamp"><div class="s">SUBSKRIPTION</div><div class="p">34,99 €</div><div class="s">VORBESTELLEN</div></div>
+
+  <div class="a ribbon">
+    <svg viewBox="0 0 118 22" preserveAspectRatio="none"><path d="M0 0 H118 L111 11 L118 22 H0 L6 11 Z" fill="#ff4fa0"/></svg>
+    <div class="t vec"><b>34,99 €</b><span>SUBSKRIPTIONSPREIS<br>JETZT VORBESTELLEN</span></div>
+  </div>
+  <p class="a after vec">Nach Erscheinen 48,00 €. Wir liefern direkt nach Erscheinen. <b>chipa.de/kiss</b></p>
+
+  <div class="a gift vec">Ihr Ansichtsexemplar liegt bei. <i>Sie dürfen es behalten!</i></div>
+
+  <div class="a scan vec">SCAN MICH</div>
   <svg class="a arrow vec" viewBox="0 0 297 210" fill="none">
-    <path d="M276 131 C 283 136, 280 144, 272 149" stroke="#ec3c8e" stroke-width=".9" stroke-dasharray="2.2 1.6" stroke-linecap="round"/>
-    <path d="M272.6 145 L271.6 149.6 L276.2 150.4" stroke="#ec3c8e" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M253 147 C 262 147, 266 150, 266 155" stroke="#ff4fa0" stroke-width=".9" stroke-dasharray="2.2 1.6" stroke-linecap="round"/>
+    <path d="M263 151.6 L266 155.4 L269 151.6" stroke="#ff4fa0" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
-  <div class="a scan vec">SCAN MICH!</div>
   <div class="a qrbox vec">/*QRCODE*/</div>
-  <p class="a foot vec"><span>Hrsg. Carsten Thiele · Julia Feesche · Sarah Scheit</span><span>chi.pa · info@chipa.de · 0511 – 54 54 18 15</span></p>
+  <p class="a foot vec">Hrsg. Carsten Thiele · Julia Feesche · Sarah Scheit<br>chi.pa · info@chipa.de · 0511 – 54 54 18 15</p>
   <div class="a grain"></div>
 </div>
 </body>

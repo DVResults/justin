@@ -39,6 +39,7 @@ VARIANTS = {
     '_onepager-T-spread-quer.src.html': 'KISS_OnePager_T_Spread_quer.html',
     '_onepager-U-riso-quer.src.html': 'KISS_OnePager_U_Riso_quer.html',
     '_onepager-V-zahlen.src.html': 'KISS_OnePager_V_Zahlen.html',
+    '_onepager-W-puzzle-full.src.html': 'KISS_OnePager_W_Puzzle.html',
 }
 
 f2 = lambda v: f'{v:.2f}'.rstrip('0').rstrip('.')
@@ -156,6 +157,52 @@ def puzzle_float(X=15, Y=196, W=180, H=86, rows=2, cols=4, fills=None, hole=(0, 
         f'<path d="{hole_d}" fill="url(#floatgrad)" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>'
         f'<text x="{cx}" y="{cy - 1}" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="6.6" fill="#fff">{labels[0]}</text>'
         f'<text x="{cx}" y="{cy + 5}" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="4.6" fill="#ffe0ef">{labels[1]}</text></g>')
+    return ''.join(out)
+
+
+def _mix(c1, c2, t):
+    a = [int(c1[i:i + 2], 16) for i in (1, 3, 5)]
+    z = [int(c2[i:i + 2], 16) for i in (1, 3, 5)]
+    return '#' + ''.join(f'{round(x + (y - x) * t):02x}' for x, y in zip(a, z))
+
+
+def puzzle_page(W=210, H=297, rows=6, cols=4, lref=16, special=None, missing=(4, 3),
+                float_dx=-9, float_dy=-17, float_rot=-9, labels=('IHR EXEMPLAR', 'bald erhältlich')):
+    """Full-bleed jigsaw: every piece the same size, all edges interlock. Gradient fills
+    violet -> magenta, `special` {(r, c): fill} overrides, `missing` is a hole with a floating piece."""
+    special = special or {}
+    w, h = W / cols, H / rows
+    hcut = [[(+1 if (r + c) % 2 == 0 else -1) for c in range(cols)] for r in range(rows - 1)]
+    vcut = [[(-1 if (r + c) % 2 == 0 else +1) for c in range(cols - 1)] for r in range(rows)]
+    stops = ['#3b1c7a', '#6a2fa6', '#a63fa8', '#d93d8c']
+    out, hole = [], None
+    for r in range(rows):
+        for c in range(cols):
+            x0, y0 = c * w, r * h
+            d = piece(x0, y0, x0 + w, y0 + h,
+                      -hcut[r - 1][c] if r > 0 else 0, vcut[r][c] if c < cols - 1 else 0,
+                      hcut[r][c] if r < rows - 1 else 0, -vcut[r][c - 1] if c > 0 else 0, lref=lref)
+            if (r, c) == missing:
+                hole = d
+                continue
+            t = min(1, max(0, .62 * r / (rows - 1) + .38 * c / (cols - 1)))
+            seg = min(len(stops) - 2, int(t * (len(stops) - 1)))
+            col = _mix(stops[seg], stops[seg + 1], t * (len(stops) - 1) - seg)
+            col = _mix(col, '#ffffff' if (r + c) % 2 else '#000000', .05)
+            fill = special.get((r, c), col)
+            out.append(f'<path d="{d}" fill="{fill}" stroke="#ffffff" stroke-opacity=".28" stroke-width=".5" stroke-linejoin="round"/>')
+    if hole:
+        r, c = missing
+        cx, cy = (c + .5) * w, (r + .5) * h
+        out.append(f'<path d="{hole}" fill="#1a0b2c"/>')
+        out.append(f'<path d="{hole}" fill="none" stroke="#ff8cc0" stroke-width=".7" stroke-dasharray="2.4 1.6" stroke-linejoin="round"/>')
+        out.append(
+            '<defs><linearGradient id="pfg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7fb6"/><stop offset="1" stop-color="#e2448f"/></linearGradient>'
+            '<filter id="pfs" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="2.4" stdDeviation="1.8" flood-color="#14051f" flood-opacity=".55"/></filter></defs>'
+            f'<g transform="translate({float_dx} {float_dy}) rotate({float_rot} {cx} {cy})" filter="url(#pfs)">'
+            f'<path d="{hole}" fill="url(#pfg)" stroke="#fff" stroke-width="1" stroke-linejoin="round"/>'
+            f'<text x="{cx}" y="{cy - .5}" text-anchor="middle" font-family="Barlow Condensed" font-weight="800" font-size="7.4" fill="#fff">{labels[0]}</text>'
+            f'<text x="{cx}" y="{cy + 6}" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="5" fill="#fff">{labels[1]}</text></g>')
     return ''.join(out)
 
 
@@ -351,6 +398,7 @@ def main():
             '<text y="5.8" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="3" letter-spacing=".35" fill="#fff">2. AUFLAGE</text>')),
         '/*DECO_G*/': (f'<g transform="translate(150 84) rotate(-16 8 8)"><path d="{piece(0, 0, 16, 16, top=+1, right=-1, bottom=+1, left=0, lref=11)}" fill="#8a3fb0"/></g>'
                        f'<g transform="translate(136 66) rotate(22 5 5)"><path d="{piece(0, 0, 10, 10, top=0, right=+1, bottom=-1, left=+1, lref=7)}" fill="#efe3f7" fill-opacity=".9"/></g>'),
+        '/*PUZZLE_FULL*/': puzzle_page(special={(2, 0): '#ffffff', (2, 1): '#f1e4fa', (3, 0): '#f1e4fa', (3, 1): '#ffffff'}),
         '/*TAPES_E*/': (tape_words(152, 10, 17, 'url(#tapegrad)', 'VORBESTELLEN •', '• CHIPA.DE/KISS', size=7.6, gap=2.5, cover=(60, 150)) +
                         tape_words(152, -12, 17, '#232223', 'BALD DA •', '• 2. AUFLAGE', size=7.6, gap=2.5, cover=(60, 152))),
     }
