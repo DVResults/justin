@@ -174,7 +174,7 @@ def puzzle_page(W=210, H=297, rows=6, cols=4, lref=16, special=None, missing=(4,
     w, h = W / cols, H / rows
     hcut = [[(+1 if (r + c) % 2 == 0 else -1) for c in range(cols)] for r in range(rows - 1)]
     vcut = [[(-1 if (r + c) % 2 == 0 else +1) for c in range(cols - 1)] for r in range(rows)]
-    stops = ['#3b1c7a', '#6a2fa6', '#a63fa8', '#d93d8c']
+    stops = ['#e2448f', '#a63fa8', '#5a2898', '#1f0d36']
     out, hole = [], None
     merged = merged or {}          # {(row, c0, c1): fill} -> one wide piece spanning columns c0..c1
     covered = {(r, c) for (r, c0, c1) in merged for c in range(c0, c1 + 1)}
@@ -199,7 +199,7 @@ def puzzle_page(W=210, H=297, rows=6, cols=4, lref=16, special=None, missing=(4,
             if (r, c) == missing:
                 hole = d
                 continue
-            t = min(1, max(0, .62 * r / (rows - 1) + .38 * c / (cols - 1)))
+            t = min(1, max(0, .82 * r / (rows - 1) + .18 * c / (cols - 1)))
             seg = min(len(stops) - 2, int(t * (len(stops) - 1)))
             col = _mix(stops[seg], stops[seg + 1], t * (len(stops) - 1) - seg)
             col = _mix(col, '#ffffff' if (r + c) % 2 else '#000000', .05)
@@ -210,7 +210,7 @@ def puzzle_page(W=210, H=297, rows=6, cols=4, lref=16, special=None, missing=(4,
     if hole:
         r, c = missing
         cx, cy = (c + .5) * w, (r + .5) * h
-        out.append(f'<path d="{hole}" fill="#1a0b2c"/>')
+        out.append(f'<path d="{hole}" fill="#0e0518"/>')
         out.append(f'<path d="{hole}" fill="none" stroke="#ff8cc0" stroke-width=".7" stroke-dasharray="2.4 1.6" stroke-linejoin="round"/>')
         out.append(
             '<defs><linearGradient id="pfg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7fb6"/><stop offset="1" stop-color="#e2448f"/></linearGradient>'
@@ -415,7 +415,7 @@ def main():
         '/*DECO_G*/': (f'<g transform="translate(150 84) rotate(-16 8 8)"><path d="{piece(0, 0, 16, 16, top=+1, right=-1, bottom=+1, left=0, lref=11)}" fill="#8a3fb0"/></g>'
                        f'<g transform="translate(136 66) rotate(22 5 5)"><path d="{piece(0, 0, 10, 10, top=0, right=+1, bottom=-1, left=+1, lref=7)}" fill="#efe3f7" fill-opacity=".9"/></g>'),
         '/*PUZZLE_FULL*/': puzzle_page(special={(2, 0): 'lighten:.22', (2, 1): 'lighten:.12', (3, 0): 'lighten:.12', (3, 1): 'lighten:.22'},
-                                       merged={(4, 0, 2): '#2a1046', (5, 0, 2): '#a8286f'}),
+                                       merged={(4, 0, 2): '#2c1250', (5, 0, 2): '#170a28'}),
         '/*TAPES_E*/': (tape_words(152, 10, 17, 'url(#tapegrad)', 'VORBESTELLEN •', '• CHIPA.DE/KISS', size=7.6, gap=2.5, cover=(60, 150)) +
                         tape_words(152, -12, 17, '#232223', 'BALD DA •', '• 2. AUFLAGE', size=7.6, gap=2.5, cover=(60, 152))),
     }
