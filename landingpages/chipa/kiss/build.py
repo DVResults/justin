@@ -24,6 +24,11 @@ VARIANTS = {
     '_onepager-E-tape.src.html': 'KISS_OnePager_E_Tape.html',
     '_onepager-F-bento.src.html': 'KISS_OnePager_F_Bento.html',
     '_onepager-G-puzzle3.src.html': 'KISS_OnePager_G_Puzzle.html',
+    '_onepager-H-laedt.src.html': 'KISS_OnePager_H_Laedt.html',
+    '_onepager-I-kalender.src.html': 'KISS_OnePager_I_Kalender.html',
+    '_onepager-J-magazin.src.html': 'KISS_OnePager_J_Magazin.html',
+    '_onepager-K-ticket-quer.src.html': 'KISS_OnePager_K_Ticket_quer.html',
+    '_onepager-L-swiss.src.html': 'KISS_OnePager_L_Swiss.html',
 }
 
 f2 = lambda v: f'{v:.2f}'.rstrip('0').rstrip('.')
@@ -300,6 +305,7 @@ def main():
         '/*FONTS*/': open(p('..', 'anzeigen', 'assets', 'fonts.css')).read(),
         '/*LOGO*/': b64(p('..', 'anzeigen', 'assets', 'chipa-logo.png')),
         '/*COVER*/': 'data:image/png;base64,' + b64(p('assets', 'cover.png')),
+        '/*COVER_HI*/': 'data:image/png;base64,' + b64(p('assets', 'cover_up.png')),
         '/*PUZZLE2x2*/': puzzle_grid(),
         '/*PRICEPIECE*/': price_piece(),
         '/*LOOSEPIECE*/': loose_piece(),
