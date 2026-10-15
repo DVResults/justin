@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>KISS-Manual 2. Auflage – One-Pager N (Produkt)</title>
+<style>
+@font-face{font-family:'Inter';font-weight:100 900;src:url(data:font/ttf;base64,/*FONT:Inter[opsz,wght].ttf*/) format('truetype')}
+:root{--ink:#16151a;--muted:#6a6670;--pink:#d93d8c;--grad:linear-gradient(95deg,#7a35b5 0%,#c33fa0 55%,#ef5a8c 100%)}
+@page{size:210mm 297mm;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff}
+body{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-family:'Inter',sans-serif;color:var(--ink)}
+.sheet{width:210mm;height:297mm;position:relative;overflow:hidden;background:linear-gradient(180deg,#f6f0fb 0%,#fbf8fd 50%,#ffffff 100%)}
+.a{position:absolute}
+
+.logo{left:0;right:0;top:12mm;display:flex;justify-content:center}
+.logo img{height:8mm;display:block}
+.kick{left:0;right:0;top:27mm;text-align:center;font-weight:700;font-size:9.5pt;letter-spacing:.24em;color:var(--pink)}
+h1{left:0;right:0;top:33mm;text-align:center;font-weight:800;font-size:42pt;line-height:1.04;letter-spacing:-.035em}
+h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{left:30mm;right:30mm;top:65mm;text-align:center;font-size:10.5pt;line-height:1.5;color:var(--muted)}
+
+.disc{left:35mm;top:86mm;width:140mm;height:140mm;border-radius:50%;background:radial-gradient(circle at 50% 40%,#f1e3fa 0%,#ead8f6 60%,#e6d1f3 100%)}
+.floor{left:45mm;top:212mm;width:125mm;height:16mm;border-radius:50%;background:radial-gradient(closest-side,rgba(40,10,50,.38),rgba(40,10,50,0));filter:blur(2.2mm)}
+.scene{left:60mm;top:84mm;width:90mm;height:127.1mm;perspective:900mm;perspective-origin:50% 40%}
+.book{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateY(24deg) rotateX(-2deg)}
+.front{position:absolute;inset:0;transform:translateZ(3mm);background:#232223 url(/*COVER_HI*/) center/100% 100% no-repeat;border-radius:.3mm .8mm .8mm .3mm;box-shadow:inset 0 0 0 .35mm #232223}
+.front:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.35) 0,rgba(255,255,255,.18) 1.4%,rgba(255,255,255,0) 3.2%,rgba(0,0,0,.1) 3.6%,rgba(0,0,0,0) 6%),linear-gradient(115deg,rgba(255,255,255,.12) 0%,rgba(255,255,255,0) 40%,rgba(0,0,0,.08) 100%)}
+.spine{position:absolute;left:0;top:0;width:6mm;height:100%;transform-origin:left center;transform:translateZ(3mm) rotateY(90deg);background:linear-gradient(90deg,#3a383c,#252426 60%,#1c1b1d)}
+.top{position:absolute;left:0;top:0;width:100%;height:6mm;transform-origin:center top;transform:translateZ(3mm) rotateX(-90deg);background:repeating-linear-gradient(0deg,#f6f4f0 0 .25mm,#e4e0da .25mm .35mm)}
+
+.facts{left:20mm;right:20mm;top:232mm;display:grid;grid-template-columns:repeat(4,1fr);text-align:center}
+.facts>div+div{border-left:.3mm solid #e1dbe7}
+.facts b{display:block;font-weight:800;font-size:20pt;line-height:1.05;letter-spacing:-.03em}
+.facts span{font-size:8.2pt;color:var(--muted)}
+
+.buy{left:20mm;right:20mm;top:252mm;display:grid;grid-template-columns:1fr 30mm;gap:8mm;align-items:center;border-top:.3mm solid #e1dbe7;padding-top:4mm}
+.buy .g{font-weight:600;font-size:9.5pt;color:var(--pink)}
+.buy .p{font-weight:800;font-size:19pt;letter-spacing:-.025em;margin-top:.8mm}
+.buy .s{font-size:8.6pt;line-height:1.45;color:var(--muted);margin-top:.6mm}
+.btn{display:inline-block;margin-top:2mm;background:var(--grad);color:#fff;font-weight:700;font-size:9.5pt;padding:1.6mm 4.5mm;border-radius:6mm}
+.qr{width:30mm;height:30mm}
+.qr svg{width:100%;height:100%;display:block}
+.foot{left:0;right:0;bottom:4.5mm;text-align:center;font-size:7pt;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="a logo"><img alt="chi.pa" src="data:image/png;base64,/*LOGO*/"></div>
+  <div class="a kick">NEU · 2. AUFLAGE</div>
+  <h1 class="a">Das neue KISS.<br><span>Bald erhältlich.</span></h1>
+  <p class="a sub">Das KISS-Schultraining zur Förderung der Sozialkompetenz in Gruppen.<br>Überarbeitet, erweitert und gebündelt aus zahlreichen Schultrainings.</p>
+
+  <div class="a disc"></div>
+  <div class="a floor"></div>
+  <div class="a scene"><div class="book"><div class="top"></div><div class="spine"></div><div class="front"></div></div></div>
+
+  <div class="a facts">
+    <div><b>1–10</b><span>Klassenstufen</span></div>
+    <div><b>6</b><span>Module</span></div>
+    <div><b>50+</b><span>Übungen</span></div>
+    <div><b>Neu</b><span>Kapitel Schule 4.0</span></div>
+  </div>
+
+  <div class="a buy">
+    <div>
+      <div class="g">Ihr Ansichtsexemplar liegt bei. Sie dürfen es behalten!</div>
+      <div class="p">Jetzt vorbestellen für 34,99 €</div>
+      <div class="s">Subskriptionspreis, nach Erscheinen 48,00 €. Wir liefern direkt nach Erscheinen.</div>
+      <span class="btn">chipa.de/kiss →</span>
+    </div>
+    <div class="qr">/*QRCODE*/</div>
+  </div>
+  <div class="a foot">Hrsg. Carsten Thiele · Julia Feesche · Sarah Scheit &nbsp;|&nbsp; chi.pa · child &amp; parents gGmbH · info@chipa.de · 0511 – 54 54 18 15</div>
+</div>
+</body>
+</html>
