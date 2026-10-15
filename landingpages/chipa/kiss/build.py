@@ -204,6 +204,8 @@ def puzzle_page(W=210, H=297, rows=6, cols=4, lref=16, special=None, missing=(4,
             col = _mix(stops[seg], stops[seg + 1], t * (len(stops) - 1) - seg)
             col = _mix(col, '#ffffff' if (r + c) % 2 else '#000000', .05)
             fill = special.get((r, c), col)
+            if fill.startswith('lighten:'):
+                fill = _mix(col, '#ffffff', float(fill.split(':')[1]))
             out.append(f'<path d="{d}" fill="{fill}" stroke="#ffffff" stroke-opacity=".28" stroke-width=".5" stroke-linejoin="round"/>')
     if hole:
         r, c = missing
@@ -412,8 +414,8 @@ def main():
             '<text y="5.8" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="3" letter-spacing=".35" fill="#fff">2. AUFLAGE</text>')),
         '/*DECO_G*/': (f'<g transform="translate(150 84) rotate(-16 8 8)"><path d="{piece(0, 0, 16, 16, top=+1, right=-1, bottom=+1, left=0, lref=11)}" fill="#8a3fb0"/></g>'
                        f'<g transform="translate(136 66) rotate(22 5 5)"><path d="{piece(0, 0, 10, 10, top=0, right=+1, bottom=-1, left=+1, lref=7)}" fill="#efe3f7" fill-opacity=".9"/></g>'),
-        '/*PUZZLE_FULL*/': puzzle_page(special={(2, 0): '#ffffff', (2, 1): '#f1e4fa', (3, 0): '#f1e4fa', (3, 1): '#ffffff', (5, 3): '#f1e4fa'},
-                                       merged={(4, 0, 2): '#2a1046', (5, 0, 2): '#ffffff'}),
+        '/*PUZZLE_FULL*/': puzzle_page(special={(2, 0): 'lighten:.22', (2, 1): 'lighten:.12', (3, 0): 'lighten:.12', (3, 1): 'lighten:.22'},
+                                       merged={(4, 0, 2): '#2a1046', (5, 0, 2): '#a8286f'}),
         '/*TAPES_E*/': (tape_words(152, 10, 17, 'url(#tapegrad)', 'VORBESTELLEN •', '• CHIPA.DE/KISS', size=7.6, gap=2.5, cover=(60, 150)) +
                         tape_words(152, -12, 17, '#232223', 'BALD DA •', '• 2. AUFLAGE', size=7.6, gap=2.5, cover=(60, 152))),
     }
