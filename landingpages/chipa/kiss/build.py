@@ -45,6 +45,7 @@ VARIANTS = {
     '_onepager-X-riso3-kraeftig.src.html': 'KISS_OnePager_X_Riso3_kraeftig.html',
     '_onepager-Y-riso4-hell.src.html': 'KISS_OnePager_Y_Riso4_hell.html',
     '_onepager-Y-riso4-heller.src.html': 'KISS_OnePager_Y_Riso4_heller.html',
+    '_onepager-Y-riso4-orange.src.html': 'KISS_OnePager_Y_Riso4_orange.html',
 }
 
 f2 = lambda v: f'{v:.2f}'.rstrip('0').rstrip('.')
