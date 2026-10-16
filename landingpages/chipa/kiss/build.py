@@ -40,6 +40,8 @@ VARIANTS = {
     '_onepager-U-riso-quer.src.html': 'KISS_OnePager_U_Riso_quer.html',
     '_onepager-V-zahlen.src.html': 'KISS_OnePager_V_Zahlen.html',
     '_onepager-W-puzzle-full.src.html': 'KISS_OnePager_W_Puzzle.html',
+    '_onepager-X-riso3.src.html': 'KISS_OnePager_X_Riso3.html',
+    '_onepager-X-riso3b.src.html': 'KISS_OnePager_X_Riso3b.html',
 }
 
 f2 = lambda v: f'{v:.2f}'.rstrip('0').rstrip('.')
