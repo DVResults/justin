@@ -57,3 +57,22 @@ nicht kaufbar. Es taucht nur hier in der Bestellsuche auf.
 >
 > Viele Grüße
 > [Name] / chi.pa
+
+---
+
+# Kundenkonto löschen (Antrag aus „Mein Konto → Kontodetails“)
+
+Kund*innen können unter **Mein Konto → Kontodetails → Konto löschen** die Löschung beantragen.
+Sie bestätigen den Antrag über einen Link per E-Mail. Danach bekommt info@ bzw. die Admin-Adresse
+von WordPress eine Benachrichtigung.
+
+**So wird gelöscht (ca. 1 Minute):**
+1. WordPress → **Werkzeuge → Personenbezogene Daten löschen**
+   - Antrag mit Status „Bestätigt“ suchen → **„Personenbezogene Daten löschen“** klicken.
+   - Bestell- und Rechnungsdaten bleiben erhalten (gesetzliche Aufbewahrungspflicht),
+     solange unter WooCommerce → Einstellungen → Konten & Datenschutz
+     „Entferne personenbezogene Daten aus Bestellungen auf Anfrage“ **nicht** angehakt ist.
+2. WordPress → **Benutzer** → Benutzer suchen → **Löschen**.
+   (Falls gefragt wird, was mit Inhalten passieren soll: „Alle Inhalte löschen“ ist bei Kundenkonten richtig,
+   Kund*innen haben keine Beiträge.)
+3. Kurze Bestätigung an die Person schicken: „Ihr Kundenkonto wurde gelöscht.“
